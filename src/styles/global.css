@@ -153,7 +153,7 @@ body,
 .prose {
   p::selection {
     color: white;
-    background: hsl(var(--color-accent));
+    background-color: var(--color-accent);
   }
   img {
     border-radius: 0.5rem;
@@ -183,6 +183,10 @@ body,
     flex-direction: column;
     gap: 0.5rem;
     margin-top: 0.5rem;
+  }
+  
+  section:not(:nth-child(2)) { /* first child is publish date + read time */
+    margin-top: 6rem;
   }
 }
 

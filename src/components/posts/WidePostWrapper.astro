@@ -39,31 +39,4 @@ const { title, subtitle, id } = Astro.props;
   .articleGridDual .prose section {
     position: relative;
   }
-
-  @media (min-width: 768px) {
-    .articleGridDual {
-      display: grid;
-      grid-template-columns: [wide-start] 1fr [content-start] minmax(0, 112.5rem) [content-end] 1fr [wide-end];
-      grid-gap: 0.5rem;
-    }
-
-    .articleGridDual .prose section {
-      display: grid;
-      grid-template-columns: [content-start] minmax(0, 56rem) [content-end aside-start] minmax(0, 56rem) [aside-end];
-      grid-gap: 0.5rem;
-    }
-
-    .articleGridDual .prose section > *:not(.aside) {
-      grid-column: content-start / content-end;
-    }
-
-    .articleGridDual .prose section .aside-tall {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 20px;
-      grid-column: aside-start / aside-end;
-    }
-  }
 </style>

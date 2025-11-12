@@ -12,7 +12,7 @@ const blogCollection = defineCollection({
       excerptImageUrl: image().optional(),
       excerptImageAlt: z.string().optional(),
       excerpt: z.string().optional(),
-      postLayout: z.enum(['std', 'dual']).default('std')
+      postLayout: z.enum(['std', 'wide']).default('std')
     })
 });
 
