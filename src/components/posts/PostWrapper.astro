@@ -22,16 +22,18 @@ const { title, subtitle, headings, id } = Astro.props;
     <h1 class="pb-4 text-center text-6xl font-semibold" transition:name={id}>{title}</h1>
     {subtitle && <h2 class="text-center text-2xl font-light italic">{subtitle}</h2>}
   </div>
-  <div class:list={[gridStyles.articleGrid, `bg-bkg/90 mt-28 w-full grow gap-2 rounded-t-2xl px-2 pb-16`]}>
-    <div
-      class={`prose prose-slate ${gridStyles.articleContent} max-w-[56rem] p-4 transition-colors dark:prose-invert prose-h1:mb-4 prose-h1:mt-12 prose-p:mt-0 prose-code:font-[var(--font-neon)] md:px-12`}
-    >
-      <slot />
+  <div class:list={[`bg-bkg/90 mt-28 w-full grow gap-2 rounded-t-2xl px-2 pb-16`]}>
+    <div class={gridStyles.articleGrid}>
+      <div
+        class={`prose prose-slate ${gridStyles.articleContent} max-w-[56rem] p-4 transition-colors dark:prose-invert prose-h1:mb-4 prose-h1:mt-12 prose-p:mt-0 prose-code:font-[var(--font-neon)] md:px-12`}
+      >
+        <slot />
+      </div>
+      {headings && <TableOfContents {headings} class={gridStyles.articleToc} />}
     </div>
-    {headings && <TableOfContents {headings} class={gridStyles.articleToc} />}
     <div class:list={[`flex justify-center pt-16`, gridStyles.articleWide]}>
       <div class="w-[56rem]">
-        <Giscus />
+        <Giscus client:visible />
       </div>
     </div>
   </div>
