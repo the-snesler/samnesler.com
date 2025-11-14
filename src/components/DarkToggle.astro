@@ -3,11 +3,11 @@ import { Icon } from 'astro-icon/components';
 ---
 
 <button
-  class="group relative -mt-2 h-12 w-10 cursor-pointer overflow-clip rounded-b-full shadow-none transition-all hover:shadow-lg active:shadow-none"
+  class="group relative -mt-2 h-12 w-10 cursor-pointer rounded-b-full shadow-none transition-all hover:shadow-lg active:shadow-none"
   id="dark-toggle"
 >
   <div
-    class="inset-shadow-accent relative mt-2 h-10 w-10 overflow-clip rounded-full bg-gray-200 p-2.5 inset-shadow-2xs transition-all group-hover:-translate-y-1.5 group-active:translate-y-0 group-active:bg-gray-300 group-active:inset-shadow-sm dark:bg-gray-700 dark:group-active:bg-gray-600"
+    class="will-change-transform inset-shadow-accent relative mt-2 h-10 w-10 overflow-clip rounded-full bg-gray-200 p-2.5 inset-shadow-2xs transition-all group-hover:-translate-y-1.5 group-active:translate-y-0 group-active:bg-gray-300 group-active:inset-shadow-sm dark:bg-gray-700 dark:group-active:bg-gray-600"
   >
     <div class="absolute grid place-items-center gap-2.5 transition-transform group-active:-translate-y-1/4 dark:-translate-y-[calc(50%+5px)]">
       <Icon name="lucide:sun" size={20} />

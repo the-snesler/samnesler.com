@@ -14,6 +14,7 @@ import remarkSectionize from './src/utils/remark/sectionize.js';
 
 // https://astro.build/config
 export default defineConfig({
+  site: "https://samnesler.com",
   env: {
     schema: {
       GISCUS_REPO: envField.string({ context: 'client', access: 'public' }),

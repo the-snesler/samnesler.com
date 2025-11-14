@@ -44,6 +44,12 @@ const { metadata = {}, theme = {} } = Astro.props;
     <meta name="image" content={metadata?.image || 'https://tsuni.dev/images/port_website.png'} />
     <meta name="url" content={metadata?.url || 'https://tsuni.dev'} />
     <meta name="theme-color" content={theme.light1} />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Sam Nesler RSS Feed"
+      href={new URL("rss.xml", Astro.site)}
+    />
   </head>
   <body>
     <Header />
