@@ -8,11 +8,13 @@ const parser = new MarkdownIt();
 
 export async function GET(context: APIContext) {
   const blog = await getCollection('blog');
+  const posts = await getCollection('blog');
+  const sortedPosts = posts.filter(p => p.data.isVisible).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
   return rss({
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
     site: context.site as URL,
-    items: blog.map((post) => ({
+    items: sortedPosts.map((post) => ({
       link: `/blog/${post.id}/`,
       // Note: this will not process components or JSX expressions in MDX files.
       content: sanitizeHtml(parser.render(post.body), {
