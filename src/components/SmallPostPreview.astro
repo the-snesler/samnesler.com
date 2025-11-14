@@ -2,14 +2,15 @@
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 
-import HoverCard from './cards/HoverCard.astro';
 interface Props {
   post: CollectionEntry<'blog'>;
 }
 const { post } = Astro.props;
 ---
 
-<HoverCard heightLimit={false}>
+<div
+  class="border-bkg hover:outline-accent group relative block w-full overflow-hidden rounded-xl border-2 brightness-100 transition-[rotate,filter] duration-200 hover:-rotate-3 hover:outline-4 active:translate-y-0 active:brightness-95"
+>
   <a href={`/posts/${post.id}`} class="group bg-bkg relative flex w-full items-center gap-4 p-2 lg:flex-col">
     {
       post.data.excerptImageUrl ? (
@@ -30,4 +31,4 @@ const { post } = Astro.props;
       <p class="text-sm">{post.data.excerpt}</p>
     </div>
   </a>
-</HoverCard>
+</div>

@@ -5,6 +5,7 @@ import HomeHero from '@/components/HomeHero.astro';
 import Projects from '@/layouts/Projects.astro';
 import Layout from '@/layouts/Layout.astro';
 import textStyles from '@/styles/text.module.css';
+import RecentPosts from '@/components/RecentPosts.astro';
 ---
 
 <Layout>
@@ -12,14 +13,14 @@ import textStyles from '@/styles/text.module.css';
   <main class="relative flex flex-col pt-16 pb-8">
     <HomeHero />
     <div
-      class="bg-bkg/55 shadow-i-lg mb-32 flex max-w-7xl flex-col gap-32 self-center rounded-3xl px-1 pt-24 pb-8 backdrop-blur-sm transition-colors sm:mx-4 md:mx-8 md:px-6 lg:mx-16"
+      class="bg-bkg/55 shadow-i-lg mb-32 flex max-w-7xl flex-col gap-24 self-center rounded-3xl px-1 pt-24 pb-8 backdrop-blur-sm transition-colors sm:mx-4 md:mx-8 md:px-6 lg:mx-16"
     >
       <section id="about">
-        <h2 class={`text-3xl md:text-4xl font-semibold mb-4 text-center font-mono ${textStyles.terminal}`}>whois Sam</h2>
-        <div class="min-h-[550px] grid-cols-2 items-center gap-4 md:grid">
+        <h2 class={`text-left text-3xl md:text-4xl font-semibold mb-4 font-mono ${textStyles.terminal}`}>whois Sam</h2>
+        <div class="grid-cols-2 items-center gap-4 md:grid">
           <p class="mx-auto mb-4 max-w-prose text-center text-lg">
             {
-              `Heya! I'm Sam, a 20 year old developer from Wisconsin, USA.
+              `Heya! I'm Sam, a 21 year old developer from Wisconsin, USA.
                         I'm currently studying Computer Science at
                         UW-Madison. When I'm not programming, you'll find me hiking, mountain
                         biking, reading, tinkering with my old-PC-turned-server, or playing video games.
@@ -47,15 +48,19 @@ import textStyles from '@/styles/text.module.css';
           </div>
         </div>
       </section>
-      <section id="projects" class="container mx-auto flex flex-col items-center justify-center">
-        <h2 class={`text-3xl md:text-4xl leading-normal font-semibold text-content ${textStyles.terminal} font-mono`}>./portfolio</h2>
+      <section id="recent-posts">
+        <h2 class={`text-left text-3xl md:text-4xl font-semibold mb-4 font-mono ${textStyles.terminal}`}>ls ./blog/recent-posts</h2>
+        <RecentPosts />
+      </section>
+      <section id="projects">
+        <h2 class={`text-left text-3xl md:text-4xl font-semibold mb-4 font-mono ${textStyles.terminal}`}>cat ./portfolio</h2>
         <Projects />
         <div class="hover:text-accent text-center">
           <a href="https://github.com/TetraTsunami" class="text-lg"> See more projects on my GitHub! </a>
         </div>
       </section>
       <section id="guestbook">
-        <h2 class={`text-3xl md:text-4xl font-semibold mb-4 text-center font-mono ${textStyles.terminal}`}>./guestbook</h2>
+        <h2 class={`text-left text-3xl md:text-4xl font-semibold mb-4 font-mono ${textStyles.terminal}`}>./guestbook.sh</h2>
         <p class="text-center text-lg">
           <span class="inline-block">Leave a drawing in my guestbook!</span>
           <span class="inline-block">Please don't draw anything I'll have to delete.</span>
