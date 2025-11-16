@@ -290,6 +290,7 @@ export default function Guestbook() {
 
   const submitButtonTranslateY = state === 'submitting' ? '-2rem' : didSubmissionError || state === 'closingSuccess' ? '-4rem' : '0';
   const startingCol = 7 - (drawings.length % 8) + 1;
+  const mobileStartingCol = 3 - (drawings.length % 4) + 1;
 
   return (
     <div className="mx-auto my-2 max-w-[1024px]">
@@ -339,8 +340,8 @@ export default function Guestbook() {
           </div>
         </div>
         <button
-          className="group relative mx-auto mt-4 block h-8"
-          style={{ gridColumnStart: startingCol.toString() }}
+          className="group relative col-start-[var(--mobile-col-start)] mx-auto mt-4 block h-8 sm:col-start-[var(--col-start)]"
+          style={{ '--col-start': startingCol.toString(), '--mobile-col-start': mobileStartingCol.toString() }}
           onClick={handleSubmit}
           disabled={isSubmitting}
         >
@@ -392,7 +393,10 @@ export default function Guestbook() {
       )}
       {message && <p>{message}</p>}
       <div className="grid grid-cols-4 items-stretch gap-2 px-1 sm:grid-cols-8 md:px-8">
-        <div className="relative sm:col-start-[var(--col-start)]" style={{ '--col-start': startingCol.toString() }}>
+        <div
+          className="relative col-start-[var(--mobile-col-start)] sm:col-start-[var(--col-start)]"
+          style={{ '--col-start': startingCol.toString(), '--mobile-col-start': mobileStartingCol.toString() }}
+        >
           {state === 'complete' && <div className="aspect-square w-full rounded-sm shadow-sm" />}
           {state !== 'closed' && (
             <canvas
