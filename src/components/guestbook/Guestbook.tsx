@@ -293,7 +293,7 @@ export default function Guestbook() {
   const mobileStartingCol = 3 - (drawings.length % 4) + 1;
 
   return (
-    <div className="mx-auto my-2 max-w-[1024px]">
+    <div className="mx-auto my-2 max-w-5xl">
       <div
         className={`animate-in fade-in fade-out animation-fill-forward mx-auto w-max overflow-hidden transition-[max-height,margin] duration-700 ${state === 'closingSuccess' && 'delay-300'} ${isClosing || !isCanvasVisible ? 'animate-out my-0 max-h-0' : 'my-14 max-h-[400px]'}`}
         onAnimationEnd={handleAnimationEnd}
@@ -340,7 +340,7 @@ export default function Guestbook() {
           </div>
         </div>
         <button
-          className="group relative col-start-[var(--mobile-col-start)] mx-auto mt-4 block h-8 sm:col-start-[var(--col-start)]"
+          className="group relative col-start-(--mobile-col-start) mx-auto mt-4 block h-8 sm:col-start-(--col-start)"
           style={{ '--col-start': startingCol.toString(), '--mobile-col-start': mobileStartingCol.toString() }}
           onClick={handleSubmit}
           disabled={isSubmitting}
@@ -394,7 +394,7 @@ export default function Guestbook() {
       {message && <p>{message}</p>}
       <div className="grid grid-cols-4 items-stretch gap-2 px-1 sm:grid-cols-8 md:px-8">
         <div
-          className="relative col-start-[var(--mobile-col-start)] sm:col-start-[var(--col-start)]"
+          className="relative col-start-(--mobile-col-start) sm:col-start-(--col-start)"
           style={{ '--col-start': startingCol.toString(), '--mobile-col-start': mobileStartingCol.toString() }}
         >
           {state === 'complete' && <div className="aspect-square w-full rounded-sm shadow-sm" />}
