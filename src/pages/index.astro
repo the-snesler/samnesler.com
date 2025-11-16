@@ -9,7 +9,7 @@ import RecentPosts from '@/components/RecentPosts.astro';
 ---
 
 <Layout>
-  <BackgroundWater client:idle />
+  <BackgroundWater />
   <main class="relative flex flex-col pt-16 pb-8">
     <HomeHero />
     <div
@@ -61,9 +61,7 @@ import RecentPosts from '@/components/RecentPosts.astro';
         <h2 class={`text-left text-3xl md:text-4xl font-semibold mb-4 font-mono ${textStyles.terminal}`}>./guestbook.sh</h2>
         <p class="text-lg">Leave a drawing in my guestbook!</p>
         <p class="inline-block text-sm text-gray-300 italic">Please don't draw anything I'll have to delete.</p>
-        <Guestbook client:idle>
-          <div slot="fallback">Loading~!</div>
-        </Guestbook>
+        <Guestbook client:idle />
       </section>
     </div>
   </main>
