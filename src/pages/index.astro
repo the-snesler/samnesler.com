@@ -13,39 +13,37 @@ import RecentPosts from '@/components/RecentPosts.astro';
   <main class="relative flex flex-col pt-16 pb-8">
     <HomeHero />
     <div
-      class="bg-bkg/55 shadow-i-lg mb-32 flex max-w-7xl flex-col gap-24 self-center rounded-3xl px-1 pt-24 pb-8 backdrop-blur-sm transition-colors sm:mx-4 md:mx-8 md:px-6 lg:mx-16"
+      class="bg-bkg/55 shadow-i-lg container mb-32 flex w-full max-w-7xl flex-col gap-24 self-center rounded-3xl px-1 pt-24 pb-8 backdrop-blur-sm transition-colors sm:mx-4 md:mx-8 md:px-6 lg:mx-16"
     >
       <section id="about">
         <h2 class={`text-left text-3xl md:text-4xl font-semibold mb-4 font-mono ${textStyles.terminal}`}>whois Sam</h2>
-        <div class="grid-cols-2 items-center gap-4 md:grid">
-          <p class="mx-auto mb-4 max-w-prose text-center text-lg">
-            {
-              `Heya! I'm Sam, a 21 year old developer from Wisconsin, USA.
+        <p class="mb-4 max-w-prose text-left text-lg">
+          {
+            `Heya! I'm Sam, a 21 year old developer from Wisconsin, USA.
                         I'm currently studying Computer Science at
                         UW-Madison. When I'm not programming, you'll find me hiking, mountain
                         biking, reading, tinkering with my old-PC-turned-server, or playing video games.
                         I'm always looking out for new projects that excite me, so feel free to reach out!`
-            }
+          }
+        </p>
+        <div>
+          <p class="mb-4 max-w-prose text-lg italic">
+            {`Here's a quick peek at what I'm up to right now:`}
           </p>
-          <div>
-            <p class="mx-auto mb-4 max-w-prose text-center text-lg italic">
-              {`Here's a quick peek at what I'm up to right now:`}
-            </p>
-            <object
-              data="https://dsc-readme.tsuni.dev/api/user/214167454291722241?banner=https%3A%2F%2Ftsuni.dev%2Fimages%2Fsobanner.png&theme=nitroLight&primaryColor=8080FF&accentColor=FF80C0"
-              class="mx-auto my-2 max-w-full"
-              width={500}
-            >
-              Discord status
-            </object>
-            <p class="mx-auto mb-4 max-w-prose text-center text-sm">
-              psst, want one of these for yourself?
-              <a href="https://dsc-readme.tsuni.dev/" class="text-accent hover:text-accent/80">
-                {' '}
-                try my Discord status SVG generator!
-              </a>
-            </p>
-          </div>
+          <object
+            data="https://dsc-readme.tsuni.dev/api/user/214167454291722241?banner=https%3A%2F%2Ftsuni.dev%2Fimages%2Fsobanner.png&theme=nitroLight&primaryColor=8080FF&accentColor=FF80C0"
+            class="my-2 max-w-full"
+            width={500}
+          >
+            Discord status
+          </object>
+          <p class="mb-4 max-w-prose text-sm">
+            psst, want one of these for yourself?
+            <a href="https://dsc-readme.tsuni.dev/" class="text-accent hover:text-accent/80">
+              {' '}
+              try my Discord status SVG generator!
+            </a>
+          </p>
         </div>
       </section>
       <section id="recent-posts">
@@ -61,10 +59,8 @@ import RecentPosts from '@/components/RecentPosts.astro';
       </section>
       <section id="guestbook">
         <h2 class={`text-left text-3xl md:text-4xl font-semibold mb-4 font-mono ${textStyles.terminal}`}>./guestbook.sh</h2>
-        <p class="text-center text-lg">
-          <span class="inline-block">Leave a drawing in my guestbook!</span>
-          <span class="inline-block">Please don't draw anything I'll have to delete.</span>
-        </p>
+        <p class="text-lg">Leave a drawing in my guestbook!</p>
+        <p class="inline-block text-sm text-gray-300 italic">Please don't draw anything I'll have to delete.</p>
         <Guestbook client:visible>
           <div slot="fallback">Loading~!</div>
         </Guestbook>
