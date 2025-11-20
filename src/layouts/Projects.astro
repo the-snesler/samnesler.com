@@ -15,12 +15,21 @@ import port_website from '@images/port_website.png';
 import redcoral from '@images/redcoral.jpg';
 import staff from '@images/staff.png';
 import webfest2 from '@images/webfest2.png';
+import bikebenefits from '@images/bikebike.png';
 
 import CertCard from '@/components/cards/CertCard.astro';
 import ProjectCard from '@/components/cards/ProjectCard.astro';
 ---
 
 <div class="my-3 grid w-full grid-flow-dense grid-cols-2 gap-4 pt-3 text-center md:grid-cols-4 lg:grid-cols-6">
+  <ProjectCard
+    name="Bike Benefits Map"
+    href="https://bb.samnesler.com"
+    src={bikebenefits}
+    description="A PWA that helps users find local businesses that offer Bike Benefits discounts. Built with React and Mapbox."
+    containImage={true}
+    year="2025"
+  />
   <ProjectCard
     name="WebLabs WebFest 2"
     href="https://event2.weblabs.club"
