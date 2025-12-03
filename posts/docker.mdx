@@ -97,8 +97,8 @@ The core idea is:
 An image is a read-only, versioned template (the recipe), it’s stateless.  
 A container is a running (or stopped) instance created from an image (the meal), it has state.
 
-**Quick Quiz:**  
-If you edit files inside a running container, does that change the image? (Click to reveal answer: No. The image stays read-only; your edits live in the container’s writable layer unless you commit.)
+> [!question] If I edit files inside a running container, does that change the image? 
+> No. The image stays read-only; your edits live in the container’s writable layer and won't be transferred to a new container made from the same image. If you edit files in an attached **volume** or **bind mount**, your changes will be persisted after the container is deleted.
 
 <figure>![A diagram illustrating the Docker image life cycle, showing how a Dockerfile is used to build an image, which can then be tagged, pushed to Docker Hub, pulled back down, or pruned from your system. The cycle demonstrates the relationship between local development, image registry storage, and container deployment.](../src/assets/images/posts/docker/dockerDiagram.png)<figcaption>Image credit: [https://decal.ocf.berkeley.edu/](https://decal.ocf.berkeley.edu/)</figcaption></figure>
 
