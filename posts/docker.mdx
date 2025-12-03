@@ -135,8 +135,10 @@ Also, you can inspect how an image was built using `docker history <image>`. How
 
 # Commands to use and manage Docker
 
-> [!info]- Docker group and debugging
-> You shouldn't need sudo if your user is in the docker group; if a run "does nothing," you likely forgot to supply a command (e.g., bash) or the program exits immediately—use -it or check `docker logs`
+> [information]- Docker group and debugging notes
+> You shouldn't need `sudo` if your user is in the docker group. You can add yourself to this group (on Debian or Ubuntu) by running `sudo usermod -aG docker $USER`
+>
+> If a run "does nothing," you likely forgot to supply a command (e.g., bash) or the program exits immediately. To see more information, use `-it` or check `docker logs`.
 
 ## Pull images
   **What it does:** Downloads a snapshot of installed software (an _image_) from a registry (e.g., Docker Hub) onto your VM.
