@@ -3,7 +3,7 @@ import CodeMirror, { EditorView } from '@uiw/react-codemirror';
 import { yaml } from '@codemirror/lang-yaml';
 import { StreamLanguage } from '@codemirror/language';
 import { shell } from '@codemirror/legacy-modes/mode/shell';
-import { vscodeDark } from '@uiw/codemirror-theme-vscode';
+import { vscodeDark, vscodeLight } from '@uiw/codemirror-theme-vscode';
 import composerize from 'composerize';
 import decomposerize from 'decomposerize';
 
@@ -48,8 +48,24 @@ export default function ComposeConverter() {
   const [dockerRunCode, setDockerRunCode] = useState('');
   const [activeEditor, setActiveEditor] = useState<EditorType | null>('compose');
   const [error, setError] = useState<string | null>(null);
+  const [isDark, setIsDark] = useState(true);
 
   const debounceTimerRef = useRef<number | null>(null);
+
+  // Detect theme changes
+  useEffect(() => {
+    const checkTheme = () => {
+      setIsDark(document.documentElement.classList.contains('dark'));
+    };
+
+    checkTheme();
+
+    // Watch for theme changes
+    const observer = new MutationObserver(checkTheme);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+    return () => observer.disconnect();
+  }, []);
 
   // Conversion: Compose -> Docker Run
   const convertComposeToRun = useCallback((composeYaml: string) => {
@@ -168,25 +184,25 @@ export default function ComposeConverter() {
 
   const getFeedbackStyle = () => {
     if (error) {
-      return 'border border-red-500/50 bg-red-900/30 text-red-200';
+      return 'border border-red-500/50 bg-red-500/10 dark:bg-red-900/30 text-red-700 dark:text-red-200';
     }
     if (!composeCode.trim() && !dockerRunCode.trim()) {
-      return 'border border-blue-500/50 bg-blue-900/30 text-blue-200';
+      return 'border border-blue-500/50 bg-blue-500/10 dark:bg-blue-900/30 text-blue-700 dark:text-blue-200';
     }
-    return 'border border-green-500/50 bg-green-900/30 text-green-200';
+    return 'border border-green-500/50 bg-green-500/10 dark:bg-green-900/30 text-green-700 dark:text-green-200';
   };
 
   const feedbackMessage = getFeedbackMessage();
 
   return (
     <div className="aside-tall">
-      <div className="sticky top-20 flex flex-col gap-3 rounded-lg border border-gray-700 bg-gray-800 p-2 my-4">
+      <div className="sticky top-20 flex flex-col gap-3 rounded-lg border border-content/20 bg-bkg shadow-lg p-2 my-4">
         {/* Docker Compose Editor */}
         <div>
-          <div className="mb-2 text-sm font-medium text-gray-300">Docker Compose (YAML)</div>
+          <div className="mb-2 text-sm font-medium text-content/75">Docker Compose (YAML)</div>
           <CodeMirror
             value={composeCode}
-            theme={vscodeDark}
+            theme={isDark ? vscodeDark : vscodeLight}
             extensions={[yaml()]}
             onChange={handleComposeChange}
             basicSetup={{
@@ -216,10 +232,10 @@ export default function ComposeConverter() {
 
         {/* Docker Run Editor */}
         <div>
-          <div className="mb-2 py-2 text-sm font-medium text-gray-300">Docker Run (Commands)</div>
+          <div className="mb-2 py-2 text-sm font-medium text-content/75">Docker Run (Commands)</div>
           <CodeMirror
             value={dockerRunCode}
-            theme={vscodeDark}
+            theme={isDark ? vscodeDark : vscodeLight}
             extensions={[StreamLanguage.define(shell), EditorView.lineWrapping]}
             onChange={handleDockerRunChange}
             basicSetup={{
@@ -258,19 +274,19 @@ export default function ComposeConverter() {
         <div className="flex justify-end gap-2">
           <button
             onClick={loadSimple}
-            className="rounded-md bg-gray-700 px-3 py-1.5 text-sm font-medium text-white hover:bg-gray-600"
+            className="rounded-md bg-content/10 hover:bg-content/20 px-3 py-1.5 text-sm font-medium text-content transition-colors"
           >
             Load Simple
           </button>
           <button
             onClick={loadComplex}
-            className="rounded-md bg-gray-700 px-3 py-1.5 text-sm font-medium text-white hover:bg-gray-600"
+            className="rounded-md bg-content/10 hover:bg-content/20 px-3 py-1.5 text-sm font-medium text-content transition-colors"
           >
             Load Complex
           </button>
           <button
             onClick={clearAll}
-            className="rounded-md bg-gray-700 px-3 py-1.5 text-sm font-medium text-white hover:bg-gray-600"
+            className="rounded-md bg-content/10 hover:bg-content/20 px-3 py-1.5 text-sm font-medium text-content transition-colors"
           >
             Clear
           </button>

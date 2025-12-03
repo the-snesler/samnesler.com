@@ -244,29 +244,33 @@ export default function DockerTerminal() {
 
   return (
     <div className="aside-tall">
-      <div className="sticky top-20 flex flex-col overflow-hidden rounded-lg border border-gray-700 bg-gray-900">
+      <div className="sticky top-20 flex flex-col overflow-hidden rounded-lg border border-content/20 bg-bkg shadow-lg">
         {/* Terminal Header */}
-        <div className="flex items-center justify-between border-b border-gray-700 bg-gray-800 px-4 py-2">
+        <div className="flex items-center justify-between border-b border-content/20 bg-content/5 px-4 py-2">
           <div className="flex items-center gap-2">
             <div className="flex gap-1.5">
               <div className="h-3 w-3 rounded-full bg-red-500"></div>
               <div className="h-3 w-3 rounded-full bg-yellow-500"></div>
               <div className="h-3 w-3 rounded-full bg-green-500"></div>
             </div>
-            <span className="ml-2 font-mono text-sm text-gray-300">docker-terminal</span>
+            <span className="ml-2 font-mono text-sm text-content/75">docker-terminal</span>
           </div>
-          <button onClick={handleClear} className="rounded bg-gray-700 px-3 py-1 text-xs text-gray-300 hover:bg-gray-600">
+          <button onClick={handleClear} className="rounded bg-content/10 hover:bg-content/20 px-3 py-1 text-xs text-content transition-colors">
             Clear
           </button>
         </div>
 
         {/* Terminal Content */}
-        <div ref={terminalRef} className="max-h-[500px] flex-1 overflow-y-auto p-4 font-mono text-sm" onClick={() => inputRef.current?.focus()}>
+        <div ref={terminalRef} className="max-h-[500px] flex-1 overflow-y-auto p-4 font-mono text-sm bg-content/[0.02]" onClick={() => inputRef.current?.focus()}>
           {lines.map((line, i) => (
             <div
               key={i}
               className={`${
-                line.type === 'input' ? 'text-green-400' : line.type === 'error' ? 'text-red-400' : 'text-gray-300'
+                line.type === 'input'
+                  ? 'text-green-600 dark:text-green-400'
+                  : line.type === 'error'
+                    ? 'text-red-600 dark:text-red-400'
+                    : 'text-content/75'
               } ${line.content === '' ? 'h-4' : ''}`}
             >
               {line.content || '\u00A0'}
@@ -274,7 +278,7 @@ export default function DockerTerminal() {
           ))}
 
           {/* Input Line */}
-          <form onSubmit={handleSubmit} className="flex items-center text-green-400">
+          <form onSubmit={handleSubmit} className="flex items-center text-green-600 dark:text-green-400">
             <span className="mr-2">$</span>
             <input
               ref={inputRef}
@@ -282,17 +286,17 @@ export default function DockerTerminal() {
               value={input}
               onInput={e => setInput((e.target as HTMLInputElement).value)}
               onKeyDown={handleKeyDown}
-              className="flex-1 bg-transparent caret-green-400 outline-none"
+              className="flex-1 bg-transparent text-content caret-green-600 dark:caret-green-400 outline-none"
               spellcheck={false}
             />
           </form>
         </div>
 
         {/* Helper Info */}
-        <div className="border-t border-gray-700 bg-gray-800/50 px-4 py-2 text-xs text-gray-400">
+        <div className="border-t border-content/20 bg-content/5 px-4 py-2 text-xs text-content/60">
           <p>
-            Try: <code className="text-blue-400">docker images</code>, <code className="text-blue-400">docker ps</code>,{' '}
-            <code className="text-blue-400">docker build -t my-app .</code>
+            Try: <code className="text-blue-600 dark:text-blue-400">docker images</code>, <code className="text-blue-600 dark:text-blue-400">docker ps</code>,{' '}
+            <code className="text-blue-600 dark:text-blue-400">docker build -t my-app .</code>
           </p>
           <p className="mt-1">Use ↑/↓ arrows for command history</p>
         </div>

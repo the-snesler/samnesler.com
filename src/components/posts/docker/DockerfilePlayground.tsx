@@ -2,7 +2,7 @@ import { useCallback, useState, useEffect } from 'preact/hooks';
 import CodeMirror from '@uiw/react-codemirror';
 import { StreamLanguage } from '@codemirror/language';
 import { dockerFile } from '@codemirror/legacy-modes/mode/dockerfile';
-import { vscodeDark } from '@uiw/codemirror-theme-vscode';
+import { vscodeDark, vscodeLight } from '@uiw/codemirror-theme-vscode';
 
 interface Challenge {
   id: number;
@@ -134,8 +134,23 @@ export default function DockerfilePlayground() {
   const [feedback, setFeedback] = useState('');
   const [isValid, setIsValid] = useState(false);
   const [code, setCode] = useState('');
+  const [isDark, setIsDark] = useState(true);
 
   const challenge = challenges[currentChallenge];
+
+  // Detect theme changes
+  useEffect(() => {
+    const checkTheme = () => {
+      setIsDark(document.documentElement.classList.contains('dark'));
+    };
+
+    checkTheme();
+
+    const observer = new MutationObserver(checkTheme);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+    return () => observer.disconnect();
+  }, []);
 
   const validateCode = useCallback(
     (code: string) => {
@@ -182,16 +197,16 @@ export default function DockerfilePlayground() {
 
   return (
     <div className="aside-tall">
-      <div className="sticky top-20 flex flex-col gap-4 rounded-lg border border-gray-700 bg-gray-800 p-6">
+      <div className="sticky top-20 flex flex-col gap-4 rounded-lg border border-content/20 bg-bkg shadow-lg p-6">
         <div>
-          <h3 className="text-xl font-semibold text-white">{challenge.title}</h3>
-          <p className="mt-2 text-sm text-gray-300">{challenge.description}</p>
+          <h3 className="text-xl font-semibold text-content">{challenge.title}</h3>
+          <p className="mt-2 text-sm text-content/75">{challenge.description}</p>
         </div>
 
         <CodeMirror
           value={code}
           height="300px"
-          theme={vscodeDark}
+          theme={isDark ? vscodeDark : vscodeLight}
           extensions={[StreamLanguage.define(dockerFile)]}
           onChange={handleCodeChange}
           basicSetup={{
@@ -219,7 +234,7 @@ export default function DockerfilePlayground() {
         />
 
         <div
-          className={`rounded-md p-3 text-sm ${isValid ? 'border border-green-500/50 bg-green-900/30 text-green-200' : 'border border-blue-500/50 bg-blue-900/30 text-blue-200'}`}
+          className={`rounded-md p-3 text-sm ${isValid ? 'border border-green-500/50 bg-green-500/10 dark:bg-green-900/30 text-green-700 dark:text-green-200' : 'border border-blue-500/50 bg-blue-500/10 dark:bg-blue-900/30 text-blue-700 dark:text-blue-200'}`}
         >
           {feedback || 'Start writing your Dockerfile...'}
         </div>
@@ -229,24 +244,24 @@ export default function DockerfilePlayground() {
             <button
               onClick={handlePrev}
               disabled={currentChallenge === 0}
-              className="rounded-md bg-gray-700 px-4 py-2 text-sm font-medium text-white hover:bg-gray-600 disabled:cursor-not-allowed disabled:opacity-50"
+              className="rounded-md bg-content/10 hover:bg-content/20 px-4 py-2 text-sm font-medium text-content transition-colors disabled:cursor-not-allowed disabled:opacity-50"
             >
               Previous
             </button>
             <button
               onClick={handleNext}
               disabled={currentChallenge === challenges.length - 1 || !isValid}
-              className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-50"
+              className="rounded-md bg-blue-600 hover:bg-blue-500 px-4 py-2 text-sm font-medium text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50"
             >
               Next
             </button>
           </div>
-          <button onClick={handleReset} className="rounded-md bg-gray-700 px-4 py-2 text-sm font-medium text-white hover:bg-gray-600">
+          <button onClick={handleReset} className="rounded-md bg-content/10 hover:bg-content/20 px-4 py-2 text-sm font-medium text-content transition-colors">
             Reset
           </button>
         </div>
 
-        <div className="text-center text-xs text-gray-400">
+        <div className="text-center text-xs text-content/60">
           Challenge {currentChallenge + 1} of {challenges.length}
         </div>
       </div>
