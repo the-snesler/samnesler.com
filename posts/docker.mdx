@@ -90,14 +90,14 @@ A Docker image is like a blueprint or template. It's a read-only package that co
 
 A container, on the other hand, is a running instance of an image. It's what you get when you execute `docker run` on an image. While the image is static and immutable, a container is dynamic. The container has its own writable layer on top of the image where changes can be made during runtime. You can create multiple containers from the same image, and each will run independently with its own state. Unless you commit it to create a new image or use volumes, **any changes made to the container's filesystem will be lost when the container is removed**. The writable layer exists as long as the container exists (even when stopped), but once you run `docker rm` to remove the container, all those changes disappear.
 
-> [!warning]- Data persistence in Docker
+> [!warning] Containers don't persist data!
 > For databases and other stateful applications in Docker, always use volumes to persist data beyond the container's lifecycle\!
 
 The core idea is:  
 An image is a read-only, versioned template (the recipe), it’s stateless.  
 A container is a running (or stopped) instance created from an image (the meal), it has state.
 
-> [!question] If I edit files inside a running container, does that change the image? 
+> [!question]- If I edit files inside a running container, does that change the image? 
 > No. The image stays read-only; your edits live in the container’s writable layer and won't be transferred to a new container made from the same image. If you edit files in an attached **volume** or **bind mount**, your changes will be persisted after the container is deleted.
 
 <figure>![A diagram illustrating the Docker image life cycle, showing how a Dockerfile is used to build an image, which can then be tagged, pushed to Docker Hub, pulled back down, or pruned from your system. The cycle demonstrates the relationship between local development, image registry storage, and container deployment.](../src/assets/images/posts/docker/dockerDiagram.png)<figcaption>Image credit: [https://decal.ocf.berkeley.edu/](https://decal.ocf.berkeley.edu/)</figcaption></figure>
@@ -135,7 +135,7 @@ Also, you can inspect how an image was built using `docker history <image>`. How
 
 # Commands to use and manage Docker
 
-> [information]- Docker group and debugging notes
+> [!information] Docker group and debugging notes
 > You shouldn't need `sudo` if your user is in the docker group. You can add yourself to this group (on Debian or Ubuntu) by running `sudo usermod -aG docker $USER`
 >
 > If a run "does nothing," you likely forgot to supply a command (e.g., bash) or the program exits immediately. To see more information, use `-it` or check `docker logs`.
