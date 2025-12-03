@@ -11,6 +11,7 @@ excerpt: 'In this guide, you will learn the basics of Docker, including how to c
 import DockerfilePlayground from '@/components/posts/docker/DockerfilePlayground.tsx';
 import ImageContainerDemo from '@/components/posts/docker/ImageContainerDemo.tsx';
 import DockerTerminal from '@/components/posts/docker/DockerTerminal.tsx';
+import ComposeConverter from '@/components/posts/docker/ComposeConverter.tsx';
 
 # Introduction
 
@@ -240,42 +241,9 @@ Here's a playground terminal for you to try out Docker commands:
 
 Docker Compose is a tool for defining and running multi-container applications in a declarative way. Instead of memorizing and typing out long docker run commands with all their flags and options, you write a single YAML file that describes your entire container setup, and Compose handles spinning everything up for you. You describe what you want, and Compose figures out how to make it happen. Even better, it handles things like creating networks automatically, ensuring services can find each other by name, and managing the startup order when services depend on each other.
 
-Let’s see a practical example: Imagine you’re running a backend with a Python API and PostgreSQL database. You could specify that with a single Compose file:
+Try it yourself! This interactive converter lets you switch between Docker Compose and docker run formats. Type in either editor to see the conversion in real-time:
 
-```yaml
-services:
-  database:
-    image: postgres:15
-    environment:
-      POSTGRES_USER: appuser
-      POSTGRES_PASSWORD: secretpass
-      POSTGRES_DB: myappdb
-    volumes:
-      # Persist data so it survives container restarts
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      # Compose can check if the service is actually ready
-      test: ["CMD-SHELL", "pg_isready -U appuser"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  api:
-    # Build a service from a folder - it’s like running cd api && docker build -t api:latest
-    build: ./api
-    ports:
-      - "3000:3000"
-    environment:
-      DATABASE_URL: postgres://appuser:secretpass@database:5432/myappdb
-    depends_on:
-      database:
-        # Wait for database to be healthy before starting
-        condition: service_healthy
-
-# Define named volumes that persist data
-volumes:
-  postgres_data:
-```
+<ComposeConverter client:visible />
 
 Services can reference each other by their service name. Inside the api container, you can connect to `database:5432` rather than having to figure out IP addresses or worry about what network they're on. Compose creates a dedicated network for this application automatically.
 
