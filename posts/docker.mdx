@@ -245,6 +245,11 @@ Try it yourself! This interactive converter lets you switch between Docker Compo
 
 <ComposeConverter client:visible />
 
+> [!question] Wait, not everything in my Compose file is translated into Docker commands!
+> Some directives like `build: ./api` or `depends_on:` in the advanced example are Compose-specific and don't have direct `docker run` equivalents. Compose handles build context, networks, and dependencies for you behind the scenes!
+>
+> If you wanted to replicate those manually, you'd need to run `docker build` separately for the build context, and wait to start dependent containers until their dependencies are healthy.
+
 Services can reference each other by their service name. Inside the api container, you can connect to `database:5432` rather than having to figure out IP addresses or worry about what network they're on. Compose creates a dedicated network for this application automatically.
 
 Here are some useful Compose commands:

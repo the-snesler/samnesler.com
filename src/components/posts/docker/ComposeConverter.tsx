@@ -7,13 +7,15 @@ import { vscodeDark, vscodeLight } from '@uiw/codemirror-theme-vscode';
 import composerize from 'composerize';
 import decomposerize from 'decomposerize';
 
-const SIMPLE_EXAMPLE = `services:
+const SIMPLE_EXAMPLE = `name: basic
+services:
   web:
     image: nginx:alpine
     ports:
       - "8080:80"`;
 
-const COMPLEX_EXAMPLE = `services:
+const COMPLEX_EXAMPLE = `name: complex
+services:
   database:
     image: postgres:15
     environment:
@@ -30,6 +32,7 @@ const COMPLEX_EXAMPLE = `services:
 
   api:
     build: ./api
+    image: my-backend:latest 
     ports:
       - "3000:3000"
     environment:
@@ -76,17 +79,9 @@ export default function ComposeConverter() {
     }
 
     try {
-      const result = decomposerize(composeYaml);
-
-      if (Array.isArray(result)) {
-        // Multiple services -> multiple docker run commands
-        setDockerRunCode(result.join('\n\n'));
-      } else if (typeof result === 'string') {
-        setDockerRunCode(result.split('\n').join('\n\n'));
-      } else {
-        setDockerRunCode('');
-      }
-
+      let result = decomposerize(composeYaml);
+      result = result.split('\n').join('\n\n');
+      setDockerRunCode(result);
       setError(null);
     } catch (err) {
       setError(`Conversion error: ${err instanceof Error ? err.message : 'Invalid YAML or unsupported features'}`);
@@ -106,15 +101,38 @@ export default function ComposeConverter() {
       const commands = dockerRun
         .split('\n\n')
         .map(cmd => cmd.trim())
-        .filter(cmd => cmd.length > 0);
+        .filter(cmd => cmd.length > 0)
+        .filter(cmd => !cmd.startsWith('docker volume'));
+
+      const volumes = dockerRun
+        .split('\n\n')
+        .map(cmd => cmd.trim())
+        .filter(cmd => cmd.startsWith('docker volume'))
+        .map(cmd => {
+          const match = cmd.match(/docker volume create (\S+)/);
+          return match ? match[1] : null;
+        })
+        .filter((v): v is string => v !== null);
 
       if (commands.length === 0) {
         setComposeCode('');
         return;
       }
-
       // Convert each command and combine
-      const composeYaml = composerize(dockerRun);
+      let composeYaml = composerize(commands.join('\n'), null, 'latest', 2);
+      composeYaml = composeYaml.replace(/# named volume.*\n/g, '');
+      // remove 'external: true' and 'name: volume_name' lines from volumes that were created via 'docker volume create'
+      volumes.forEach(volumeName => {
+        const volumeRegex = new RegExp(`(${volumeName}:\n(?: {4}.*\n?)*)`, 'g');
+        composeYaml = composeYaml.replace(volumeRegex, match => {
+          console.log(match);
+          return match
+            .split('\n')
+            .filter(line => !line.includes('external: true') && !line.includes(`name: ${volumeName}`))
+            .join('\n');
+        });
+      });
+      composeYaml = composeYaml.replace(/( {4,}.*)\n( {0,2})(?=\S)/g, '$1\n\n$2'); // Add newline between top-level keys
       setComposeCode(composeYaml);
       setError(null);
     } catch (err) {
@@ -196,10 +214,10 @@ export default function ComposeConverter() {
 
   return (
     <div className="aside-tall">
-      <div className="sticky top-20 flex flex-col gap-3 rounded-lg border border-content/20 bg-bkg shadow-lg p-2 my-4">
+      <div className="border-content/20 bg-bkg sticky top-20 my-4 flex flex-col gap-3 rounded-lg border p-2 shadow-lg">
         {/* Docker Compose Editor */}
         <div>
-          <div className="mb-2 text-sm font-medium text-content/75">Docker Compose (YAML)</div>
+          <div className="text-content/75 mb-2 text-sm font-medium">Docker Compose (YAML)</div>
           <CodeMirror
             value={composeCode}
             theme={isDark ? vscodeDark : vscodeLight}
@@ -232,7 +250,7 @@ export default function ComposeConverter() {
 
         {/* Docker Run Editor */}
         <div>
-          <div className="mb-2 py-2 text-sm font-medium text-content/75">Docker Run (Commands)</div>
+          <div className="text-content/75 mb-2 py-2 text-sm font-medium">Docker Run (Commands)</div>
           <CodeMirror
             value={dockerRunCode}
             theme={isDark ? vscodeDark : vscodeLight}
@@ -258,35 +276,31 @@ export default function ComposeConverter() {
               searchKeymap: true,
               foldKeymap: true,
               completionKeymap: true,
-              lintKeymap: true,
+              lintKeymap: true
             }}
           />
         </div>
 
         {/* Feedback Area - only show if there's a message */}
-        {feedbackMessage && (
-          <div className={`rounded-md p-3 text-sm ${getFeedbackStyle()}`}>
-            {feedbackMessage}
-          </div>
-        )}
+        {feedbackMessage && <div className={`rounded-md p-3 text-sm ${getFeedbackStyle()}`}>{feedbackMessage}</div>}
 
         {/* Action Buttons - Bottom Right */}
         <div className="flex justify-end gap-2">
           <button
             onClick={loadSimple}
-            className="rounded-md bg-content/10 hover:bg-content/20 px-3 py-1.5 text-sm font-medium text-content transition-colors"
+            className="bg-content/10 hover:bg-content/20 text-content rounded-md px-3 py-1.5 text-sm font-medium transition-colors"
           >
             Load Simple
           </button>
           <button
             onClick={loadComplex}
-            className="rounded-md bg-content/10 hover:bg-content/20 px-3 py-1.5 text-sm font-medium text-content transition-colors"
+            className="bg-content/10 hover:bg-content/20 text-content rounded-md px-3 py-1.5 text-sm font-medium transition-colors"
           >
             Load Complex
           </button>
           <button
             onClick={clearAll}
-            className="rounded-md bg-content/10 hover:bg-content/20 px-3 py-1.5 text-sm font-medium text-content transition-colors"
+            className="bg-content/10 hover:bg-content/20 text-content rounded-md px-3 py-1.5 text-sm font-medium transition-colors"
           >
             Clear
           </button>
