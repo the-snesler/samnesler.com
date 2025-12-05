@@ -7,7 +7,6 @@ import fcc_js from '@images/fcc_cert_js.png';
 import fcc_webdesign from '@images/fcc_cert_webdesign.png';
 import featuredart from '@images/featuredart.png';
 import fishbowl from '@images/fishbowl.png';
-import dscpreview from '@images/gh_dsc_preview.png';
 import imagehound from '@images/imagehound.png';
 import linklooker from '@images/linklooker.png';
 import mnfc2 from '@images/mnfc2.jpg';
@@ -39,11 +38,12 @@ import ProjectCard from '@/components/cards/ProjectCard.astro';
     year="2025"
   />
   <ProjectCard
-    name="WebLabs WebFest 2"
+    name="WebLabs Operation Weave"
     href="https://event2.weblabs.club"
     src={webfest2}
     description="The second workshop event site for WebLabs' WebFest series, teaching participants SQL, REST APIs, and LLM tool calls through hands-on challenges."
     year="2025"
+    size={2}
   />
   <ProjectCard
     name="CS559 Showcase"
@@ -80,8 +80,8 @@ import ProjectCard from '@/components/cards/ProjectCard.astro';
   <ProjectCard
     name="GitHub Discord Previews"
     href="https://github.com/the-snesler/discord-github-preview"
-    src={dscpreview}
-    description="A project that embeds Discord statuses in SVGs that can be easily placed anywhere."
+    src="https://dsc-readme.tsuni.dev/api/user/214167454291722241?theme=nitroLight&primaryColor=8080FF&accentColor=FF80C0"
+    description="A project that embeds Discord statuses in SVGs that can be easily placed anywhere. Built with an HTML frontend and React backend(!?)."
     year="2024"
     size={2}
     containImage={true}
@@ -140,7 +140,7 @@ import ProjectCard from '@/components/cards/ProjectCard.astro';
     src={mnfc2}
     description="A Wordpress site for a local political campaign"
     year="2022"
-    hideMobile
+    size={2}
   />
   <ProjectCard
     name="Portfolio Website"

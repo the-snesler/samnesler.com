@@ -7,7 +7,7 @@ import HoverCard from './HoverCard.astro';
 interface Props {
   name: string;
   href: string;
-  src: ImageMetadata;
+  src: ImageMetadata | string;
   description: string;
   year: string;
   size?: 1 | 2 | 3;
@@ -22,7 +22,7 @@ const { name, href, src, description, year, size = 1, hideMobile = false, contai
 <HoverCard class:list={[{ 'col-span-1': size === 1, 'col-span-2': size === 2, 'col-span-3': size === 3, 'hidden sm:block': hideMobile }]}>
   <a {href} class="bg-bkg absolute inset-0" style={`background-color: ${containBackgroundColor};`}>
     {
-      !containImage ? (
+      !containImage && typeof src !== 'string' ? (
         <Image
           {src}
           alt=""
@@ -31,7 +31,7 @@ const { name, href, src, description, year, size = 1, hideMobile = false, contai
           sizes="(max-width: 600px) 100vw, (max-width: 1024px) 66vw, 33vw"
           quality={60}
         />
-      ) : (
+      ) : typeof src !== 'string' ? (
         <Image
           {src}
           alt=""
@@ -39,6 +39,14 @@ const { name, href, src, description, year, size = 1, hideMobile = false, contai
           widths={[100, 300, 600]}
           sizes="(max-width: 600px) 100vw, (max-width: 1024px) 66vw, 33vw"
           quality={60}
+        />
+      ) : !containImage ? (
+        <img src={src} alt="" class="absolute h-full w-full object-contain p-4 drop-shadow-lg transition-transform group-hover:scale-105" />
+      ) : (
+        <img
+          src={src}
+          alt=""
+          class="absolute h-full w-full rotate-2 object-contain p-4 drop-shadow-lg transition-transform group-hover:scale-105 group-hover:-rotate-3"
         />
       )
     }
@@ -54,7 +62,7 @@ const { name, href, src, description, year, size = 1, hideMobile = false, contai
       <div
         class:list={[
           'absolute top-4 right-0 bottom-0 left-0 flex flex-col items-center gap-2 overflow-y-auto mask-t-from-80% pt-4',
-          size === 1 ? 'px-2' : 'px-4'
+          size === 1 ? 'px-0.5' : 'px-4'
         ]}
       >
         <h3 class="pt-4 text-lg text-gray-700 dark:text-white">
