@@ -5,6 +5,7 @@ import { Image } from 'astro:assets';
 
 import Outline from '@/assets/logooutline.svg';
 import DarkToggle from '@/components/DarkToggle.astro';
+import textStyles from '@/styles/text.module.css';
 import { Icon } from 'astro-icon/components';
 
 const currentPath = Astro.url.pathname;
@@ -21,17 +22,29 @@ let activeIndex = links.findIndex(link => link.href === currentPath);
 <header class="fixed top-0 right-0 left-0 z-50 px-3 py-2 text-white">
   <div class="container mx-auto flex flex-row flex-wrap items-center justify-between gap-2 px-4 pt-0 text-black sm:flex-nowrap dark:text-white">
     <div class="h-12 p-0">
-      <a href="/" class="group grid h-12 w-max place-items-center leading-none">
-        <!-- <Outline
+      <!-- <a
+        href="/"
+        class="group grid h-12 w-max place-items-center leading-none"
+      >
+        <Outline
           width="200"
           height="50"
           fill="currentColor"
           class="col-end-1 row-end-1 text-white opacity-50 transition-opacity group-hover:opacity-100 dark:text-black"
         />
-        <Image src={logo} alt="Tsuni logo" class="z-10 col-end-1 row-end-1" loading="eager" width="200" height="50" quality={50} /> -->
+        <Image src={logo} alt="Tsuni logo" class="z-10 col-end-1 row-end-1" loading="eager" width="200" height="50" quality={50} />
+      </a> -->
+      <a
+        href="/"
+        class:list={[
+          'group hover:text-accent flex h-12 w-max items-center font-mono text-2xl leading-none font-bold tracking-tight text-black dark:text-white',
+          textStyles.terminal
+        ]}
+      >
+        <span class="border-accent group-hover:border-b-3">Sam Nesler</span>
       </a>
     </div>
-    <div class="flex-grow"></div>
+    <div class="grow"></div>
     <nav>
       <ul
         class="bg-bkg/30 header-link-group inset-shadow-accent/40 flex h-10 flex-row items-stretch justify-around gap-1 rounded-lg p-0.5 inset-shadow-xs sm:gap-2"
