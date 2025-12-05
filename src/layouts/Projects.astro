@@ -16,12 +16,20 @@ import redcoral from '@images/redcoral.jpg';
 import staff from '@images/staff.png';
 import webfest2 from '@images/webfest2.png';
 import bikebenefits from '@images/bikebike.png';
+import madhacks2025 from '@images/madhacks2025.png';
 
 import CertCard from '@/components/cards/CertCard.astro';
 import ProjectCard from '@/components/cards/ProjectCard.astro';
 ---
 
 <div class="my-3 grid w-full grid-flow-dense grid-cols-2 gap-4 pt-3 text-center md:grid-cols-4 lg:grid-cols-6">
+  <ProjectCard
+    name="Bucky's Buzzer Beater"
+    href="https://bbb.samnesler.com"
+    src={madhacks2025}
+    description="Kahoot, but Jeopardy. A real-time trivia game built with websockets and Rust(!?) for MadHacks 2025."
+    year="2025"
+  />
   <ProjectCard
     name="Bike Benefits Map"
     href="https://bb.samnesler.com"
