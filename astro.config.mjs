@@ -1,5 +1,6 @@
 // @ts-check
 import cloudflare from '@astrojs/cloudflare';
+import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
 import preact from '@astrojs/preact';
 import tailwindcss from '@tailwindcss/vite';
@@ -77,6 +78,6 @@ export default defineConfig({
     ]
   },
 
-  integrations: [icon(), mdx(), preact({ compat: true })],
+  integrations: [icon(), mdx(), preact({ compat: true }), sitemap()],
   adapter: cloudflare({ imageService: 'custom' })
 });

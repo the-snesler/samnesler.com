@@ -125,7 +125,6 @@ export default function ComposeConverter() {
       volumes.forEach(volumeName => {
         const volumeRegex = new RegExp(`(${volumeName}:\n(?: {4}.*\n?)*)`, 'g');
         composeYaml = composeYaml.replace(volumeRegex, match => {
-          console.log(match);
           return match
             .split('\n')
             .filter(line => !line.includes('external: true') && !line.includes(`name: ${volumeName}`))

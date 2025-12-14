@@ -8,6 +8,7 @@
   --theme-bkg: hsl(250deg 100% 98%);
   --theme-content: hsl(222deg 47% 11%);
   --theme-accent: hsl(255deg 92% 76%);
+  --theme-secondary: hsl(162, 49, 47);
 
   &.dark {
     --theme-bkg: hsl(222deg 47% 11%);
