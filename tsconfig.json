@@ -5,6 +5,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
+      "@posts/*": ["src/components/posts/*"],
       "@images/*": ["src/assets/images/*"],
       "react": ["./node_modules/preact/compat/"],
       "react/jsx-runtime": ["./node_modules/preact/jsx-runtime"],

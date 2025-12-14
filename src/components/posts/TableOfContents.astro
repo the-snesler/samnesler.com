@@ -20,7 +20,7 @@ const { class: className, headings, ...rest } = Astro.props;
             <div
               class:list={[
                 { 'top-0': index === 0 || depth !== 1, '-top-2': index !== 0 && depth === 1 },
-                'bg-accent absolute bottom-0 -left-4 w-[2px]'
+                'bg-accent absolute bottom-0 -left-4 w-0.5'
               ]}
             />
             {text}

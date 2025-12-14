@@ -7,7 +7,6 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '@/consts';
 const parser = new MarkdownIt();
 
 export async function GET(context: APIContext) {
-  const blog = await getCollection('blog');
   const posts = await getCollection('blog');
   const sortedPosts = posts.filter(p => p.data.isVisible).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
   return rss({

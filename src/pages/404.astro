@@ -1,11 +1,12 @@
 ---
 import Layout from '@/layouts/Layout.astro';
+import textStyles from '@/styles/text.module.css';
 ---
 
 <Layout metadata={{ title: '404' }}>
-  <div class="prose dark:prose-invert flex min-w-full flex-col items-center justify-center" style={{ minHeight: 'calc(100vh - 4rem)' }}>
-    <h1>404</h1>
+  <main class="prose dark:prose-invert flex min-w-full flex-col items-center justify-center h-screen">
+    <h1 class={`text-4xl font-bold ${textStyles.terminal}`}>404</h1>
     <p>Could not find requested resource</p>
     <a href="/">Return Home</a>
-  </div>
+  </main>
 </Layout>
