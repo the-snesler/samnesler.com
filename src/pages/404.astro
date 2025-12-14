@@ -42,12 +42,14 @@ const combinedList = [...pageList, ...postList];
     const results: {url: string, title: string}[] = dedupeArray([...fuzzySearch(url), ...url.split('/').reverse().flatMap(segment => fuzzySearch(segment))], 'item');
     results.push({url: "/", title: "Home"});
 
-    for (const item of results.slice(0, 5)) {
+    for (const {result, i} of results.slice(0, 5).map((result, i) => ({result, i}))) {
       const li = document.createElement('li');
       const a = document.createElement('a');
-      a.href = item.url;
-      a.textContent = item.title;
+      a.href = result.url;
+      a.textContent = result.title;
       a.className = 'text-lg font-semibold hover:text-accent';
+      li.className = 'animate-in fade-in animation-fill-backwards duration-200'
+      li.style.animationDelay = `${i * 50}ms`;
       li.appendChild(a);
       searchElement.appendChild(li);
     }
@@ -61,7 +63,7 @@ const combinedList = [...pageList, ...postList];
     <div>
       <h1 class={`text-4xl font-bold ${textStyles.terminal}`}>./404</h1>
       <p>That page doesn't exist. Maybe you meant one of these?</p>
-      <ul id="page-search" data-urls={JSON.stringify(combinedList)}>
+      <ul id="page-search" class="min-h-48" data-urls={JSON.stringify(combinedList)}>
       </ul>
     </div>
   </main>
