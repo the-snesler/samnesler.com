@@ -1,8 +1,9 @@
 ---
 import { getCollection } from 'astro:content';
+import { sortPosts } from '@/utils/utils';
 
 const posts = await getCollection('blog');
-const sortedPosts = posts.filter(p => p.data.isVisible).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const sortedPosts = sortPosts(posts);
 ---
 
 <ul class="mt-2 w-full">

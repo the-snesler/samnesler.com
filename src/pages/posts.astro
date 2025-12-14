@@ -5,8 +5,9 @@ import SmallPostPreview from '@/components/posts/SmallPostPreview.astro';
 import Layout from '@/layouts/Layout.astro';
 import textStyles from '@/styles/text.module.css';
 import IconButtonLink from '@/components/IconButtonLink.astro';
+import { sortPosts } from '@/utils/utils';
 const posts = await getCollection('blog');
-const sortedPosts = posts.filter(p => p.data.isVisible).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const sortedPosts = sortPosts(posts);
 ---
 
 <Layout metadata={{ title: 'Blog', description: "Sam's blog" }}>
