@@ -1,0 +1,54 @@
+---
+title: 'CS639 Final Project: Cooperative Jenga Playing Robots'
+isVisible: false
+date: 2025-12-16
+---
+
+## Abstract
+
+This project develops a dual-robot system capable of cooperatively playing Jenga in simulation. Two UR5e robotic arms work together to remove blocks from a Jenga tower, with one robot pushing the block through while the other pulls and extracts it. We address key challenges in motion planning, inverse kinematics, and multi-robot coordination in the Webots simulator. Through experiments varying joint angle precision, we demonstrate successful block removal and placement. The project highlights the extreme precision requirements for manipulation tasks and the challenges of physics simulation for stacked objects.
+
+## Technical Approach
+
+Our system integrates two key robotics concepts:
+
+Inverse Kinematics: Positioning the end effectors with sub-millimeter precision was critical for successful block manipulation. We used a numerical IK solver to compute joint angles for target poses. An extreme level of precision was required as our experiments demonstrated even with joint angles with a tolerance of 0.01 radians resulted in tower collapse, while 0.0001 radians enabled successful manipulation. This highlights the sensitivity of contact-rich manipulation tasks to kinematic accuracy.
+
+Path planning: Getting the robot into its desired poses without colliding with the table required careful path planning. We implemented a waypoints based planning algorithm to best reflect the design of the robots as state machines. In each state, the robot would need to align itself to a desired pose so waypoints were chosen to best reflect this sequence of desired poses. Path planning also proved useful when adding cooperative motion for the two robots as when the first robot finished its task of pushing the block the second could pick off according to where it left off.
+
+## Implementation Details
+
+We created our project in the Webots simulator with two ur5e robots positioned on opposite sides of a shortened Jenga tower. The jenga tower was situated at the corner of a desk to allow the robots to have as large of a configuration space as possible without hitting the desk.
+
+The first robot was designated as the pusher as it lines itself up to push out the selected block from the tower. Each robot was fitted with a state machine and the first robot used four states: initialization, lining up to be parallel with the block, pushing the block the desired amount and then pulling out. The second robot was designated as the puller as it would line itself up with the block push out on its side to extract from the tower. This robot also had four states: initialization, lining up to be parallel with the block, gripping the block, and pulling out the block.
+
+We designed our Jenga tower to only be five layers tall to minimize the lag experienced when interacting with the jenga block physics objects. We also opted for a cooperative pushing design since the configuration space of each robot was not large enough to operate around each side of the tower, so we opted for two robots situated on each side of the tower to fix this limitation (discussed further in reflection and future work).
+
+## Experimental Design
+
+For our project, we defined our experiment around precision. Specifically, in our state machine design, we conducted two experiments that manipulated the required level of precision the robot’s joint angles needed to exhibit before moving onto its next state. The first level required the robot to have all of its joint angles be within 0.01 radians of their desired values whereas the second level required the robot to have all of its joint angles to be within 0.0001 radians of their desired values. The metric used to grade each experiment was if the robots could successfully perform a middle block removal procedure without knocking over the tower over 50% of the time. Each level of the experiment was performed 100 times to account for possible simulation error.
+
+We went about determining how far off a given joint angle was from its desired position by looking at the change in position between each inverse kinematics iteration. For experiment one, we required all joint angles changed by no more than 0.01 than their previous values, whereas for experiment two we required all joint angles changed by no more than 0.0001 than their previous values. Pragmatically, this meant not allowing the robot to change states to perform its next task until this threshold was met. In the code, each iteration of the call to inverse kinematics would have its previous and resulting joint angles saved as a numpy array and then require the difference between each angle being under the threshold specified for each experiment.
+
+We hypothesized that experiment one would not result in a successful middle block removal but experiment two would result in a successful middle block removal. Our hypothesis was informed by working with the jenga simulation environment before starting the project on our own time and found a precision threshold of 0.01 was not reliable enough to successfully remove a jenga block without causing the tower to fall with hardcoded joint angles whereas a threshold value of 0.0001 was. However, it had yet to be shown if similar tolerance threshold outcomes would hold for non-hard coded joint angles.
+
+## Results and Discussion
+
+For experiment one, across the 100 trials, the ur5e robots were able to successfully perform a middle block removal procedure 32 times. For experiment two, the ur5e robots were able to successfully perform a middle block removal procedure 59 times. 
+
+In experiment one, of the 68 failed procedures, the robots knocked over the tower 83% of the time whereas the procedure was finished without successfully pulling out the block 17% of the time. In the cases of the robot knocking over the tower, we found most of the time it was the first robot pulling out of pushing the block for the first time that caused the tower to knock over, usually from pulling out too high and crashing into the block above. For the cases where the robots simply failed to successfully remove the block, the most common cause of failure was in the final step when pulling out the pushed block, as the end effector would lose grip of the block and the block would sit there sticking out of the tower, but still a part of it.
+
+In experiment two, of the 41 failed procedures, the tower was knocked over 54% of the time whereas the procedure did not finish successfully 46% of the time. The most common states of failure were the exact same for each case as described in experiment one.
+
+While our initial hypothesis proved correct, the exact reasons why in each experiment the robot failed to successfully remove the middle piece was curious. In the case of experiment one, where the tower falling was a large majority of the cause of failure, this reflects the more relaxed precision requirements of the joint angles as the variance allowed at each moment was large enough to where the robot could knock over the tower. A similar line of reasoning might explain why knocking over the tower was less common in the failure of experiment two as the tighter precision requirement meant the robot’s variance had less of a chance of being large enough such that the tower would fall over and the failure would more often be attributed to end effector grip strength which is less directly related to precision metrics.
+
+Our experiments were limited, however, largely in terms of the number of trials we could feasible perform for each level of the experiment. 100 trials were chosen because the Webots simulation slowed down a considerable amount whenever an end effector would interact with the Jenga block physics objects limiting us to the total number of trials we could perform due to time constraints. The smaller trial size could have resulted in an inaccurate depiction of the likelihood each precision threshold should be expected to produce a successful outcome.
+
+## Reflection and Future Work
+
+Our project successfully demonstrated multi-robot coordination for a complex manipulation task, focusing on the precision and estimation required to manipulate and account for real life physics objects in the form of Jenga blocks. Looking back on the process, however, there were many areas of possible improvement and future directions for the project under continued development.
+
+To get a full implementation of two robots fully playing Jenga against each other in the simulation, the configuration space for each robot could be expanded to manipulate each side of the Jenga tower. For example, if you had one robot arm facing one side of the jenga tower, the configuration space for the robot was not big enough for it to position the end effector on the other side of the tower (and thus manipulate a block from that side). If there was more time to continue with this project, we would want to consider a robot arm with a larger configuration space such that it can successfully navigate and manipulate around the full tower.
+
+Further, the design should be tested on a real life ur5e robot to fully account for simulation error versus precision error. Having to hold such tight precision for each joint angle suggests our robot might have been fighting Webot’s simulation limitation at times versus a genuine fault in the math. Testing the design on a real life ur5e robot, however, would free the design from any possible simulation error and could provide better and more reliable insight into the precision used in the current design.
+
