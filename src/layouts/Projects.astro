@@ -21,133 +21,182 @@ import CertCard from '@/components/cards/CertCard.astro';
 import ProjectCard from '@/components/cards/ProjectCard.astro';
 ---
 
-<div class="my-3 grid w-full grid-flow-dense grid-cols-2 gap-4 pt-3 text-center md:grid-cols-4 lg:grid-cols-6">
-  <ProjectCard
-    name="Bucky's Buzzer Beater"
-    href="https://bbb.samnesler.com"
-    src={madhacks2025}
-    description="Kahoot, but Jeopardy. A real-time trivia game built with websockets and Rust(!?) for MadHacks 2025."
-    year="2025"
-  />
-  <ProjectCard
-    name="Bike Benefits Map"
-    href="https://bb.samnesler.com"
-    src={bikebenefits}
-    description="A PWA that helps users find local businesses that offer Bike Benefits discounts. Built with React and Mapbox."
-    containImage={true}
-    year="2025"
-  />
-  <ProjectCard
-    name="WebLabs Operation Weave"
-    href="https://event2.weblabs.club"
-    src={webfest2}
-    description="The second workshop event site for WebLabs' WebFest series, teaching participants SQL, REST APIs, and LLM tool calls through hands-on challenges."
-    year="2025"
-    size={2}
-  />
-  <ProjectCard
-    name="CS559 Showcase"
-    href="https://cs559featuredartists.github.io/"
-    src={featuredart}
-    description="The class project showcase site for CS559: Computer Graphics at UW-Madison."
-    year="2025"
-  />
-  <ProjectCard
-    name="Fishbowl"
-    href="https://the-snesler.github.io/cs559-p8/"
-    src={fishbowl}
-    description="A 3D fishbowl simulation built with pure WebGL. Loads in models and handwritten shaders! My final project for CS559: Computer Graphics at UW-Madison."
-    year="2025"
-  />
-  <ProjectCard
-    name="DSSD Madison - Red CORAL"
-    href="https://github.com/DSSD-Madison/Red-CORAL"
-    src={redcoral}
-    description="An open-source club project that I led. A web app for a non-profit in South America that filters, sorts, and visualizes crime data on a map, table, and other charts."
-    year="2024"
-    size={2}
-    containImage={true}
-    containBackgroundColor="#caffbd"
-  />
-  <ProjectCard
-    name="LinkLooker"
-    href="https://github.com/the-snesler/linklooker"
-    src={linklooker}
-    description="My first browser extension. Previews links using ChatGPT when you hover over them in Chrome and Firefox."
-    year="2024"
-    containImage={true}
-  />
-  <ProjectCard
-    name="GitHub Discord Previews"
-    href="https://github.com/the-snesler/discord-github-preview"
-    src="https://dsc-readme.tsuni.dev/api/user/214167454291722241?theme=nitroLight&primaryColor=8080FF&accentColor=FF80C0"
-    description="A project that embeds Discord statuses in SVGs that can be easily placed anywhere. Built with an HTML frontend and React backend(!?)."
-    year="2024"
-    size={2}
-    containImage={true}
-  />
-  <ProjectCard
-    name="ImageHound"
-    href="https://the-snesler.github.io/imagehound/"
-    src={imagehound}
-    description="My interview take-home for Fetch, where I interned during the summer of 2025. A web app that displays dog images from an API and lets you select and search for specfiic breeds, all coded in a handful of hours in Svelte."
-    year="2024"
-  />
-  <ProjectCard
-    name="Staff Discord Bot"
-    href="https://github.com/the-snesler/splatfest-bot"
-    src={staff}
-    description="A Discord bot that accesses the Splatoon 3 API to get information about the game, like current shop and map rotations. It also let discord members vote for their favorite Splatfest teams."
-    year="2024"
-    hideMobile
-  />
-  <CertCard
-    name="Back End Development and APIs"
-    certUrl="https://www.freecodecamp.org/certification/Tsuni/back-end-development-and-apis"
-    src={fcc_backend}
-    year="2023"
-  />
-  <CertCard
-    name="Front End Web Development"
-    certUrl="https://www.freecodecamp.org/certification/Tsuni/responsive-web-design"
-    collectionUrl="https://codepen.io/collection/rxMyMz"
-    src={fcc_webdesign}
-    year="2022"
-  />
-  <CertCard
-    name="JS Algorithms and Data Structures"
-    certUrl="https://www.freecodecamp.org/certification/Tsuni/javascript-algorithms-and-data-structures"
-    src={fcc_js}
-    year="2022"
-  />
-  <CertCard
-    name="Front End Development Libraries"
-    certUrl="https://www.freecodecamp.org/certification/Tsuni/front-end-development-libraries"
-    collectionUrl="https://codepen.io/collection/zxdedJ"
-    src={fcc_frontend}
-    year="2022"
-  />
-  <CertCard
-    name="Data Visualization"
-    certUrl="https://www.freecodecamp.org/certification/Tsuni/data-visualization"
-    collectionUrl="https://codepen.io/collection/GoOPLo"
-    src={fcc_datavis}
-    year="2022"
-  />
-  <ProjectCard
-    name="Mark Neumann for Congress"
-    href="https://web.archive.org/web/20221201032246/http://markneumannforcongress.com/"
-    src={mnfc2}
-    description="A Wordpress site for a local political campaign"
-    year="2022"
-    size={2}
-  />
-  <ProjectCard
-    name="Portfolio Website"
-    href="https://github.com/the-snesler/website"
-    src={port_website}
-    description="The website you're currently on! Built with Astro, Tailwind CSS, and TypeScript."
-    year="2022"
-    size={1}
-  />
+<div class="projects-wrapper relative my-3" data-collapsed="true">
+  <div class="projects-grid grid w-full grid-flow-dense grid-cols-2 gap-4 pt-3 text-center md:grid-cols-4 lg:grid-cols-6">
+    <ProjectCard
+      name="Bucky's Buzzer Beater"
+      href="https://bbb.samnesler.com"
+      src={madhacks2025}
+      description="Kahoot, but Jeopardy. A real-time trivia game built with websockets and Rust(!?) for MadHacks 2025."
+      year="2025"
+    />
+    <ProjectCard
+      name="Bike Benefits Map"
+      href="https://bb.samnesler.com"
+      src={bikebenefits}
+      description="A PWA that helps users find local businesses that offer Bike Benefits discounts. Built with React and Mapbox."
+      containImage={true}
+      year="2025"
+    />
+    <ProjectCard
+      name="WebLabs Operation Weave"
+      href="https://event2.weblabs.club"
+      src={webfest2}
+      description="The second workshop event site for WebLabs' WebFest series, teaching participants SQL, REST APIs, and LLM tool calls through hands-on challenges."
+      year="2025"
+      size={2}
+    />
+    <ProjectCard
+      name="CS559 Showcase"
+      href="https://cs559featuredartists.github.io/"
+      src={featuredart}
+      description="The class project showcase site for CS559: Computer Graphics at UW-Madison."
+      year="2025"
+    />
+    <ProjectCard
+      name="Fishbowl"
+      href="https://the-snesler.github.io/cs559-p8/"
+      src={fishbowl}
+      description="A 3D fishbowl simulation built with pure WebGL. Loads in models and handwritten shaders! My final project for CS559: Computer Graphics at UW-Madison."
+      year="2025"
+    />
+    <ProjectCard
+      name="DSSD Madison - Red CORAL"
+      href="https://github.com/DSSD-Madison/Red-CORAL"
+      src={redcoral}
+      description="An open-source club project that I led. A web app for a non-profit in South America that filters, sorts, and visualizes crime data on a map, table, and other charts."
+      year="2024"
+      size={2}
+      containImage={true}
+      containBackgroundColor="#caffbd"
+    />
+    <ProjectCard
+      name="LinkLooker"
+      href="https://github.com/the-snesler/linklooker"
+      src={linklooker}
+      description="My first browser extension. Previews links using ChatGPT when you hover over them in Chrome and Firefox."
+      year="2024"
+      containImage={true}
+    />
+    <ProjectCard
+      name="GitHub Discord Previews"
+      href="https://github.com/the-snesler/discord-github-preview"
+      src="https://dsc-readme.tsuni.dev/api/user/214167454291722241?theme=nitroLight&primaryColor=8080FF&accentColor=FF80C0"
+      description="A project that embeds Discord statuses in SVGs that can be easily placed anywhere. Built with an HTML frontend and React backend(!?)."
+      year="2024"
+      size={2}
+      containImage={true}
+    />
+    <ProjectCard
+      name="ImageHound"
+      href="https://the-snesler.github.io/imagehound/"
+      src={imagehound}
+      description="My interview take-home for Fetch, where I interned during the summer of 2025. A web app that displays dog images from an API and lets you select and search for specfiic breeds, all coded in a handful of hours in Svelte."
+      year="2024"
+    />
+    <ProjectCard
+      name="Staff Discord Bot"
+      href="https://github.com/the-snesler/splatfest-bot"
+      src={staff}
+      description="A Discord bot that accesses the Splatoon 3 API to get information about the game, like current shop and map rotations. It also let discord members vote for their favorite Splatfest teams."
+      year="2024"
+      hideMobile
+    />
+    <CertCard
+      name="Back End Development and APIs"
+      certUrl="https://www.freecodecamp.org/certification/Tsuni/back-end-development-and-apis"
+      src={fcc_backend}
+      year="2023"
+    />
+    <CertCard
+      name="Front End Web Development"
+      certUrl="https://www.freecodecamp.org/certification/Tsuni/responsive-web-design"
+      collectionUrl="https://codepen.io/collection/rxMyMz"
+      src={fcc_webdesign}
+      year="2022"
+    />
+    <CertCard
+      name="JS Algorithms and Data Structures"
+      certUrl="https://www.freecodecamp.org/certification/Tsuni/javascript-algorithms-and-data-structures"
+      src={fcc_js}
+      year="2022"
+    />
+    <CertCard
+      name="Front End Development Libraries"
+      certUrl="https://www.freecodecamp.org/certification/Tsuni/front-end-development-libraries"
+      collectionUrl="https://codepen.io/collection/zxdedJ"
+      src={fcc_frontend}
+      year="2022"
+    />
+    <CertCard
+      name="Data Visualization"
+      certUrl="https://www.freecodecamp.org/certification/Tsuni/data-visualization"
+      collectionUrl="https://codepen.io/collection/GoOPLo"
+      src={fcc_datavis}
+      year="2022"
+    />
+    <ProjectCard
+      name="Mark Neumann for Congress"
+      href="https://web.archive.org/web/20221201032246/http://markneumannforcongress.com/"
+      src={mnfc2}
+      description="A Wordpress site for a local political campaign"
+      year="2022"
+      size={2}
+    />
+    <ProjectCard
+      name="Portfolio Website"
+      href="https://github.com/the-snesler/website"
+      src={port_website}
+      description="The website you're currently on! Built with Astro, Tailwind CSS, and TypeScript."
+      year="2022"
+      size={1}
+    />
+    <div class="hover:text-accent flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-current bg-white/5 px-4 py-6 text-center transition-colors hover:bg-white/10">
+      <a href="https://github.com/TetraTsunami" class="text-lg"> See more projects on my GitHub! </a>
+    </div>
+  </div>
+  <button
+    class="show-more-btn mx-auto mt-2 block cursor-pointer rounded-lg border-2 border-current px-6 py-2 font-mono text-lg transition-colors hover:bg-white/10"
+    type="button"
+  >
+    Show more
+  </button>
 </div>
+
+<style>
+  .projects-grid {
+    transition:
+      max-height 0.5s ease-out,
+      mask-image 0.3s ease-out;
+  }
+
+  .projects-wrapper[data-collapsed='true'] .projects-grid {
+    max-height: 520px;
+    overflow: hidden;
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  }
+
+  @media (min-width: 768px) {
+    .projects-wrapper[data-collapsed='true'] .projects-grid {
+      max-height: 580px;
+    }
+  }
+
+  .projects-wrapper[data-collapsed='false'] .projects-grid {
+    max-height: 3000px;
+    mask-image: none;
+  }
+
+  .projects-wrapper[data-collapsed='false'] .show-more-btn {
+    display: none;
+  }
+</style>
+
+<script>
+  const wrapper = document.querySelector('.projects-wrapper');
+  const btn = wrapper?.querySelector('.show-more-btn');
+
+  btn?.addEventListener('click', () => {
+    wrapper?.setAttribute('data-collapsed', 'false');
+  });
+</script>
