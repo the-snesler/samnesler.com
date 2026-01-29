@@ -11,9 +11,6 @@ const { title, subtitle, image } = frontmatter;
     description: subtitle,
     image
   }}
-  theme={{
-    focus: true
-  }}
 >
   <PostWrapper {title} {subtitle} {headings} id={title} {image}>
     <slot />

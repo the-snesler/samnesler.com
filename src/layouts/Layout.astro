@@ -7,22 +7,15 @@ import Background from '@/components/Background.astro';
 import Header from '@/components/header/Header.astro';
 
 interface Props {
-  theme?: {
-    isActive?: boolean;
-    focus?: boolean;
-    dark1?: string;
-    dark2?: string;
-    light1?: string;
-    light2?: string;
-  };
   metadata?: {
     title?: string;
     description?: string;
     image?: string;
     url?: string;
   };
+  fancyBackground?: boolean;
 }
-const { metadata = {}, theme = {} } = Astro.props;
+const { metadata = {}, fancyBackground = false } = Astro.props;
 ---
 
 <!doctype html>
@@ -44,7 +37,7 @@ const { metadata = {}, theme = {} } = Astro.props;
     <meta name="description" content={metadata?.description || "Sam's lovely site"} />
     <meta name="image" content={metadata?.image || 'https://tsuni.dev/images/port_website.png'} />
     <meta name="url" content={metadata?.url || 'https://tsuni.dev'} />
-    <meta name="theme-color" content={theme.light1} />
+    <meta name="theme-color" content="#fbcfe8" />
     <link
       rel="alternate"
       type="application/rss+xml"
@@ -54,7 +47,7 @@ const { metadata = {}, theme = {} } = Astro.props;
   </head>
   <body>
     <Header />
-    <Background {...theme} />
+    <Background {fancyBackground} />
     <slot />
   </body>
 </html>

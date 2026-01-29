@@ -23,9 +23,6 @@ const { Content, headings } = await render(post);
     description: post.data.subtitle,
     image: post.data.excerptImageUrl?.src
   }}
-  theme={{
-    focus: true
-  }}
 >
   {
     post.data.postLayout === 'wide' && (
