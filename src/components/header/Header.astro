@@ -7,10 +7,10 @@ import { Icon } from 'astro-icon/components';
 const currentPath = Astro.url.pathname;
 
 const links = [
-  { name: 'Home', href: '/', icon: 'lucide:home' },
+  { name: 'Home', href: '/', icon: 'lucide:house' },
   { name: 'Guestbook', href: '/#guestbook', icon: 'lucide:book' },
   { name: 'Blog', href: '/posts/', icon: 'lucide:notebook-text' },
-  { name: 'Uses', href: '/uses/', icon: 'lucide:gift' }
+  { name: 'Tools', href: '/tools/', icon: 'lucide:wrench' }
 ];
 let activeIndex = links.findIndex(link => link.href === currentPath);
 ---
@@ -34,7 +34,7 @@ let activeIndex = links.findIndex(link => link.href === currentPath);
     <a
       href="/"
       class:list={[
-        'group hover:text-accent flex w-max items-center mt-1 font-mono text-2xl leading-none font-bold tracking-tight text-black dark:text-white',
+        'group hover:text-accent mt-1 flex w-max items-center font-mono text-2xl leading-none font-bold tracking-tight text-black dark:text-white',
         textStyles.terminal
       ]}
     >
@@ -83,7 +83,7 @@ let activeIndex = links.findIndex(link => link.href === currentPath);
       id="mobile-menu-button"
     >
       <div
-        class="will-change-transform inset-shadow-accent relative mt-2 h-10 w-10 overflow-clip rounded-sm bg-gray-200 p-2 inset-shadow-2xs transition-all group-hover:-translate-y-1.5 group-active:translate-y-0 group-active:bg-gray-300 group-active:inset-shadow-sm dark:bg-gray-700 dark:group-active:bg-gray-600"
+        class="inset-shadow-accent relative mt-2 h-10 w-10 overflow-clip rounded-sm bg-gray-200 p-2 inset-shadow-2xs transition-all will-change-transform group-hover:-translate-y-1.5 group-active:translate-y-0 group-active:bg-gray-300 group-active:inset-shadow-sm dark:bg-gray-700 dark:group-active:bg-gray-600"
       >
         <Icon name="lucide:menu" size={24} />
       </div>
@@ -91,11 +91,11 @@ let activeIndex = links.findIndex(link => link.href === currentPath);
 
     <!-- Mobile Navigation Popover -->
     <div id="mobile-menu" popover class="mobile-nav-popover">
-      <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+      <div class="flex items-center justify-between border-b border-gray-200 p-4 dark:border-gray-700">
         <h2 class="text-xl font-bold">Menu</h2>
         <button
           popovertarget="mobile-menu"
-          class="flex h-10 w-10 items-center justify-center rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+          class="flex h-10 w-10 items-center justify-center rounded-md transition-colors hover:bg-gray-200 dark:hover:bg-gray-700"
           aria-label="Close menu"
         >
           <Icon name="lucide:x" size={24} />

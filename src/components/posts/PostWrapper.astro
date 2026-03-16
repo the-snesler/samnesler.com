@@ -22,14 +22,16 @@ const { title, subtitle, headings, id } = Astro.props;
     <h1 class="pb-4 text-center text-6xl font-semibold" transition:name={id}>{title}</h1>
     {subtitle && <h2 class="text-center text-2xl font-light italic">{subtitle}</h2>}
   </div>
-  <div class:list={[`bg-bkg/90 mt-28 w-full grow gap-2 rounded-t-2xl px-2 pb-16`]}>
-    <div class={gridStyles.articleGrid}>
+  <div
+    class:list={[`bg-bkg mt-28 mb-14 w-full grow gap-2 rounded-2xl px-2 pb-16 md:mx-auto md:w-[calc(100%-4rem)]`, { 'max-w-4xl': !headings?.length }]}
+  >
+    <div class={headings?.length ? gridStyles.articleGrid : gridStyles.articleGridNoToc}>
       <div
         class={`prose prose-slate ${gridStyles.articleContent} max-w-4xl p-4 transition-colors dark:prose-invert prose-h1:mb-4 prose-h1:mt-12 prose-p:mt-0 prose-code:font-(--font-neon) md:px-12`}
       >
         <slot />
       </div>
-      {headings && <TableOfContents {headings} class={gridStyles.articleToc} />}
+      {headings?.length ? <TableOfContents {headings} class={gridStyles.articleToc} /> : null}
     </div>
     <div class:list={[`flex justify-center pt-16`, gridStyles.articleWide]}>
       <div class="w-4xl">
