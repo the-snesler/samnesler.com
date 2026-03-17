@@ -135,7 +135,7 @@ export const POST: APIRoute = async ({ request }) => {
       },
       body: JSON.stringify({
         model: OPENAI_MODEL,
-        temperature: 0,
+        temperature: 1,
         messages: [
           {
             role: 'user',

@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 
 import AssignScreen from './AssignScreen';
+import { IMAGE_TOO_LARGE_MESSAGE, ImageTooLargeError, preprocessReceiptImage } from './imagePreprocessing';
 import SummaryScreen from './SummaryScreen';
 import UploadScreen from './UploadScreen';
 import { FONT_LINK, SCREEN, palette } from './styles';
@@ -26,8 +27,9 @@ export default function BillSplitter() {
     setError(null);
 
     try {
+      const preparedFile = await preprocessReceiptImage(file);
       const formData = new FormData();
-      formData.append('image', file);
+      formData.append('image', preparedFile, preparedFile.name);
 
       const response = await fetch('/api/bill-splitter', {
         method: 'POST',
@@ -52,7 +54,11 @@ export default function BillSplitter() {
       setScreen(SCREEN.ASSIGN);
     } catch (err) {
       console.error(err);
-      setError(PARSE_FAILURE_MESSAGE);
+      if (err instanceof ImageTooLargeError) {
+        setError(IMAGE_TOO_LARGE_MESSAGE);
+      } else {
+        setError(PARSE_FAILURE_MESSAGE);
+      }
     } finally {
       setParsing(false);
     }
@@ -69,9 +75,9 @@ export default function BillSplitter() {
 
   return (
     <>
-      <link href={FONT_LINK} rel='stylesheet' />
+      <link href={FONT_LINK} rel="stylesheet" />
       <div
-        className='relative mx-auto min-h-screen max-w-[480px]'
+        className="relative mx-auto min-h-screen max-w-[480px]"
         style={{
           fontFamily: "'DM Sans', sans-serif",
           background: palette.bg,
