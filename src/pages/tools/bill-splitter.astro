@@ -1,0 +1,13 @@
+---
+import BillSplitterTool from '@/components/tools/BillSplitter/BillSplitter';
+import ThinLayout from '@/layouts/ThinLayout.astro';
+---
+
+<ThinLayout
+  metadata={{
+    title: 'Bill Splitter',
+    description: 'Scan a receipt, assign items to people, and split the total with tax and tip.'
+  }}
+>
+  <BillSplitterTool client:load />
+</ThinLayout>

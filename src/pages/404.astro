@@ -10,7 +10,7 @@ const posts = await getCollection('blog');
 const pageList = Object.values(pages)
   .map((page: any) => {
     const url = page.url;
-    const title = url === '' ? 'Home' : url.replace(/\//g, '').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+    const title = url === '' ? 'Home' : url.replace(/\//g, '').replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase());
     return { url, title };
   })
   .filter(page => page.url && !page.url.match(/404|500|\[/g));

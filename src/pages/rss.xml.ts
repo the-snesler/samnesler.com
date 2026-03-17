@@ -13,13 +13,13 @@ export async function GET(context: APIContext) {
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
     site: context.site as URL,
-    items: sortedPosts.map((post) => ({
+    items: sortedPosts.map(post => ({
       link: `/blog/${post.id}/`,
       // Note: this will not process components or JSX expressions in MDX files.
-      content: sanitizeHtml(parser.render(post.body), {
+      content: sanitizeHtml(parser.render(post.body as string), {
         allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img'])
       }),
-      ...post.data,
-    })),
+      ...post.data
+    }))
   });
 }

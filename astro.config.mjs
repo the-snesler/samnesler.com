@@ -15,7 +15,7 @@ import remarkSectionize from './src/utils/remark/sectionize.js';
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://samnesler.com",
+  site: 'https://samnesler.com',
   env: {
     schema: {
       GISCUS_REPO: envField.string({ context: 'client', access: 'public' }),
@@ -23,7 +23,8 @@ export default defineConfig({
       GISCUS_CATEGORY: envField.string({ context: 'client', access: 'public' }),
       GISCUS_CATEGORY_ID: envField.string({ context: 'client', access: 'public' }),
       GUESTBOOK_SECRET_KEY: envField.string({ context: 'server', access: 'secret' }),
-      GUESTBOOK_WEBHOOK: envField.string({ context: 'server', access: 'secret' })
+      GUESTBOOK_WEBHOOK: envField.string({ context: 'server', access: 'secret' }),
+      OPENAI_API_KEY: envField.string({ context: 'server', access: 'secret' })
     }
   },
 
