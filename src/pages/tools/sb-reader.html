@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Super Brothers — Comic Reader</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #b6b3a2;
+    --fg: #2c2c28;
+    --bg-dark: #a5a293;
+    --bg-darker: #928f80;
+    --fg-muted: #55544e;
+    --accent: #d44a2e;
+    --accent-hover: #e05a3e;
+    --surface: #c8c5b5;
+    --surface-raised: #d4d1c3;
+    --shadow: rgba(44, 44, 40, 0.15);
+    --shadow-strong: rgba(44, 44, 40, 0.3);
+    --radius: 8px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    scroll-behavior: smooth;
+    scrollbar-color: var(--bg-darker) var(--bg);
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── Loading overlay ── */
+  #loading-overlay {
+    position: fixed; inset: 0;
+    background: var(--bg);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    z-index: 9999;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+  }
+  #loading-overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+  #loading-overlay h1 {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 2rem; font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+  .loader {
+    width: 40px; height: 40px;
+    border: 4px solid var(--bg-darker);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  #loading-status {
+    margin-top: 1rem; font-size: 0.85rem; color: var(--fg-muted);
+  }
+
+  /* ── Top bar ── */
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--fg);
+    color: var(--bg);
+    padding: 0 1rem;
+    height: 52px;
+    display: flex; align-items: center; justify-content: space-between;
+    box-shadow: 0 2px 12px var(--shadow-strong);
+    user-select: none;
+  }
+  header h1 {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.15rem; font-weight: 700;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+  header h1 span { color: var(--accent); }
+
+  .header-controls {
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+
+  .chapter-select {
+    background: var(--fg-muted);
+    color: var(--bg);
+    border: none;
+    padding: 6px 10px;
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    cursor: pointer;
+    outline: none;
+  }
+  .chapter-select:focus { box-shadow: 0 0 0 2px var(--accent); }
+  .chapter-select option { background: var(--fg); color: var(--bg); }
+
+  .mode-btn, .nav-btn-small {
+    background: none; border: none;
+    color: var(--bg);
+    cursor: pointer;
+    padding: 6px;
+    border-radius: var(--radius);
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+  }
+  .mode-btn:hover, .nav-btn-small:hover { background: var(--fg-muted); }
+  .mode-btn.active { background: var(--accent); }
+  .mode-btn svg, .nav-btn-small svg { width: 20px; height: 20px; }
+
+  /* ── Page counter (header) ── */
+  .page-indicator {
+    font-size: 0.8rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--bg-darker);
+    min-width: 60px;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  /* ── Page mode ── */
+  #page-mode {
+    display: flex; flex-direction: column; align-items: center;
+    padding: 1.5rem 1rem 5rem;
+    min-height: calc(100vh - 52px);
+  }
+  #page-mode.hidden { display: none; }
+
+  .page-image-container {
+    position: relative;
+    max-width: 680px;
+    width: 100%;
+  }
+  .page-image-container img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius);
+    box-shadow: 0 4px 24px var(--shadow-strong), 0 1px 4px var(--shadow);
+    background: var(--surface);
+    min-height: 200px;
+  }
+
+  .page-title {
+    margin-top: 0.75rem;
+    font-size: 0.8rem;
+    color: var(--fg-muted);
+    text-align: center;
+  }
+
+  .page-nav {
+    display: flex; align-items: center; gap: 1rem;
+    margin-top: 1.25rem;
+  }
+  .page-nav button {
+    background: var(--fg);
+    color: var(--bg);
+    border: none;
+    padding: 10px 24px;
+    border-radius: var(--radius);
+    font-family: 'Fredoka', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .page-nav button:hover { background: var(--accent); }
+  .page-nav button:active { transform: scale(0.97); }
+  .page-nav button:disabled {
+    opacity: 0.35; cursor: default;
+    background: var(--fg);
+    transform: none;
+  }
+  .page-nav svg { width: 16px; height: 16px; }
+
+  /* ── Scroll mode ── */
+  #scroll-mode {
+    display: flex; flex-direction: column; align-items: center;
+    padding: 1.5rem 1rem 4rem;
+    gap: 4px;
+  }
+  #scroll-mode.hidden { display: none; }
+
+  .scroll-page {
+    max-width: 680px; width: 100%;
+  }
+  .scroll-page img {
+    display: block; width: 100%;
+    height: auto;
+    background: var(--surface);
+    /* no border-radius or shadow in scroll mode for seamless reading */
+  }
+  .scroll-page:first-child img { border-radius: var(--radius) var(--radius) 0 0; }
+  .scroll-page:last-child img { border-radius: 0 0 var(--radius) var(--radius); }
+
+  .scroll-chapter-divider {
+    max-width: 680px; width: 100%;
+    padding: 2.5rem 0;
+    text-align: center;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--fg-muted);
+    letter-spacing: 0.03em;
+  }
+  .scroll-chapter-divider::before,
+  .scroll-chapter-divider::after {
+    content: '';
+    display: inline-block;
+    width: 40px; height: 2px;
+    background: var(--bg-darker);
+    vertical-align: middle;
+    margin: 0 12px;
+  }
+
+  /* ── Footer attribution ── */
+  footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    font-size: 0.8rem;
+    color: var(--fg-muted);
+  }
+  footer a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  footer a:hover { text-decoration: underline; }
+
+  /* ── Keyboard hint ── */
+  .keyboard-hint {
+    position: fixed;
+    bottom: 1rem; left: 50%; transform: translateX(-50%);
+    background: var(--fg);
+    color: var(--bg);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 100;
+  }
+  .keyboard-hint.show { opacity: 0.7; }
+  .keyboard-hint kbd {
+    display: inline-block;
+    background: var(--fg-muted);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 0.7rem;
+    margin: 0 2px;
+  }
+
+  /* ── Mobile adjustments ── */
+  @media (max-width: 640px) {
+    header h1 { font-size: 0.95rem; }
+    .page-indicator { display: none; }
+    #page-mode, #scroll-mode { padding: 0.75rem 0.5rem 5rem; }
+    .page-nav button { padding: 10px 16px; font-size: 0.85rem; }
+  }
+
+  /* ── Click zones (page mode) ── */
+  .click-zone {
+    position: absolute; top: 0; bottom: 0;
+    width: 35%; cursor: pointer;
+    z-index: 2;
+  }
+  .click-zone.left { left: 0; }
+  .click-zone.right { right: 0; }
+  @media (hover: hover) {
+    .click-zone:hover { background: rgba(44,44,40,0.04); }
+  }
+
+  /* ── Progress bar ── */
+  #progress-bar {
+    position: fixed; top: 52px; left: 0; right: 0;
+    height: 3px; z-index: 99;
+    background: transparent;
+  }
+  #progress-fill {
+    height: 100%;
+    background: var(--accent);
+    width: 0%;
+    transition: width 0.2s ease;
+  }
+</style>
+</head>
+<body>
+
+<!-- Loading -->
+<div id="loading-overlay">
+  <h1>Super Brothers</h1>
+  <div class="loader"></div>
+  <div id="loading-status">Fetching pages...</div>
+</div>
+
+<!-- Header -->
+<header>
+  <h1>SUPER <span>BROTHERS</span></h1>
+  <div class="header-controls">
+    <select class="chapter-select" id="chapter-select" title="Jump to chapter"></select>
+    <span class="page-indicator" id="page-indicator"></span>
+    <button class="mode-btn active" id="btn-page-mode" title="Page mode">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="3" x2="12" y2="21"/></svg>
+    </button>
+    <button class="mode-btn" id="btn-scroll-mode" title="Scroll mode">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg>
+    </button>
+  </div>
+</header>
+
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
+<!-- Page mode -->
+<div id="page-mode">
+  <div class="page-image-container">
+    <div class="click-zone left" id="click-prev"></div>
+    <div class="click-zone right" id="click-next"></div>
+    <img id="page-img" src="" alt="" draggable="false">
+  </div>
+  <div class="page-title" id="page-title-label"></div>
+  <nav class="page-nav">
+    <button id="btn-prev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Prev</button>
+    <button id="btn-next">Next <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></button>
+  </nav>
+</div>
+
+<!-- Scroll mode -->
+<div id="scroll-mode" class="hidden"></div>
+
+<!-- Footer -->
+<footer>
+  Comic by <a href="https://www.deviantart.com/dogmansp" target="_blank" rel="noopener">DogmanSP</a> on DeviantArt
+  · <a href="https://www.deviantart.com/dogmansp/gallery/62677294/super-brothers" target="_blank" rel="noopener">Original Gallery</a>
+</footer>
+
+<!-- Keyboard hint -->
+<div class="keyboard-hint" id="keyboard-hint">
+  <kbd>←</kbd> <kbd>→</kbd> to navigate
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  // ── Chapter gallery definitions ──
+  // Each entry: { num, title, galleryId }
+  const CHAPTERS = [
+    { num: 1,  title: 'Royal Flush',          galleryId: '68770264' },
+    { num: 2,  title: 'Follow Up',            galleryId: '68871879' },
+    { num: 3,  title: 'Here Comes the Heat',  galleryId: '69024309' },
+    { num: 4,  title: 'And That Makes Four',  galleryId: '69773078' },
+    { num: 5,  title: 'Mi Casa Su Casa',      galleryId: '71091814' },
+    { num: 6,  title: 'Take One Back',        galleryId: '73314652' },
+    { num: 7,  title: 'Fix Up',               galleryId: '75027046' },
+    { num: 8,  title: 'Divide and Conquer',   galleryId: '77965165' },
+    { num: 9,  title: 'Smoke and Mirrors',    galleryId: '79631423' },
+    { num: 10, title: 'All and Nothing',      galleryId: '81593525' },
+    { num: 11, title: 'Promise',              galleryId: '82215345' },
+  ];
+
+  const FEED_BASE = 'https://backend.deviantart.com/rss.xml?q=gallery:dogmansp/';
+  const PER_PAGE = 60;
+  const STORAGE_PREFIX = 'sb_reader_tool_super_brothers_v1_';
+  const STORAGE_KEY = STORAGE_PREFIX + 'page';
+  const STORAGE_MODE_KEY = STORAGE_PREFIX + 'mode';
+  const RSS_CACHE_PREFIX = STORAGE_PREFIX + 'rss_gallery_';
+  const RSS_CACHE_TTL_MS = 12 * 60 * 60 * 1000;
+
+  // ── State ──
+  let allPages = [];    // {title, imgUrl, link, width, height, chapterNum, chapterTitle, pageIndex}
+  let chapters = [];    // [{num, title, startIndex}]
+  let currentPage = 0;
+  let mode = 'page';    // 'page' | 'scroll'
+
+  // ── DOM refs ──
+  const $overlay = document.getElementById('loading-overlay');
+  const $loadStatus = document.getElementById('loading-status');
+  const $pageMode = document.getElementById('page-mode');
+  const $scrollMode = document.getElementById('scroll-mode');
+  const $pageImg = document.getElementById('page-img');
+  const $pageTitleLabel = document.getElementById('page-title-label');
+  const $pageIndicator = document.getElementById('page-indicator');
+  const $chapterSelect = document.getElementById('chapter-select');
+  const $btnPrev = document.getElementById('btn-prev');
+  const $btnNext = document.getElementById('btn-next');
+  const $btnPageMode = document.getElementById('btn-page-mode');
+  const $btnScrollMode = document.getElementById('btn-scroll-mode');
+  const $clickPrev = document.getElementById('click-prev');
+  const $clickNext = document.getElementById('click-next');
+  const $progressFill = document.getElementById('progress-fill');
+  const $keyboardHint = document.getElementById('keyboard-hint');
+
+  function getRssCacheKey(galleryId) {
+    return RSS_CACHE_PREFIX + galleryId;
+  }
+
+  function getCachedGalleryItems(galleryId) {
+    try {
+      const raw = localStorage.getItem(getRssCacheKey(galleryId));
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      if (!parsed || !Array.isArray(parsed.items) || typeof parsed.cachedAt !== 'number') return null;
+      if (Date.now() - parsed.cachedAt > RSS_CACHE_TTL_MS) return null;
+      return parsed.items;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function setCachedGalleryItems(galleryId, items) {
+    try {
+      localStorage.setItem(getRssCacheKey(galleryId), JSON.stringify({
+        cachedAt: Date.now(),
+        items,
+      }));
+    } catch (e) {
+      // Ignore storage quota and private mode failures.
+    }
+  }
+
+  function scrollToPageInScrollMode(index, behavior = 'auto') {
+    const el = $scrollMode.querySelector(`[data-index="${index}"]`);
+    if (el) el.scrollIntoView({ behavior, block: 'start' });
+  }
+
+  // ── Fetch all items from a single gallery (with pagination) ──
+  async function fetchGalleryItems(galleryId) {
+    const cachedItems = getCachedGalleryItems(galleryId);
+    if (cachedItems) {
+      return cachedItems;
+    }
+
+    let offset = 0;
+    let items = [];
+    let fetching = true;
+
+    while (fetching) {
+      const url = FEED_BASE + galleryId + (offset > 0 ? `&offset=${offset}` : '');
+      try {
+        const res = await fetch(url);
+        const text = await res.text();
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(text, 'application/xml');
+        const xmlItems = xml.querySelectorAll('item');
+
+        if (xmlItems.length === 0) { fetching = false; break; }
+
+        for (const item of xmlItems) {
+          const title = item.querySelector('title')?.textContent?.trim() || '';
+          const link = item.querySelector('link')?.textContent?.trim() || '';
+          const mediaContent = item.getElementsByTagNameNS('http://search.yahoo.com/mrss/', 'content');
+          let imgUrl = '';
+          let imgWidth = null;
+          let imgHeight = null;
+          for (const mc of mediaContent) {
+            if (mc.getAttribute('medium') === 'image') {
+              imgUrl = mc.getAttribute('url');
+              const widthAttr = parseInt(mc.getAttribute('width'), 10);
+              const heightAttr = parseInt(mc.getAttribute('height'), 10);
+              imgWidth = Number.isFinite(widthAttr) && widthAttr > 0 ? widthAttr : null;
+              imgHeight = Number.isFinite(heightAttr) && heightAttr > 0 ? heightAttr : null;
+              break;
+            }
+          }
+          if (!imgUrl) {
+            const thumbs = item.getElementsByTagNameNS('http://search.yahoo.com/mrss/', 'thumbnail');
+            if (thumbs.length > 0) {
+              const thumb = thumbs[thumbs.length - 1];
+              imgUrl = thumb.getAttribute('url');
+              const widthAttr = parseInt(thumb.getAttribute('width'), 10);
+              const heightAttr = parseInt(thumb.getAttribute('height'), 10);
+              imgWidth = Number.isFinite(widthAttr) && widthAttr > 0 ? widthAttr : null;
+              imgHeight = Number.isFinite(heightAttr) && heightAttr > 0 ? heightAttr : null;
+            }
+          }
+          if (imgUrl && title) {
+            items.push({ title, imgUrl, link, width: imgWidth, height: imgHeight });
+          }
+        }
+
+        if (xmlItems.length < PER_PAGE) fetching = false;
+        else offset += PER_PAGE;
+      } catch (err) {
+        console.error(`Fetch error for gallery ${galleryId}:`, err);
+        fetching = false;
+      }
+    }
+
+    if (items.length > 0) {
+      setCachedGalleryItems(galleryId, items);
+    }
+
+    return items;
+  }
+
+  // ── Fetch all chapters sequentially ──
+  async function fetchAllChapters() {
+    const allItems = []; // {title, imgUrl, link, width, height, chapterNum, chapterTitle, pageIndex}
+    const chapterIndex = []; // [{num, title, startIndex}]
+
+    for (const ch of CHAPTERS) {
+      $loadStatus.textContent = `Chapter ${ch.num}: ${ch.title}  (${allItems.length} pages so far)`;
+
+      const items = await fetchGalleryItems(ch.galleryId);
+
+      // DA RSS returns items in gallery order (which is the artist's chosen order).
+      // Each item is a page within this chapter.
+      const startIndex = allItems.length;
+      items.forEach((item, idx) => {
+        allItems.push({
+          ...item,
+          chapterNum: ch.num,
+          chapterTitle: ch.title,
+          pageIndex: idx + 1,
+        });
+      });
+
+      chapterIndex.push({ num: ch.num, title: ch.title, startIndex });
+    }
+
+    return { pages: allItems, chapters: chapterIndex };
+  }
+
+  // ── Render chapter select dropdown ──
+  function buildChapterSelect() {
+    $chapterSelect.innerHTML = '';
+    for (const ch of chapters) {
+      const opt = document.createElement('option');
+      opt.value = ch.startIndex;
+      opt.textContent = `${ch.num}. ${ch.title}`;
+      $chapterSelect.appendChild(opt);
+    }
+  }
+
+  // ── Page mode rendering ──
+  function renderPage() {
+    if (allPages.length === 0) return;
+    const p = allPages[currentPage];
+    $pageImg.src = p.imgUrl;
+    $pageImg.alt = p.title;
+    if (p.width && p.height) {
+      $pageImg.width = p.width;
+      $pageImg.height = p.height;
+      $pageImg.style.aspectRatio = `${p.width} / ${p.height}`;
+    } else {
+      $pageImg.removeAttribute('width');
+      $pageImg.removeAttribute('height');
+      $pageImg.style.removeProperty('aspect-ratio');
+    }
+    $pageTitleLabel.textContent = `Ch. ${p.chapterNum}: ${p.chapterTitle} — Page ${p.pageIndex}`;
+    $pageIndicator.textContent = `${currentPage + 1} / ${allPages.length}`;
+    $btnPrev.disabled = currentPage === 0;
+    $btnNext.disabled = currentPage === allPages.length - 1;
+
+    // Update chapter select to match
+    for (const ch of chapters) {
+      if (p.chapterNum === ch.num) {
+        $chapterSelect.value = ch.startIndex;
+        break;
+      }
+    }
+
+    // Progress bar
+    $progressFill.style.width = ((currentPage + 1) / allPages.length * 100) + '%';
+
+    // Save to localStorage
+    try { localStorage.setItem(STORAGE_KEY, currentPage); } catch (e) {}
+
+    // Preload adjacent images
+    if (currentPage + 1 < allPages.length) {
+      const img = new Image();
+      img.src = allPages[currentPage + 1].imgUrl;
+    }
+    if (currentPage - 1 >= 0) {
+      const img = new Image();
+      img.src = allPages[currentPage - 1].imgUrl;
+    }
+  }
+
+  function goToPage(idx) {
+    currentPage = Math.max(0, Math.min(allPages.length - 1, idx));
+    if (mode === 'page') {
+      renderPage();
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+  }
+
+  // ── Scroll mode rendering ──
+  function renderScrollMode() {
+    $scrollMode.innerHTML = '';
+    let lastChapter = -1;
+
+    for (let i = 0; i < allPages.length; i++) {
+      const p = allPages[i];
+
+      // Chapter divider
+      if (p.chapterNum !== lastChapter) {
+        if (lastChapter !== -1) {
+          const divider = document.createElement('div');
+          divider.className = 'scroll-chapter-divider';
+          divider.textContent = `Chapter ${p.chapterNum}: ${p.chapterTitle}`;
+          $scrollMode.appendChild(divider);
+        }
+        lastChapter = p.chapterNum;
+      }
+
+      const div = document.createElement('div');
+      div.className = 'scroll-page';
+      div.dataset.index = i;
+      const img = document.createElement('img');
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      img.src = p.imgUrl;
+      img.alt = p.title;
+      if (p.width && p.height) {
+        img.width = p.width;
+        img.height = p.height;
+        img.style.aspectRatio = `${p.width} / ${p.height}`;
+      }
+      div.appendChild(img);
+      $scrollMode.appendChild(div);
+    }
+  }
+
+  // ── Mode switching ──
+  function setMode(m) {
+    mode = m;
+    try { localStorage.setItem(STORAGE_MODE_KEY, m); } catch (e) {}
+
+    if (m === 'page') {
+      $pageMode.classList.remove('hidden');
+      $scrollMode.classList.add('hidden');
+      $btnPageMode.classList.add('active');
+      $btnScrollMode.classList.remove('active');
+      renderPage();
+    } else {
+      $pageMode.classList.add('hidden');
+      $scrollMode.classList.remove('hidden');
+      $btnPageMode.classList.remove('active');
+      $btnScrollMode.classList.add('active');
+      // Re-anchor after layout settles to avoid jumping when lazy images decode.
+      scrollToPageInScrollMode(currentPage, 'auto');
+      requestAnimationFrame(() => scrollToPageInScrollMode(currentPage, 'auto'));
+    }
+  }
+
+  // ── Track scroll position in scroll mode for bookmark ──
+  function onScrollInScrollMode() {
+    if (mode !== 'scroll') return;
+    const scrollPages = $scrollMode.querySelectorAll('.scroll-page');
+    const headerHeight = 55;
+    let closest = 0;
+    for (const sp of scrollPages) {
+      const rect = sp.getBoundingClientRect();
+      if (rect.top < headerHeight + 100) {
+        closest = parseInt(sp.dataset.index, 10);
+      }
+    }
+    currentPage = closest;
+    $pageIndicator.textContent = `${currentPage + 1} / ${allPages.length}`;
+    $progressFill.style.width = ((currentPage + 1) / allPages.length * 100) + '%';
+
+    // Update chapter select
+    if (allPages[currentPage]) {
+      for (const ch of chapters) {
+        if (allPages[currentPage].chapterNum === ch.num) {
+          $chapterSelect.value = ch.startIndex;
+          break;
+        }
+      }
+    }
+
+    try { localStorage.setItem(STORAGE_KEY, currentPage); } catch (e) {}
+  }
+
+  // ── Keyboard hint ──
+  let hintTimeout;
+  function flashKeyboardHint() {
+    $keyboardHint.classList.add('show');
+    clearTimeout(hintTimeout);
+    hintTimeout = setTimeout(() => $keyboardHint.classList.remove('show'), 3000);
+  }
+
+  // ── Init ──
+  async function init() {
+    const result = await fetchAllChapters();
+    allPages = result.pages;
+    chapters = result.chapters;
+
+    $loadStatus.textContent = `Loaded ${allPages.length} pages across ${chapters.length} chapters.`;
+
+    if (allPages.length === 0) {
+      $loadStatus.textContent = 'No comic pages found. The RSS feed may be unavailable.';
+      return;
+    }
+
+    buildChapterSelect();
+
+    // Restore saved state
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved !== null) {
+        currentPage = Math.min(parseInt(saved, 10) || 0, allPages.length - 1);
+      }
+      const savedMode = localStorage.getItem(STORAGE_MODE_KEY);
+      if (savedMode === 'scroll') mode = 'scroll';
+    } catch (e) {}
+
+    // Pre-render scroll mode content
+    renderScrollMode();
+
+    // Set initial mode
+    setMode(mode);
+
+    // Hide overlay
+    $overlay.classList.add('hidden');
+
+    // Show keyboard hint briefly on desktop
+    if (window.matchMedia('(hover: hover)').matches) {
+      setTimeout(flashKeyboardHint, 1000);
+    }
+
+    // ── Event listeners ──
+    $btnPrev.addEventListener('click', () => goToPage(currentPage - 1));
+    $btnNext.addEventListener('click', () => goToPage(currentPage + 1));
+    $clickPrev.addEventListener('click', () => goToPage(currentPage - 1));
+    $clickNext.addEventListener('click', () => goToPage(currentPage + 1));
+
+    $btnPageMode.addEventListener('click', () => setMode('page'));
+    $btnScrollMode.addEventListener('click', () => setMode('scroll'));
+
+    $chapterSelect.addEventListener('change', (e) => {
+      const idx = parseInt(e.target.value, 10);
+      currentPage = idx;
+      if (mode === 'page') {
+        renderPage();
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      } else {
+        scrollToPageInScrollMode(idx, 'smooth');
+      }
+    });
+
+    // Keyboard nav
+    document.addEventListener('keydown', (e) => {
+      if (mode !== 'page') return;
+      if (e.key === 'ArrowLeft' || e.key === 'a') goToPage(currentPage - 1);
+      if (e.key === 'ArrowRight' || e.key === 'd') goToPage(currentPage + 1);
+    });
+
+    // Scroll tracking
+    let scrollTick = false;
+    window.addEventListener('scroll', () => {
+      if (!scrollTick) {
+        requestAnimationFrame(() => { onScrollInScrollMode(); scrollTick = false; });
+        scrollTick = true;
+      }
+    }, { passive: true });
+
+    // Touch swipe (page mode)
+    let touchStartX = 0;
+    let touchStartY = 0;
+    $pageMode.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+    $pageMode.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      const dy = e.changedTouches[0].clientY - touchStartY;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+        if (dx < 0) goToPage(currentPage + 1);
+        else goToPage(currentPage - 1);
+      }
+    }, { passive: true });
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>
