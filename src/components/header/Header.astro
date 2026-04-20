@@ -9,8 +9,7 @@ const currentPath = Astro.url.pathname;
 const links = [
   { name: 'Home', href: '/', icon: 'lucide:house' },
   { name: 'Guestbook', href: '/#guestbook', icon: 'lucide:book' },
-  { name: 'Blog', href: '/posts/', icon: 'lucide:notebook-text' },
-  { name: 'Tools', href: '/tools/', icon: 'lucide:wrench' }
+  { name: 'Blog', href: '/posts/', icon: 'lucide:notebook-text' }
 ];
 let activeIndex = links.findIndex(link => link.href === currentPath);
 ---

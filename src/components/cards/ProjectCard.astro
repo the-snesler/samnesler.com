@@ -14,13 +14,14 @@ interface Props {
   hideMobile?: boolean;
   containImage?: boolean;
   containBackgroundColor?: string;
+  source?: string;
 }
 
-const { name, href, src, description, year, size = 1, hideMobile = false, containImage = false, containBackgroundColor } = Astro.props;
+const { name, href, src, description, year, size = 1, hideMobile = false, containImage = false, containBackgroundColor, source } = Astro.props;
 ---
 
 <HoverCard class:list={[{ 'col-span-1': size === 1, 'col-span-2': size === 2, 'col-span-3': size === 3, 'hidden sm:block': hideMobile }]}>
-  <a {href} class="bg-bkg absolute inset-0" style={`background-color: ${containBackgroundColor};`}>
+  <div class="bg-bkg absolute inset-0" style={`background-color: ${containBackgroundColor};`}>
     {
       !containImage && typeof src !== 'string' ? (
         <Image
@@ -62,7 +63,7 @@ const { name, href, src, description, year, size = 1, hideMobile = false, contai
       <div
         class:list={[
           'absolute top-4 right-0 bottom-0 left-0 flex flex-col items-center gap-2 overflow-y-auto mask-t-from-80% pt-4',
-          size === 1 ? 'px-0.5' : 'px-4'
+          size === 1 ? 'px-1' : 'px-4'
         ]}
       >
         <h3 class="pt-4 text-lg text-gray-700 dark:text-white">
@@ -70,10 +71,26 @@ const { name, href, src, description, year, size = 1, hideMobile = false, contai
         </h3>
         <p class="pb-2 text-left text-sm text-gray-600 dark:text-slate-300">
           {description}
+          {(href || source) && <br />}
+          {
+            href && (
+              <a href={href} class="hover:text-accent underline" target="_blank" rel="noopener noreferrer">
+                Live
+              </a>
+            )
+          }
+          {href && source && ' - '}
+          {
+            source && (
+              <a href={source} class="hover:text-accent underline" target="_blank" rel="noopener noreferrer">
+                Source
+              </a>
+            )
+          }
         </p>
       </div>
     </div>
-  </a>
+  </div>
   <Fragment slot="noHover">
     <h3 class="pt-6 text-lg text-gray-700 dark:text-white">{name}</h3>
     <p class="py-2 text-sm text-gray-600 dark:text-slate-300">{description}</p>

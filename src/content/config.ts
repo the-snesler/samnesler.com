@@ -1,4 +1,4 @@
-import { glob } from 'astro/loaders';
+import { file, glob } from 'astro/loaders';
 import { defineCollection, z } from 'astro:content';
 
 const blogCollection = defineCollection({
@@ -16,6 +16,33 @@ const blogCollection = defineCollection({
     })
 });
 
+const projectsCollection = defineCollection({
+  loader: file('src/content/projects.json', {
+    parser: text => {
+      const projects = JSON.parse(text) as Array<Record<string, unknown> & { id: string }>;
+      return Object.fromEntries(
+        projects.map(project => {
+          const { id, ...projectData } = project;
+          return [id, projectData];
+        })
+      );
+    }
+  }),
+  schema: z.object({
+    name: z.string(),
+    href: z.string(),
+    source: z.string().optional(),
+    image: z.string(),
+    description: z.string(),
+    year: z.string(),
+    size: z.union([z.literal(1), z.literal(2), z.literal(3)]).optional(),
+    hideMobile: z.boolean().default(false),
+    containImage: z.boolean().default(false),
+    containBackgroundColor: z.string().optional()
+  })
+});
+
 export const collections = {
-  blog: blogCollection
+  blog: blogCollection,
+  projects: projectsCollection
 };
