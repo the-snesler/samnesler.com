@@ -3,6 +3,7 @@ export const FONT_LINK =
 
 export const SCREEN = {
   UPLOAD: 'upload',
+  CROP: 'crop',
   ASSIGN: 'assign',
   SUMMARY: 'summary'
 } as const;

@@ -20,11 +20,12 @@ const RECEIPT_PROMPT = `Read this restaurant receipt and call the extract_receip
 Rules:
 - Include all purchased line items.
 - If a line item includes quantity > 1 (for example "2 Tonkotsu Belly $29.90"), split it into separate items with per-item price.
-- category must be "entree" for main dishes/meals and "other" for appetizers, drinks, sides, desserts, fees, and misc.
-- price must be a numeric per-item amount with no currency symbol.
+- category must be "entree" for main dishes/meals, "other" for assignable non-entree items, and "shared" for table-wide adjustments (delivery fees, service fees, bundle/discount coupons).
+- price must be a numeric per-item amount with no currency symbol. Negative prices are allowed for discounts/coupons.
 - subtotal should be pre-tax subtotal when present, otherwise null.
 - tax should be tax amount when present, otherwise null.
-- total should be post-tax total when present, otherwise null.`;
+- total should be post-tax total when present, otherwise null.
+`;
 
 interface OpenAICompletion {
   choices?: Array<{
@@ -62,7 +63,7 @@ const arrayBufferToBase64 = (buffer: ArrayBuffer): string => {
 const roundMoney = (value: number): number => Math.round(value * 100) / 100;
 
 const toMoneyOrNull = (value: unknown): number | null => {
-  if (typeof value !== 'number' || !Number.isFinite(value) || value < 0) {
+  if (typeof value !== 'number' || !Number.isFinite(value)) {
     return null;
   }
 
@@ -70,6 +71,9 @@ const toMoneyOrNull = (value: unknown): number | null => {
 };
 
 const toCategory = (value: unknown): ItemCategory => {
+  if (value === 'shared') {
+    return 'shared';
+  }
   return value === 'entree' ? 'entree' : 'other';
 };
 
@@ -83,7 +87,7 @@ const sanitizeReceipt = (raw: unknown): ParsedReceipt => {
       const name = typeof (entry as { name?: unknown }).name === 'string' ? (entry as { name: string }).name.trim() : '';
       const price = toMoneyOrNull((entry as { price?: unknown }).price);
 
-      if (!name || price === null || price <= 0) {
+      if (!name || price === null || price === 0) {
         return null;
       }
 
@@ -171,7 +175,7 @@ export const POST: APIRoute = async ({ request }) => {
                       properties: {
                         name: { type: 'string' },
                         price: { type: 'number' },
-                        category: { type: 'string', enum: ['entree', 'other'] }
+                        category: { type: 'string', enum: ['entree', 'other', 'shared'] }
                       }
                     }
                   },
@@ -199,9 +203,7 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     const completion = (await openAIResponse.json()) as OpenAICompletion;
-    const toolArguments = completion.choices?.[0]?.message?.tool_calls?.find(
-      call => call.function?.name === 'extract_receipt'
-    )?.function?.arguments;
+    const toolArguments = completion.choices?.[0]?.message?.tool_calls?.find(call => call.function?.name === 'extract_receipt')?.function?.arguments;
 
     if (!toolArguments) {
       console.error('No extract_receipt tool output', completion);

@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 
 import AssignScreen from './AssignScreen';
+import CropScreen from './CropScreen';
 import { IMAGE_TOO_LARGE_MESSAGE, ImageTooLargeError, preprocessReceiptImage } from './imagePreprocessing';
 import SummaryScreen from './SummaryScreen';
 import UploadScreen from './UploadScreen';
@@ -21,8 +22,9 @@ export default function BillSplitter() {
   const [parsing, setParsing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [assignModal, setAssignModal] = useState<string | null>(null);
+  const [pendingImage, setPendingImage] = useState<File | null>(null);
 
-  const handleImage = useCallback(async (file: File) => {
+  const handleParseImage = useCallback(async (file: File) => {
     setParsing(true);
     setError(null);
 
@@ -49,8 +51,11 @@ export default function BillSplitter() {
       setTaxValue(taxValue);
       if (subtotal <= 0) {
         setError(PARSE_FAILURE_MESSAGE);
+        setScreen(SCREEN.UPLOAD);
+        setPendingImage(null);
         return;
       }
+      setPendingImage(null);
       setScreen(SCREEN.ASSIGN);
     } catch (err) {
       console.error(err);
@@ -59,9 +64,17 @@ export default function BillSplitter() {
       } else {
         setError(PARSE_FAILURE_MESSAGE);
       }
+      setScreen(SCREEN.UPLOAD);
+      setPendingImage(null);
     } finally {
       setParsing(false);
     }
+  }, []);
+
+  const handleUploadImage = useCallback((file: File) => {
+    setError(null);
+    setPendingImage(file);
+    setScreen(SCREEN.CROP);
   }, []);
 
   const summary = computeSummary({
@@ -84,7 +97,26 @@ export default function BillSplitter() {
           color: palette.text
         }}
       >
-        {screen === SCREEN.UPLOAD && <UploadScreen onImage={handleImage} parsing={parsing} error={error} />}
+        {screen === SCREEN.UPLOAD && <UploadScreen onImage={handleUploadImage} parsing={false} error={error} />}
+
+        {screen === SCREEN.CROP && pendingImage && (
+          <CropScreen
+            file={pendingImage}
+            parsing={parsing}
+            onBack={() => {
+              if (!parsing) {
+                setPendingImage(null);
+                setScreen(SCREEN.UPLOAD);
+              }
+            }}
+            onSkip={async () => {
+              await handleParseImage(pendingImage);
+            }}
+            onConfirmCrop={async croppedFile => {
+              await handleParseImage(croppedFile);
+            }}
+          />
+        )}
 
         {screen === SCREEN.ASSIGN && (
           <AssignScreen
@@ -103,7 +135,10 @@ export default function BillSplitter() {
             assignModal={assignModal}
             setAssignModal={setAssignModal}
             onDone={() => setScreen(SCREEN.SUMMARY)}
-            onBack={() => setScreen(SCREEN.UPLOAD)}
+            onBack={() => {
+              setPendingImage(null);
+              setScreen(SCREEN.UPLOAD);
+            }}
           />
         )}
 

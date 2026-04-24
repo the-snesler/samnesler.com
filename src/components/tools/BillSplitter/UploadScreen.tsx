@@ -13,18 +13,18 @@ export default function UploadScreen({ onImage, parsing, error }: UploadScreenPr
   const [dragOver, setDragOver] = useState(false);
 
   return (
-    <div className='flex min-h-screen flex-col px-5 pb-6 pt-6'>
-      <div className='mb-8 pt-5 text-center'>
-        <div className='mb-2 text-[40px]'>🍜</div>
+    <div className="flex min-h-screen flex-col px-5 pt-6 pb-6">
+      <div className="mb-8 pt-5 text-center">
+        <div className="mb-2 text-[40px]">🍜</div>
         <h1
-          className='mb-1 text-[30px] font-bold tracking-[-0.02em]'
+          className="mb-1 text-[30px] font-bold tracking-[-0.02em]"
           style={{
             fontFamily: "'Fraunces', serif"
           }}
         >
           Split the Bill
         </h1>
-        <p className='m-0 text-[15px] leading-[1.5]' style={{ color: palette.textSoft }}>
+        <p className="m-0 text-[15px] leading-normal" style={{ color: palette.textSoft }}>
           Scan a receipt. Assign items. Done.
         </p>
       </div>
@@ -52,7 +52,7 @@ export default function UploadScreen({ onImage, parsing, error }: UploadScreenPr
         }}
       >
         {!parsing && (
-          <div className='pointer-events-none absolute inset-0 opacity-[0.04]'>
+          <div className="pointer-events-none absolute inset-0 opacity-[0.04]">
             {Array.from({ length: 12 }).map((_, index) => (
               <div
                 key={index}
@@ -68,40 +68,40 @@ export default function UploadScreen({ onImage, parsing, error }: UploadScreenPr
         )}
 
         {parsing ? (
-          <div className='text-center'>
+          <div className="text-center">
             <div
-              className='mx-auto mb-4 h-12 w-12 animate-[spin_0.8s_linear_infinite] rounded-full border-[3px]'
+              className="mx-auto mb-4 h-12 w-12 animate-[spin_0.8s_linear_infinite] rounded-full border-[3px]"
               style={{
                 border: `3px solid ${palette.border}`,
-                borderTopColor: palette.accent,
+                borderTopColor: palette.accent
               }}
             />
-            <p className='mb-1 text-base font-medium' style={{ color: palette.text }}>
+            <p className="mb-1 text-base font-medium" style={{ color: palette.text }}>
               Reading your receipt...
             </p>
-            <p className='m-0 text-[13px]' style={{ color: palette.textSoft }}>
+            <p className="m-0 text-[13px]" style={{ color: palette.textSoft }}>
               This takes a few seconds
             </p>
           </div>
         ) : (
-          <div className='p-5 text-center'>
+          <div className="p-5 text-center">
             <div
-              className='mx-auto mb-5 flex h-[72px] w-[72px] items-center justify-center rounded-[20px] text-[32px]'
+              className="mx-auto mb-5 flex h-[72px] w-[72px] items-center justify-center rounded-[20px] text-[32px]"
               style={{
-                background: palette.accentSoft,
+                background: palette.accentSoft
               }}
             >
               📷
             </div>
-            <p className='mb-1.5 text-[17px] font-semibold'>Upload a receipt photo</p>
-            <p className='mb-5 text-sm leading-[1.5]' style={{ color: palette.textSoft }}>
+            <p className="mb-1.5 text-[17px] font-semibold">Upload a receipt photo</p>
+            <p className="mb-5 text-sm leading-normal" style={{ color: palette.textSoft }}>
               Tap here or drag and drop an image
             </p>
             <div
               className={`${baseBtnClass} inline-block px-7 py-3 text-[15px]`}
               style={{
                 background: palette.accent,
-                color: '#fff',
+                color: '#fff'
               }}
             >
               Choose Photo
@@ -111,24 +111,24 @@ export default function UploadScreen({ onImage, parsing, error }: UploadScreenPr
 
         <input
           ref={inputRef}
-          type='file'
-          accept='image/*'
+          type="file"
+          accept="image/*"
           onChange={event => {
             const file = event.currentTarget.files?.[0];
             if (file) {
               void onImage(file);
             }
           }}
-          className='hidden'
+          className="hidden"
         />
       </div>
 
       {error && (
         <div
-          className='mt-4 rounded-xl px-4 py-3 text-center text-sm'
+          className="mt-4 rounded-xl px-4 py-3 text-center text-sm"
           style={{
             background: '#FEF0EE',
-            color: '#C0392B',
+            color: '#C0392B'
           }}
         >
           {error}

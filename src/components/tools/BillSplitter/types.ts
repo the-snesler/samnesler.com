@@ -1,5 +1,5 @@
 export type TipTaxMode = 'percent' | 'flat';
-export type ItemCategory = 'entree' | 'other';
+export type ItemCategory = 'entree' | 'other' | 'shared';
 
 export interface BillItem {
   id: string;

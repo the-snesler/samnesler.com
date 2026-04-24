@@ -20,6 +20,41 @@ export const parseInputNumber = (value: string, fallback = 0): number => {
   return Number.isFinite(parsed) ? parsed : fallback;
 };
 
+export const validateItemName = (value: string): string | null => {
+  const name = value.trim();
+  if (!name) {
+    return 'Item name is required.';
+  }
+  if (name.length > 60) {
+    return 'Item name must be 60 characters or less.';
+  }
+  return null;
+};
+
+export const validatePersonName = (value: string): string | null => {
+  const name = value.trim();
+  if (!name) {
+    return 'Name is required.';
+  }
+  if (name.length > 28) {
+    return 'Name must be 28 characters or less.';
+  }
+  return null;
+};
+
+export const validateMoneyAmount = (value: number): string | null => {
+  if (!Number.isFinite(value)) {
+    return 'Enter a valid number.';
+  }
+  if (value === 0) {
+    return 'Amount cannot be $0.';
+  }
+  if (Math.abs(value) > 10000) {
+    return 'Amount is too large.';
+  }
+  return null;
+};
+
 interface BuildInitialStateResult {
   items: BillItem[];
   people: Person[];
@@ -29,13 +64,16 @@ interface BuildInitialStateResult {
 }
 
 export const buildInitialStateFromParsedReceipt = (parsed: ParsedReceipt): BuildInitialStateResult => {
-  const items: BillItem[] = parsed.items.map(item => ({
-    id: uid(),
-    name: item.name,
-    price: Number(item.price),
-    category: item.category === 'entree' ? 'entree' : 'other',
-    assignedTo: []
-  }));
+  const items: BillItem[] = parsed.items.map(item => {
+    const category = item.category === 'entree' ? 'entree' : item.category === 'shared' ? 'shared' : 'other';
+    return {
+      id: uid(),
+      name: item.name,
+      price: Number(item.price),
+      category,
+      assignedTo: []
+    };
+  });
 
   const entreeCount = items.filter(item => item.category === 'entree').length;
   const numberOfPeople = Math.max(entreeCount, 2);
@@ -49,6 +87,11 @@ export const buildInitialStateFromParsedReceipt = (parsed: ParsedReceipt): Build
     if (item.category === 'entree' && personIndex < people.length) {
       item.assignedTo = [people[personIndex].id];
       personIndex += 1;
+      return;
+    }
+
+    if (item.category === 'shared') {
+      item.assignedTo = people.map(person => person.id);
     }
   });
 
@@ -83,22 +126,29 @@ interface ComputeSummaryInput {
   tipValue: number;
 }
 
-export const computeSummary = ({
-  items,
-  people,
-  taxMode,
-  taxValue,
-  tipMode,
-  tipValue
-}: ComputeSummaryInput): PersonSummary[] => {
+export const computeSummary = ({ items, people, taxMode, taxValue, tipMode, tipValue }: ComputeSummaryInput): PersonSummary[] => {
   const itemSubtotal = items.reduce((sum, item) => sum + item.price, 0);
   const resolvedTax = taxMode === 'percent' ? (itemSubtotal * taxValue) / 100 : taxValue;
   const taxRate = itemSubtotal > 0 ? resolvedTax / itemSubtotal : 0;
   const resolvedTip = tipMode === 'percent' ? (itemSubtotal * tipValue) / 100 : tipValue;
 
+  const peopleIds = people.map(person => person.id);
+  const getEffectiveAssignees = (item: BillItem): string[] => {
+    if (item.category === 'shared') {
+      return peopleIds;
+    }
+    return item.assignedTo;
+  };
+
   return people.map(person => {
-    const personItems = items.filter(item => item.assignedTo.includes(person.id));
-    const itemTotal = personItems.reduce((sum, item) => sum + item.price / item.assignedTo.length, 0);
+    const personItems = items.filter(item => getEffectiveAssignees(item).includes(person.id));
+    const itemTotal = personItems.reduce((sum, item) => {
+      const assigneeCount = getEffectiveAssignees(item).length;
+      if (assigneeCount === 0) {
+        return sum;
+      }
+      return sum + item.price / assigneeCount;
+    }, 0);
     const tax = itemTotal * taxRate;
     const tip = itemSubtotal > 0 ? (itemTotal / itemSubtotal) * resolvedTip : 0;
 
@@ -106,7 +156,8 @@ export const computeSummary = ({
       ...person,
       items: personItems.map(item => ({
         ...item,
-        splitPrice: item.price / item.assignedTo.length
+        assignedTo: getEffectiveAssignees(item),
+        splitPrice: item.price / getEffectiveAssignees(item).length
       })),
       itemTotal,
       tax,
