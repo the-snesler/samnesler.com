@@ -1,3 +1,4 @@
+import { TAG_CONFIG } from '@/consts';
 import { file, glob } from 'astro/loaders';
 import { defineCollection, z } from 'astro:content';
 
@@ -39,7 +40,7 @@ const projectsCollection = defineCollection({
     hideMobile: z.boolean().default(false),
     containImage: z.boolean().default(false),
     containBackgroundColor: z.string().optional(),
-    tags: z.array(z.string()).default([])
+    tags: z.array(z.enum(Object.keys(TAG_CONFIG) as [string, ...string[]])).default([])
   })
 });
 

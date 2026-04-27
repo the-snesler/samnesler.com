@@ -1,13 +1,28 @@
 [
   {
+    "id": "strong-towns-madison",
+    "name": "Strong Towns Tax Explorer",
+    "href": "https://st-madison.dssd-madison.workers.dev/map",
+    "source": "https://github.com/DSSD-Madison/ST-Madison-Frontend",
+    "image": "stmadison.png",
+    "description": "A map of property tax data for the city of Madison, built with DSSD for Strong Towns' Madison chapter. I led the team of the maps and statistics pages, learning from my past work on DSSD's Red CORAL project.",
+    "year": "2026",
+    "size": 2,
+    "tags": [
+      "client"
+    ]
+  },
+  {
     "id": "ddw-theme-creator",
     "name": ".ddw Theme Creator",
     "href": "https://the-snesler.github.io/ddw-theme-creator/",
     "source": "https://github.com/the-snesler/ddw-theme-creator",
     "image": "ddwcreator.png",
-    "description": "A tool for creating custom dynamic desktop wallpapers for Win Dynamic Desktop.",
+    "description": "A modernized fork of a tool for creating custom dynamic desktop wallpapers for Win Dynamic Desktop.",
     "year": "2026",
-    "tags": ["experiment"]
+    "tags": [
+      "tool"
+    ]
   },
   {
     "id": "minecraft-fractal",
@@ -18,7 +33,10 @@
     "description": "A zoomable experiment where Minecraft textures recursively replace pixels for an infinite fractal effect.",
     "year": "2026",
     "size": 2,
-    "tags": ["experiment"]
+    "tags": [
+      "experiment",
+      "interactive"
+    ]
   },
   {
     "id": "paintball",
@@ -28,7 +46,10 @@
     "image": "paintball.png",
     "description": "An alternative frontend for multiple image generation models where you can bring your own API keys.",
     "year": "2026",
-    "tags": ["tool"]
+    "tags": [
+      "featured",
+      "tool"
+    ]
   },
   {
     "id": "restaurant-receipt-splitter",
@@ -57,9 +78,11 @@
     "href": "/tools/sb-reader.html",
     "source": "https://github.com/the-snesler/samnesler.com/blob/main/src/pages/tools/sb-reader.html",
     "image": "sbreader.png",
-    "description": "A lightweight reader for the Super Brothers webcomic designed to avoid the usual DeviantArt friction.",
+    "description": "A lightweight reader for the Super Brothers webcomic designed to avoid the friction of using DeviantArt.",
     "year": "2026",
-    "tags": ["experiment"]
+    "tags": [
+      "tool"
+    ]
   },
   {
     "id": "trakt-ical-generator",
@@ -78,7 +101,10 @@
     "image": "madhacks2025.png",
     "description": "Kahoot, but Jeopardy. A real-time trivia game built with websockets and Rust(!?) for MadHacks 2025.",
     "year": "2025",
-    "tags": ["hackathon"]
+    "tags": [
+      "hackathon",
+      "interactive"
+    ]
   },
   {
     "id": "weblabs-operation-weave",
@@ -88,7 +114,10 @@
     "description": "The second workshop event site for WebLabs' WebFest series, teaching participants SQL, REST APIs, and LLM tool calls through hands-on challenges.",
     "year": "2025",
     "size": 2,
-    "tags": ["school"]
+    "tags": [
+      "school",
+      "interactive"
+    ]
   },
   {
     "id": "bike-benefits-map",
@@ -109,7 +138,9 @@
     "image": "vibecheck.png",
     "description": "Creates an API key that lets an LLM agent share your location and Discord status.",
     "year": "2025",
-    "tags": ["tool"]
+    "tags": [
+      "experiment"
+    ]
   },
   {
     "id": "cs559-showcase",
@@ -160,7 +191,10 @@
     "year": "2024",
     "size": 2,
     "containImage": true,
-    "tags": ["tool"]
+    "tags": [
+      "tool",
+      "featured"
+    ]
   },
   {
     "id": "imagehound",
@@ -169,7 +203,9 @@
     "image": "imagehound.png",
     "description": "My interview take-home for Fetch, where I interned during the summer of 2025. A web app that displays dog images from an API and lets you select and search for specfiic breeds, all coded in a handful of hours in Svelte.",
     "year": "2024",
-    "tags": ["tool"]
+    "tags": [
+      "experiment"
+    ]
   },
   {
     "id": "staff-discord-bot",
@@ -179,7 +215,9 @@
     "description": "A Discord bot that accesses the Splatoon 3 API to get information about the game, like current shop and map rotations. It also let discord members vote for their favorite Splatfest teams.",
     "year": "2024",
     "hideMobile": true,
-    "tags": ["bot"]
+    "tags": [
+      "backend"
+    ]
   },
   {
     "id": "fcc-back-end-development-and-apis",
@@ -249,6 +287,8 @@
     "description": "The website you're currently on! Built with Astro, Tailwind CSS, and TypeScript.",
     "year": "2022",
     "size": 1,
-    "tags": ["meta"]
+    "tags": [
+      "personal"
+    ]
   }
 ]
