@@ -31,7 +31,7 @@ const projectsCollection = defineCollection({
   }),
   schema: z.object({
     name: z.string(),
-    href: z.string(),
+    href: z.string().optional(),
     source: z.string().optional(),
     image: z.string(),
     description: z.string(),

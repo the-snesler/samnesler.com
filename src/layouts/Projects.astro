@@ -24,7 +24,7 @@ const projects = projectsCollection
   .filter((project): project is NonNullable<typeof project> => project !== null);
 
 const usedTagSet = new Set(projects.flatMap(project => project.tags));
-const orderedTags = Object.keys(TAG_CONFIG).filter(tag => usedTagSet.has(tag));
+const orderedTags = Object.keys(TAG_CONFIG).filter(tag => usedTagSet.has(tag) && TAG_CONFIG[tag].visible !== false);
 ---
 
 <div class="my-3">

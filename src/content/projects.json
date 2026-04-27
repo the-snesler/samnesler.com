@@ -9,6 +9,8 @@
     "year": "2026",
     "size": 2,
     "tags": [
+      "featured",
+      "school",
       "client"
     ]
   },
@@ -95,6 +97,32 @@
     "tags": ["tool"]
   },
   {
+    "id": "liaforlax",
+    "name": "Lia for La Crosse",
+    "href": "https://liaforlax.com",
+    "source": "https://github.com/the-snesler/liaforlax.com",
+    "image": "liaforlax.png",
+    "description": "A site for a local political campaign, built with Astro and Tailwind CSS. I built the site and continue to maintain it, making updates as needed and helping with hosting and email setup.",
+    "year": "2026",
+    "size": 2,
+    "tags": [
+      "client"
+    ]
+  },
+  {
+    "id": "pjflamingos",
+    "name": "PJ and the Flamingos",
+    "href": "https://pjflamingos.com",
+    "source": "https://github.com/the-snesler/pjflamingos.com",
+    "image": "pjflamingos.png",
+    "description": "A site for a local jazz band, built with Astro, Tailwind CSS, and Contentful.",
+    "year": "2026",
+    "size": 1,
+    "tags": [
+      "client"
+    ]
+  },
+  {
     "id": "buckys-buzzer-beater",
     "name": "Bucky's Buzzer Beater",
     "href": "https://bbb.samnesler.com",
@@ -175,7 +203,11 @@
     "size": 2,
     "containImage": true,
     "containBackgroundColor": "#caffbd",
-    "tags": ["client"]
+    "tags": [
+      "featured",
+      "school",
+      "client"
+    ]
   },
   {
     "id": "linklooker",
