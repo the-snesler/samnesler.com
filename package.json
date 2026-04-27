@@ -28,6 +28,7 @@
     "@codemirror/legacy-modes": "^6.5.2",
     "@codemirror/state": "^6.5.2",
     "@codemirror/view": "^6.38.6",
+    "@formkit/auto-animate": "^0.9.0",
     "@hbsnow/rehype-sectionize": "^1.0.7",
     "@iconify-json/lucide": "^1.2.73",
     "@iconify-json/simple-icons": "^1.2.58",

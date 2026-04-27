@@ -6,6 +6,17 @@ import ProjectCard from '@/components/cards/ProjectCard.astro';
 const IMAGE_ASSET_BASE = '/src/assets/images/';
 const imageModules = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/*.{png,jpg,jpeg,webp}', { eager: true });
 
+const TAG_CONFIG: Record<string, { label: string; defaultActive: boolean }> = {
+  tool: { label: 'Tools', defaultActive: true },
+  school: { label: 'School', defaultActive: true },
+  hackathon: { label: 'Hackathons', defaultActive: true },
+  client: { label: 'Client work', defaultActive: true },
+  bot: { label: 'Bots', defaultActive: true },
+  meta: { label: 'Meta', defaultActive: true },
+  experiment: { label: 'Experiments', defaultActive: false },
+  cert: { label: 'Certifications', defaultActive: false }
+};
+
 const projectsCollection = await getCollection('projects');
 const projects = projectsCollection
   .map(project => {
@@ -21,9 +32,30 @@ const projects = projectsCollection
     };
   })
   .filter((project): project is NonNullable<typeof project> => project !== null);
+
+const usedTagSet = new Set(projects.flatMap(project => project.tags));
+const orderedTags = Object.keys(TAG_CONFIG).filter(tag => usedTagSet.has(tag));
 ---
 
-<div class="projects-wrapper relative my-3" data-collapsed="true">
+<div class="my-3">
+  <div class="filter-chips flex flex-wrap gap-2 pb-1" role="group" aria-label="Filter projects by tag">
+    {
+      orderedTags.map(tag => {
+        const config = TAG_CONFIG[tag];
+        return (
+          <button
+            type="button"
+            class="filter-chip border-current cursor-pointer rounded-full border-2 px-3 py-1 font-mono text-sm transition-colors hover:bg-white/10"
+            data-tag={tag}
+            data-active={String(config.defaultActive)}
+            aria-pressed={config.defaultActive}
+          >
+            {config.label}
+          </button>
+        );
+      })
+    }
+  </div>
   <div class="projects-grid grid w-full grid-flow-dense grid-cols-2 gap-4 pt-3 text-center md:grid-cols-4 lg:grid-cols-6">
     {
       projects.map(project => (
@@ -38,57 +70,87 @@ const projects = projectsCollection
           hideMobile={project.hideMobile}
           containImage={project.containImage}
           containBackgroundColor={project.containBackgroundColor}
+          tags={project.tags}
         />
       ))
     }
     <div
-      class="hover:text-accent flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-current bg-white/5 px-4 py-6 text-center transition-colors hover:bg-white/10"
+      class="see-more-tile hover:text-accent flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-current bg-white/5 px-4 py-6 text-center transition-colors hover:bg-white/10"
     >
       <a href="https://github.com/TetraTsunami" class="text-lg"> See more projects on my GitHub! </a>
     </div>
   </div>
-  <button
-    class="show-more-btn mx-auto mt-2 block cursor-pointer rounded-lg border-2 border-current px-6 py-2 font-mono text-lg transition-colors hover:bg-white/10"
-    type="button"
-  >
-    Show older
-  </button>
 </div>
 
 <style>
-  .projects-grid {
-    transition:
-      max-height 0.5s ease-out,
-      mask-image 0.3s ease-out;
+  .filter-chip[data-active='true'] {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-bkg);
   }
-
-  .projects-wrapper[data-collapsed='true'] .projects-grid {
-    max-height: 520px;
-    overflow: hidden;
-    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
-  }
-
-  @media (min-width: 768px) {
-    .projects-wrapper[data-collapsed='true'] .projects-grid {
-      max-height: 580px;
-    }
-  }
-
-  .projects-wrapper[data-collapsed='false'] .projects-grid {
-    max-height: 3000px;
-    mask-image: none;
-  }
-
-  .projects-wrapper[data-collapsed='false'] .show-more-btn {
-    display: none;
+  .filter-chip[data-active='true']:hover {
+    background-color: var(--color-accent);
+    filter: brightness(0.95);
   }
 </style>
 
 <script>
-  const wrapper = document.querySelector('.projects-wrapper');
-  const btn = wrapper?.querySelector('.show-more-btn');
+  import autoAnimate from '@formkit/auto-animate';
 
-  btn?.addEventListener('click', () => {
-    wrapper?.setAttribute('data-collapsed', 'false');
-  });
+  const grid = document.querySelector<HTMLElement>('.projects-grid');
+  const chipsRow = document.querySelector<HTMLElement>('.filter-chips');
+
+  if (grid && chipsRow) {
+    autoAnimate(grid, { duration: 250 });
+
+    const seeMoreTile = grid.querySelector<HTMLElement>('.see-more-tile');
+    const allCards = Array.from(grid.querySelectorAll<HTMLElement>('.project-card'));
+
+    const cardMatchesFilters = (card: HTMLElement, activeTags: Set<string>) => {
+      const tags = (card.dataset.tags ?? '').split(',').filter(Boolean);
+      if (tags.length === 0) return true;
+      return tags.some(tag => activeTags.has(tag));
+    };
+
+    const applyFilters = () => {
+      const activeTags = new Set(
+        Array.from(chipsRow.querySelectorAll<HTMLButtonElement>('.filter-chip[data-active="true"]'))
+          .map(btn => btn.dataset.tag)
+          .filter((tag): tag is string => Boolean(tag))
+      );
+
+      const visibleSet = new Set(allCards.filter(card => cardMatchesFilters(card, activeTags)));
+
+      for (const card of allCards) {
+        if (!visibleSet.has(card) && card.parentElement === grid) {
+          grid.removeChild(card);
+        }
+      }
+
+      for (let i = 0; i < allCards.length; i++) {
+        const card = allCards[i];
+        if (!visibleSet.has(card) || card.parentElement === grid) continue;
+
+        let nextInDom: HTMLElement | null = null;
+        for (let j = i + 1; j < allCards.length; j++) {
+          if (allCards[j].parentElement === grid) {
+            nextInDom = allCards[j];
+            break;
+          }
+        }
+        grid.insertBefore(card, nextInDom ?? seeMoreTile);
+      }
+    };
+
+    chipsRow.addEventListener('click', event => {
+      const chip = (event.target as HTMLElement).closest<HTMLButtonElement>('.filter-chip');
+      if (!chip) return;
+      const next = chip.dataset.active !== 'true';
+      chip.dataset.active = String(next);
+      chip.setAttribute('aria-pressed', String(next));
+      applyFilters();
+    });
+
+    applyFilters();
+  }
 </script>

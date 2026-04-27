@@ -6,7 +6,8 @@
     "source": "https://github.com/the-snesler/ddw-theme-creator",
     "image": "ddwcreator.png",
     "description": "A tool for creating custom dynamic desktop wallpapers for Win Dynamic Desktop.",
-    "year": "2026"
+    "year": "2026",
+    "tags": ["experiment"]
   },
   {
     "id": "minecraft-fractal",
@@ -16,7 +17,8 @@
     "image": "minecraftfractal.png",
     "description": "A zoomable experiment where Minecraft textures recursively replace pixels for an infinite fractal effect.",
     "year": "2026",
-    "size": 2
+    "size": 2,
+    "tags": ["experiment"]
   },
   {
     "id": "paintball",
@@ -25,7 +27,8 @@
     "source": "https://github.com/the-snesler/paintball-ai",
     "image": "paintball.png",
     "description": "An alternative frontend for multiple image generation models where you can bring your own API keys.",
-    "year": "2026"
+    "year": "2026",
+    "tags": ["tool"]
   },
   {
     "id": "restaurant-receipt-splitter",
@@ -35,7 +38,8 @@
     "image": "receipt.png",
     "description": "Scans a restaurant receipt, lets you assign entrees to people, then calculates tip and tax for a clean split.",
     "year": "2026",
-    "containImage": true
+    "containImage": true,
+    "tags": ["tool"]
   },
   {
     "id": "simplegif",
@@ -44,7 +48,8 @@
     "source": "https://github.com/the-snesler/simplegif",
     "image": "simplegif.png",
     "description": "A streamlined tool for creating, converting, cropping, and compressing GIFs.",
-    "year": "2026"
+    "year": "2026",
+    "tags": ["tool"]
   },
   {
     "id": "super-brothers-reader",
@@ -53,7 +58,8 @@
     "source": "https://github.com/the-snesler/samnesler.com/blob/main/src/pages/tools/sb-reader.html",
     "image": "sbreader.png",
     "description": "A lightweight reader for the Super Brothers webcomic designed to avoid the usual DeviantArt friction.",
-    "year": "2026"
+    "year": "2026",
+    "tags": ["experiment"]
   },
   {
     "id": "trakt-ical-generator",
@@ -62,7 +68,8 @@
     "source": "https://github.com/the-snesler/trakt-ical-feed",
     "image": "traktical.png",
     "description": "Generates an iCal feed from your Trakt calendar so you can track movie and show release dates.",
-    "year": "2026"
+    "year": "2026",
+    "tags": ["tool"]
   },
   {
     "id": "buckys-buzzer-beater",
@@ -70,7 +77,8 @@
     "href": "https://bbb.samnesler.com",
     "image": "madhacks2025.png",
     "description": "Kahoot, but Jeopardy. A real-time trivia game built with websockets and Rust(!?) for MadHacks 2025.",
-    "year": "2025"
+    "year": "2025",
+    "tags": ["hackathon"]
   },
   {
     "id": "weblabs-operation-weave",
@@ -79,7 +87,8 @@
     "image": "webfest2.png",
     "description": "The second workshop event site for WebLabs' WebFest series, teaching participants SQL, REST APIs, and LLM tool calls through hands-on challenges.",
     "year": "2025",
-    "size": 2
+    "size": 2,
+    "tags": ["school"]
   },
   {
     "id": "bike-benefits-map",
@@ -89,7 +98,8 @@
     "image": "bikebenefits.png",
     "description": "A map of all businesses in the US that offer Bike Benefits discounts, optimized for mobile.",
     "year": "2025",
-    "containImage": true
+    "containImage": true,
+    "tags": ["tool"]
   },
   {
     "id": "vibe-check",
@@ -98,7 +108,8 @@
     "source": "https://github.com/the-snesler/vibe-check",
     "image": "vibecheck.png",
     "description": "Creates an API key that lets an LLM agent share your location and Discord status.",
-    "year": "2025"
+    "year": "2025",
+    "tags": ["tool"]
   },
   {
     "id": "cs559-showcase",
@@ -106,7 +117,8 @@
     "href": "https://cs559featuredartists.github.io/",
     "image": "featuredart.png",
     "description": "The class project showcase site for CS559: Computer Graphics at UW-Madison.",
-    "year": "2025"
+    "year": "2025",
+    "tags": ["school"]
   },
   {
     "id": "fishbowl",
@@ -114,7 +126,8 @@
     "href": "https://the-snesler.github.io/cs559-p8/",
     "image": "fishbowl.png",
     "description": "A 3D fishbowl simulation built with pure WebGL. Loads in models and handwritten shaders! My final project for CS559: Computer Graphics at UW-Madison.",
-    "year": "2025"
+    "year": "2025",
+    "tags": ["school"]
   },
   {
     "id": "dssd-madison-red-coral",
@@ -125,7 +138,8 @@
     "year": "2024",
     "size": 2,
     "containImage": true,
-    "containBackgroundColor": "#caffbd"
+    "containBackgroundColor": "#caffbd",
+    "tags": ["client"]
   },
   {
     "id": "linklooker",
@@ -134,7 +148,8 @@
     "image": "linklooker.png",
     "description": "My first browser extension. Previews links using ChatGPT when you hover over them in Chrome and Firefox.",
     "year": "2024",
-    "containImage": true
+    "containImage": true,
+    "tags": ["tool"]
   },
   {
     "id": "github-discord-previews",
@@ -144,7 +159,8 @@
     "description": "A project that embeds Discord statuses in SVGs that can be easily placed anywhere. Built with an HTML frontend and React backend(!?).",
     "year": "2024",
     "size": 2,
-    "containImage": true
+    "containImage": true,
+    "tags": ["tool"]
   },
   {
     "id": "imagehound",
@@ -152,7 +168,8 @@
     "href": "https://the-snesler.github.io/imagehound/",
     "image": "imagehound.png",
     "description": "My interview take-home for Fetch, where I interned during the summer of 2025. A web app that displays dog images from an API and lets you select and search for specfiic breeds, all coded in a handful of hours in Svelte.",
-    "year": "2024"
+    "year": "2024",
+    "tags": ["tool"]
   },
   {
     "id": "staff-discord-bot",
@@ -161,7 +178,8 @@
     "image": "staff.png",
     "description": "A Discord bot that accesses the Splatoon 3 API to get information about the game, like current shop and map rotations. It also let discord members vote for their favorite Splatfest teams.",
     "year": "2024",
-    "hideMobile": true
+    "hideMobile": true,
+    "tags": ["bot"]
   },
   {
     "id": "fcc-back-end-development-and-apis",
@@ -170,7 +188,8 @@
     "image": "fcc_cert_backend.png",
     "description": "freeCodeCamp certification in backend development and APIs.",
     "year": "2023",
-    "containImage": true
+    "containImage": true,
+    "tags": ["cert"]
   },
   {
     "id": "fcc-front-end-web-development",
@@ -179,7 +198,8 @@
     "image": "fcc_cert_webdesign.png",
     "description": "freeCodeCamp responsive web design certification.",
     "year": "2022",
-    "containImage": true
+    "containImage": true,
+    "tags": ["cert"]
   },
   {
     "id": "fcc-js-algorithms-and-data-structures",
@@ -188,7 +208,8 @@
     "image": "fcc_cert_js.png",
     "description": "freeCodeCamp JavaScript algorithms and data structures certification.",
     "year": "2022",
-    "containImage": true
+    "containImage": true,
+    "tags": ["cert"]
   },
   {
     "id": "fcc-front-end-development-libraries",
@@ -197,7 +218,8 @@
     "image": "fcc_cert_frontend.png",
     "description": "freeCodeCamp front end development libraries certification.",
     "year": "2022",
-    "containImage": true
+    "containImage": true,
+    "tags": ["cert"]
   },
   {
     "id": "fcc-data-visualization",
@@ -206,7 +228,8 @@
     "image": "fcc_cert_datavis.png",
     "description": "freeCodeCamp data visualization certification.",
     "year": "2022",
-    "containImage": true
+    "containImage": true,
+    "tags": ["cert"]
   },
   {
     "id": "mark-neumann-for-congress",
@@ -215,7 +238,8 @@
     "image": "mnfc2.jpg",
     "description": "A Wordpress site for a local political campaign",
     "year": "2022",
-    "size": 2
+    "size": 2,
+    "tags": ["client"]
   },
   {
     "id": "portfolio-website",
@@ -224,6 +248,7 @@
     "image": "port_website.png",
     "description": "The website you're currently on! Built with Astro, Tailwind CSS, and TypeScript.",
     "year": "2022",
-    "size": 1
+    "size": 1,
+    "tags": ["meta"]
   }
 ]

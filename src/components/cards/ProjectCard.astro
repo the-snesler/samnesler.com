@@ -15,12 +15,16 @@ interface Props {
   containImage?: boolean;
   containBackgroundColor?: string;
   source?: string;
+  tags?: string[];
 }
 
-const { name, href, src, description, year, size = 1, hideMobile = false, containImage = false, containBackgroundColor, source } = Astro.props;
+const { name, href, src, description, year, size = 1, hideMobile = false, containImage = false, containBackgroundColor, source, tags = [] } = Astro.props;
 ---
 
-<HoverCard class:list={[{ 'col-span-1': size === 1, 'col-span-2': size === 2, 'col-span-3': size === 3, 'hidden sm:block': hideMobile }]}>
+<HoverCard
+  class:list={['project-card', { 'col-span-1': size === 1, 'col-span-2': size === 2, 'col-span-3': size === 3, 'hidden sm:block': hideMobile }]}
+  data-tags={tags.join(',')}
+>
   <div class="bg-bkg absolute inset-0" style={`background-color: ${containBackgroundColor};`}>
     {
       !containImage && typeof src !== 'string' ? (
