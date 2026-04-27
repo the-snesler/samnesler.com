@@ -3,6 +3,7 @@ import type { ImageMetadata } from 'astro';
 import Image from '@/components/Image.astro';
 
 import HoverCard from './HoverCard.astro';
+import { TAG_CONFIG } from '@/consts';
 
 interface Props {
   name: string;
@@ -15,12 +16,28 @@ interface Props {
   containImage?: boolean;
   containBackgroundColor?: string;
   source?: string;
+  tags?: string[];
 }
 
-const { name, href, src, description, year, size = 1, hideMobile = false, containImage = false, containBackgroundColor, source } = Astro.props;
+const {
+  name,
+  href,
+  src,
+  description,
+  year,
+  size = 1,
+  hideMobile = false,
+  containImage = false,
+  containBackgroundColor,
+  source,
+  tags = []
+} = Astro.props;
 ---
 
-<HoverCard class:list={[{ 'col-span-1': size === 1, 'col-span-2': size === 2, 'col-span-3': size === 3, 'hidden sm:block': hideMobile }]}>
+<HoverCard
+  class:list={['project-card', { 'col-span-1': size === 1, 'col-span-2': size === 2, 'col-span-3': size === 3, 'hidden sm:block': hideMobile }]}
+  data-tags={tags.join(',')}
+>
   <div class="bg-bkg absolute inset-0" style={`background-color: ${containBackgroundColor};`}>
     {
       !containImage && typeof src !== 'string' ? (
@@ -69,17 +86,29 @@ const { name, href, src, description, year, size = 1, hideMobile = false, contai
         <h3 class="pt-4 text-lg text-gray-700 dark:text-white">
           {name}
         </h3>
+        {tags.length > 0 && (
+          <div class="flex flex-wrap justify-center gap-1">
+            {tags.map(tag => (
+              <span class="bg-gray-200 text-gray-800 text-xs font-medium px-2 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">
+                {TAG_CONFIG[tag].label}
+              </span>
+            ))}
+          </div>
+        )}
         <p class="pb-2 text-left text-sm text-gray-600 dark:text-slate-300">
           {description}
-          {(href || source) && <br />}
+        </p>
+        {(href || source) && (
+          <hr class="border-gray-300 dark:border-gray-700 w-full" />
+          <p class="pb-4 text-sm text-gray-600 dark:text-slate-300 flex gap-1">
           {
-            href && (
-              <a href={href} class="hover:text-accent underline" target="_blank" rel="noopener noreferrer">
-                Live
-              </a>
-            )
+          href && (
+            <a href={href} class="hover:text-accent underline" target="_blank" rel="noopener noreferrer">
+              Live
+            </a>
+          )
           }
-          {href && source && ' - '}
+          {href && source && <span>-</span>}
           {
             source && (
               <a href={source} class="hover:text-accent underline" target="_blank" rel="noopener noreferrer">
@@ -87,7 +116,8 @@ const { name, href, src, description, year, size = 1, hideMobile = false, contai
               </a>
             )
           }
-        </p>
+          </p>
+        )}
       </div>
     </div>
   </div>
