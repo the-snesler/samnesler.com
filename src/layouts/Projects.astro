@@ -46,7 +46,9 @@ const orderedTags = Object.keys(TAG_CONFIG).filter(tag => usedTagSet.has(tag) &&
       })
     }
   </div>
-  <div class="projects-grid grid w-full grid-flow-dense auto-rows-[13rem] grid-cols-2 gap-4 pt-3 text-center md:grid-cols-4 lg:grid-cols-6">
+  <div
+    class="projects-grid can-hover:md:auto-rows-[13rem] grid w-full grid-flow-dense grid-cols-2 gap-4 pt-3 text-center md:grid-cols-4 lg:grid-cols-6"
+  >
     {
       projects.map(project => (
         <ProjectCard
