@@ -184,10 +184,10 @@
   },
   {
     "id": "github-discord-previews",
-    "name": "GitHub Discord Previews",
-    "href": "https://github.com/the-snesler/discord-github-preview",
+    "name": "GitHub Discord README",
+    "href": "https://github.com/the-snesler/discord-github-readme",
     "image": "https://dsc-readme.tsuni.dev/api/user/214167454291722241?theme=nitroLight&primaryColor=8080FF&accentColor=FF80C0",
-    "description": "A project that embeds Discord statuses in SVGs that can be easily placed anywhere. Built with an HTML frontend and React backend(!?).",
+    "description": "A project that embeds Discord statuses in SVGs that can be easily placed anywhere. Built with a vanilla HTML frontend and React backend(!?)",
     "year": "2024",
     "size": 2,
     "containImage": true,
