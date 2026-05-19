@@ -29,18 +29,6 @@
     ]
   },
   {
-    "id": "ddw-theme-creator",
-    "name": ".ddw Theme Creator",
-    "href": "https://the-snesler.github.io/ddw-theme-creator/",
-    "source": "https://github.com/the-snesler/ddw-theme-creator",
-    "image": "ddwcreator.png",
-    "description": "A modernized fork of a tool for creating custom dynamic desktop wallpapers for Win Dynamic Desktop.",
-    "year": "2026",
-    "tags": [
-      "tool"
-    ]
-  },
-  {
     "id": "minecraft-fractal",
     "name": "Minecraft Fractal",
     "href": "https://the-snesler.github.io/minecraft-fractal/",
@@ -48,7 +36,7 @@
     "image": "minecraftfractal.png",
     "description": "A zoomable experiment where Minecraft textures recursively replace pixels for an infinite fractal effect.",
     "year": "2026",
-    "size": 2,
+    "size": 1,
     "tags": [
       "experiment",
       "interactive"
@@ -62,6 +50,7 @@
     "image": "paintball.png",
     "description": "An alternative frontend for multiple image generation models where you can bring your own API keys.",
     "year": "2026",
+    "size": 2,
     "tags": [
       "featured",
       "tool"
@@ -85,6 +74,7 @@
     "source": "https://github.com/the-snesler/simplegif",
     "image": "simplegif.png",
     "description": "A streamlined tool for creating, converting, cropping, and compressing GIFs.",
+    "size": 2,
     "year": "2026",
     "tags": ["tool"]
   },
@@ -214,7 +204,7 @@
     "image": "redcoral.jpg",
     "description": "An open-source club project that I led. A web app for a non-profit in South America that filters, sorts, and visualizes crime data on a map, table, and other charts.",
     "year": "2024",
-    "size": 2,
+    "size": 1,
     "containImage": true,
     "containBackgroundColor": "#caffbd",
     "tags": [
