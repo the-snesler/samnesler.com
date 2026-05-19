@@ -1,5 +1,19 @@
 [
   {
+    "id": "thedefense",
+    "name": "The Defense",
+    "href": "https://defense.samnesler.com",
+    "source": "https://github.com/the-snesler/the-defense",
+    "image": "thedefense.png",
+    "description": "A game of absurd courtroom drama, once again heavily inspired by Jackbox party games. Built as a final project for a theatre improvisation class. The README.md has the rules.",
+    "year": "2026",
+    "tags": [
+      "featured",
+      "interactive",
+      "school"
+    ]
+  },
+  {
     "id": "strong-towns-madison",
     "name": "Strong Towns Tax Explorer",
     "href": "https://st-madison.dssd-madison.workers.dev/map",
@@ -224,11 +238,11 @@
     "name": "GitHub Discord README",
     "href": "https://dsc-readme.tsuni.dev",
     "source": "https://github.com/the-snesler/discord-github-readme",
-    "image": "https://dsc-readme.tsuni.dev/api/user/214167454291722241?theme=nitroLight&primaryColor=8080FF&accentColor=FF80C0",
+    "image": "gh_dsc_preview.png",
     "description": "A project that embeds Discord statuses in SVGs that can be easily placed anywhere. Built with a vanilla HTML frontend and React backend(!?)",
     "year": "2024",
     "size": 2,
-    "containImage": true,
+    "containImage": false,
     "tags": [
       "tool",
       "featured"

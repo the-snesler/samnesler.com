@@ -4,8 +4,8 @@ import { getCollection } from 'astro:content';
 import ProjectCard from '@/components/cards/ProjectCard.astro';
 import { TAG_CONFIG } from '@/consts';
 
-const IMAGE_ASSET_BASE = '/src/assets/images/';
-const imageModules = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/*.{png,jpg,jpeg,webp}', { eager: true });
+const IMAGE_ASSET_BASE = '/src/assets/images/projects/';
+const imageModules = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/projects/*.{png,jpg,jpeg,webp}', { eager: true });
 
 const projectsCollection = await getCollection('projects');
 const projects = projectsCollection
