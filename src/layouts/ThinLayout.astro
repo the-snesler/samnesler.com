@@ -3,12 +3,17 @@ import '@/styles/global.css';
 
 import Font from 'astro/components/Font.astro';
 
+import BaseHead from '@/components/BaseHead.astro';
+
 interface Props {
   metadata?: {
     title?: string;
     description?: string;
     image?: string;
+    imageAlt?: string;
     url?: string;
+    type?: string;
+    jsonLd?: Record<string, unknown> | Record<string, unknown>[];
   };
   fancyBackground?: boolean;
 }
@@ -23,24 +28,13 @@ const { metadata = {} } = Astro.props;
     <Font cssVariable="--font-rubik" />
     <Font cssVariable="--font-neon" />
     <link rel="preconnect" href="https://net.tsuni.dev" />
-    <link rel="sitemap" href="/sitemap-index.xml" />
     <script is:inline defer data-domain="tsuni.dev" src="https://net.tsuni.dev/js/script.js"></script>
     <script>
       addEventListener('load', () => {
         document.documentElement.classList.remove('noAnimate');
       });
     </script>
-    <title>{metadata?.title || 'Sam Nesler'}</title>
-    <meta name="description" content={metadata?.description || "Sam's lovely site"} />
-    <meta name="image" content={metadata?.image || 'https://tsuni.dev/images/port_website.png'} />
-    <meta name="url" content={metadata?.url || 'https://tsuni.dev'} />
-    <meta name="theme-color" content="#fbcfe8" />
-    <link
-      rel="alternate"
-      type="application/rss+xml"
-      title="Sam Nesler RSS Feed"
-      href={new URL("rss.xml", Astro.site)}
-    />
+    <BaseHead {metadata} />
   </head>
   <body>
     <slot />
