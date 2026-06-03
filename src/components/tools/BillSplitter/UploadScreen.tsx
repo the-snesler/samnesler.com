@@ -13,22 +13,7 @@ export default function UploadScreen({ onImage, parsing, error }: UploadScreenPr
   const [dragOver, setDragOver] = useState(false);
 
   return (
-    <div className="flex min-h-screen flex-col px-5 pt-6 pb-6">
-      <div className="mb-8 pt-5 text-center">
-        <div className="mb-2 text-[40px]">🍜</div>
-        <h1
-          className="mb-1 text-[30px] font-bold tracking-[-0.02em]"
-          style={{
-            fontFamily: "'Fraunces', serif"
-          }}
-        >
-          Split the Bill
-        </h1>
-        <p className="m-0 text-[15px] leading-normal" style={{ color: palette.textSoft }}>
-          Scan a receipt. Assign items. Done.
-        </p>
-      </div>
-
+    <div className="flex flex-col px-5 pt-6 pb-6">
       <div
         onDragOver={event => {
           event.preventDefault();

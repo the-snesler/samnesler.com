@@ -1,0 +1,52 @@
+---
+interface Props {
+  metadata?: {
+    title?: string;
+    description?: string;
+    image?: string;
+    imageAlt?: string;
+    url?: string;
+    type?: string;
+    jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  };
+}
+
+const { metadata = {} } = Astro.props;
+
+const title = metadata.title || 'Sam Nesler';
+const description = metadata.description || "Sam's lovely site";
+const image = metadata.image || 'https://tsuni.dev/images/port_website.png';
+const imageAlt = metadata.imageAlt || title;
+const type = metadata.type || 'website';
+
+// Canonical / og:url always point at the production site, regardless of the
+// host the page is served from.
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+---
+
+<link rel="sitemap" href="/sitemap-index.xml" />
+<link rel="canonical" href={canonical} />
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="image" content={image} />
+<meta name="url" content={canonical} />
+<meta name="theme-color" content="#fbcfe8" />
+
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content="Sam Nesler" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={image} />
+<meta property="og:image:alt" content={imageAlt} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={image} />
+
+<link rel="alternate" type="application/rss+xml" title="Sam Nesler RSS Feed" href={new URL('rss.xml', Astro.site)} />
+
+{metadata.jsonLd && <script type="application/ld+json" set:html={JSON.stringify(metadata.jsonLd)} is:inline />}

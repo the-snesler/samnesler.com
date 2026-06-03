@@ -1,15 +1,197 @@
 ---
 import BillSplitterTool from '@/components/tools/BillSplitter/BillSplitter';
+import { FONT_LINK, palette } from '@/components/tools/BillSplitter/styles';
 import ThinLayout from '@/layouts/ThinLayout.astro';
+
+const title = 'Receipt Splitter — Scan a Receipt & Split the Bill Free';
+const description =
+  'Free online receipt splitter. Snap a photo of your receipt, assign items to each person, and split the total with tax and tip — no signup, works on any phone.';
+
+const canonical = new URL('/tools/bill-splitter', Astro.site).toString();
+
+const steps = [
+  {
+    name: 'Upload a receipt photo',
+    text: 'Take a photo of your receipt or drag in an image. The receipt is scanned automatically and every line item is read for you.'
+  },
+  {
+    name: 'Assign items to people',
+    text: 'Add the people sharing the bill and tap to assign each item. Shared items are split evenly between everyone on them.'
+  },
+  {
+    name: 'Split the total with tax and tip',
+    text: "Set tax and tip as a percentage or a flat amount. You'll get a clear per-person total that adds up to the receipt."
+  }
+];
+
+const features = [
+  'Scans receipts automatically — no manual typing of every line item.',
+  'Split items between any number of people, including shared dishes.',
+  'Add tax and tip as a percentage or a flat amount.',
+  'Works in the browser on any phone or laptop — nothing to install.',
+  'Completely free with no account or signup required.'
+];
+
+const faqs = [
+  {
+    q: 'How do you split a restaurant bill by item?',
+    a: 'Upload a photo of the receipt, add everyone sharing the bill, then assign each line item to the person who ordered it. Items shared by several people are divided evenly between them, and tax and tip are split in proportion to each person’s subtotal.'
+  },
+  {
+    q: 'Is the receipt splitter free?',
+    a: 'Yes. The receipt splitter is completely free to use, with no account, signup, or app download required.'
+  },
+  {
+    q: 'How is tax and tip divided between people?',
+    a: 'Tax and tip are shared proportionally to what each person ordered, so someone who spent more covers a larger share. You can enter tax and tip as a percentage or as a flat dollar amount.'
+  },
+  {
+    q: 'Do you store my receipt photos?',
+    a: 'Your receipt photo is sent to the server only to read the items on it, and the split itself is calculated in your browser. Photos are not saved to your account because there is no account.'
+  },
+  {
+    q: 'Can I split a bill between more than two people?',
+    a: 'Yes. You can add as many people as you like and assign any item to one person or share it across the whole group.'
+  }
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Receipt Splitter',
+    url: canonical,
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Web',
+    description,
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD'
+    },
+    creator: {
+      '@type': 'Person',
+      name: 'Sam Nesler',
+      url: 'https://samnesler.com'
+    }
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: 'How to split a receipt between people',
+    description: 'Split a restaurant or grocery receipt by item and share tax and tip fairly.',
+    step: steps.map((step, index) => ({
+      '@type': 'HowToStep',
+      position: index + 1,
+      name: step.name,
+      text: step.text
+    }))
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map(faq => ({
+      '@type': 'Question',
+      name: faq.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.a
+      }
+    }))
+  }
+];
 ---
 
 <ThinLayout
   metadata={{
-    title: 'Bill Splitter',
-    description: 'Scan a receipt, assign items to people, and split the total with tax and tip.'
+    title,
+    description,
+    type: 'website',
+    jsonLd
   }}
 >
-  <BillSplitterTool client:load />
+  <link href={FONT_LINK} rel="stylesheet" />
+
+  <main class="mx-auto w-full max-w-[480px] px-5" style={{ fontFamily: "'DM Sans', sans-serif", color: palette.text }}>
+    <header class="pt-12 pb-2 text-center">
+      <div class="mb-2 text-[40px]">🍜</div>
+      <h1 class="mb-2 text-[34px] leading-tight font-bold tracking-[-0.02em]" style={{ fontFamily: "'Fraunces', serif" }}>Receipt Splitter</h1>
+      <p class="mx-auto mb-5 max-w-[36ch] text-[16px] leading-relaxed" style={{ color: palette.textSoft }}>
+        Snap a photo of your receipt, assign items to each person, and split the total with tax and tip — instantly. Free, no signup.
+      </p>
+      <ul class="mx-auto flex max-w-[28ch] flex-col gap-1.5 text-left text-[14px]" style={{ color: palette.textSoft }}>
+        <li>📷 Scans your receipt automatically</li>
+        <li>👥 Splits items across any number of people</li>
+        <li>🧮 Shares tax &amp; tip fairly</li>
+      </ul>
+    </header>
+
+    <BillSplitterTool client:load />
+
+    <section class="border-t pt-10 pb-2" style={{ borderColor: palette.border }}>
+      <h2 class="mb-5 text-[24px] font-bold tracking-[-0.01em]" style={{ fontFamily: "'Fraunces', serif" }}>How it works</h2>
+      <ol class="flex flex-col gap-5">
+        {
+          steps.map((step, index) => (
+            <li class="flex gap-3.5">
+              <span
+                class="flex h-8 w-8 flex-none items-center justify-center rounded-full text-[15px] font-semibold"
+                style={{ background: palette.accentSoft, color: palette.accent }}
+              >
+                {index + 1}
+              </span>
+              <div>
+                <h3 class="mb-1 text-[16px] font-semibold">{step.name}</h3>
+                <p class="m-0 text-[14px] leading-relaxed" style={{ color: palette.textSoft }}>
+                  {step.text}
+                </p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section class="mt-10 border-t pt-10" style={{ borderColor: palette.border }}>
+      <h2 class="mb-5 text-[24px] font-bold tracking-[-0.01em]" style={{ fontFamily: "'Fraunces', serif" }}>Why use it</h2>
+      <ul class="flex flex-col gap-3">
+        {
+          features.map(feature => (
+            <li class="flex gap-2.5 text-[15px] leading-relaxed">
+              <span aria-hidden="true" style={{ color: palette.green }}>
+                ✓
+              </span>
+              <span>{feature}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="mt-10 border-t pt-10" style={{ borderColor: palette.border }}>
+      <h2 class="mb-5 text-[24px] font-bold tracking-[-0.01em]" style={{ fontFamily: "'Fraunces', serif" }}>Frequently asked questions</h2>
+      <div class="flex flex-col gap-6">
+        {
+          faqs.map(faq => (
+            <div>
+              <h3 class="mb-1.5 text-[16px] font-semibold">{faq.q}</h3>
+              <p class="m-0 text-[14px] leading-relaxed" style={{ color: palette.textSoft }}>
+                {faq.a}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <footer class="mt-10 border-t py-10 text-center text-[13px]" style={{ borderColor: palette.border, color: palette.textSoft }}>
+      <p class="m-0">
+        Your receipt photo is only used to read the items on it. Built by{' '}
+        <a href="https://samnesler.com" style={{ color: palette.accent }}> Sam Nesler </a>
+        .
+      </p>
+    </footer>
+  </main>
 </ThinLayout>
 
 <style is:global>

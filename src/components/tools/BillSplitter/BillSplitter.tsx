@@ -90,7 +90,7 @@ export default function BillSplitter() {
     <>
       <link href={FONT_LINK} rel="stylesheet" />
       <div
-        className="relative mx-auto min-h-screen max-w-[480px]"
+        className="relative mx-auto max-w-[480px]"
         style={{
           fontFamily: "'DM Sans', sans-serif",
           background: palette.bg,
