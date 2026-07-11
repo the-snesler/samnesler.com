@@ -1,5 +1,19 @@
 [
   {
+    "id": "aside",
+    "name": "Aside",
+    "href": "https://aside.tsuni.dev",
+    "source": "https://github.com/the-snesler/aside",
+    "image": "aside.png",
+    "description": "Aside is a local-first notetaking app for notes at the speed of thought (it looks a little like Discord). It works offline and syncs between your devices, and has thoughtful AI when you want it. I built the app with RxDB and Preact as a personal project to learn about databases.",
+    "year": "2026",
+    "size": 2,
+    "tags": [
+      "featured",
+      "personal"
+    ]
+  },
+  {
     "id": "thedefense",
     "name": "The Defense",
     "href": "https://defense.samnesler.com",
@@ -23,8 +37,6 @@
     "year": "2026",
     "size": 2,
     "tags": [
-      "featured",
-      "school",
       "client"
     ]
   },
@@ -208,8 +220,6 @@
     "containImage": true,
     "containBackgroundColor": "#caffbd",
     "tags": [
-      "featured",
-      "school",
       "client"
     ]
   },
