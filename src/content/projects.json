@@ -1,5 +1,15 @@
 [
   {
+    "id": "shelfie",
+    "name": "Shelfie",
+    "source": "https://github.com/the-snesler/shelfie",
+    "image": "shelfie.png",
+    "shortType": "selfhosted app",
+    "description": "Shelfie is a self-hosted web app for managing your media watch history, a bit like Trakt but supporting movies, TV shows, books, and video games. It has a skeumorphic interface designed to feel slick and fast, while looking like a physical shelf of media.",
+    "year": "2026",
+    "category": "tool"
+  },
+  {
     "id": "aside",
     "name": "Aside",
     "href": "https://aside.tsuni.dev",
