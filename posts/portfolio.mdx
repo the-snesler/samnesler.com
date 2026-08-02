@@ -64,6 +64,19 @@ This is where your site will live. Beyond storing code, GitHub offers several ot
 
 Astro is static site builder with _zero_ JS by default, unless you opt in. It's perfect for beginners that want a little extra sauce out of their HTML. You'll get components (like React) but no runtime overhead, and you can do cool things like Markdown-based blogs without needing a CMS.
 
+> [!question]- What does it mean for a site to be static?
+> A static site is a website that is made up of files that are downloaded and rendered by a browser, like HTML, CSS, and JavaScript. These files are "static" because their contents don't change often. The alternative would be a _dynamic_ site, which uses a server to assemble the same files on-the-fly. Static sites are faster and cheaper to host, and are perfectly servicable for sites where everyone sees the same thing.
+
+> [!QUESTION]- What is Markdown?
+> Markdown is a lightweight markup language that allows you to write formatted text in plain text files. Markdown files are typically saved with a `.md` extension and can be easily converted to HTML. As a result, they're widely used for writing content on the web. Some places you might've seen Markdown are GitHub READMEs, Discord, Reddit, Notion, or Obsidian. It's a great way to write content without spending lots of time fussing with HTML tags.
+>
+> Astro's markdown support uses specifically [GitHub-flavored Markdown](https://github.github.com/gfm/), which is a superset of the original Markdown spec.
+>
+> This blog post is written in Markdown, and you can see how it looks in the [source code](https://github.com/the-snesler/samnesler.com/tree/main/posts/portfolio.mdx)! You'll notice the extension is `.mdx`, which is a special version of Markdown that allows you to use React components inside your Markdown files. This post doesn't use that feature, but Astro supports MDX too.
+
+> [!question]- What's a CMS?
+> A CMS (Content Management System) is a software application that allows you to create, manage, and modify content on a website without needing to write code. For example, WordPress and Contentful are popular CMSes. Usually if you want to customize a site beyond included themes, you need to dig into the code anyway. I've built Astro sites that are driven by a CMS, but that's more complicated than we have time for today.
+
 ## Porting to Astro
 
 Your HTML/CSS from CodePen drops in _almost_ unchanged.
@@ -106,11 +119,13 @@ It's live, and it's that simple.
 > GitHub Actions is a way to automate tasks in your GitHub repository, like running tests, building your code, or deploying your site. It essentially lets you briefly borrow a completely clean computer to run your code, and then throw it away when you're done. In this case, we're using it to build our Astro site (which needs to run code to build) and deploy it to GitHub Pages. You can think of it as a way to run your code in the cloud, without needing to set up a server or anything like that.
 
 > [!question]- How can GitHub pages be free?
-> GitHub Pages only works for static files (so just HTML, CSS, JS and images). This means that you can't run any server-side code (like PHP or Node.js) on GitHub Pages, because GitHub doesn't run a server for you. Instead, your GitHub action will produce a handful of those HTML/CSS files, which GitHub stores up on a CDN, and your visitor's browsers do the work of rendering them. Serving static files is cheap enough that GitHub can afford to do it for free.
+> GitHub Pages only works for static files (so just HTML, CSS, JS and images). This means that you can't run any server-side code (like PHP or Node.js) on GitHub Pages, because GitHub doesn't run a server for you. Instead, your GitHub action will produce a handful of those HTML/CSS files, which GitHub stores up on a CDN (content delivery network- a server that's very good at serving static files), and your visitor's browsers do the work of rendering them. Serving static files is cheap enough that GitHub can afford to do it for free.
 >
 > Also, it's technically only free for public repositories, which means that anyone can see your code. GitHub does this partially because they want to encourage open-source development and collaboration, and partially because they're owned by Microsoft and can eat the cost.
 >
-> CloudFlare is another company that does free static hosting, and in their case they serve something like 20% of all websites through their CDN. In their case, the marginal cost of storing a couple megabytes of data on the CDN that other people are already paying for is negligible, so they can afford to give it away for free.
+> Cloudflare is another company that does free static hosting, and in their case they serve something like 20% of all websites through their CDN. For them, the marginal cost of storing a couple megabytes of data on the CDN that other people are already paying for is negligible, so they can afford to give it away for free. There are also many more benefits, so much so that they wrote a blog post about it: https://blog.cloudflare.com/cloudflares-commitment-to-free
+>
+> This site is currently hosted on Cloudflare Workers, which is a free _dynamic_ hosting service that can run server-side code. That's how things like the guestbook work, since I need a very small database to store the drawings.
 
 # Step 4: Add Images
 
@@ -131,13 +146,6 @@ Let's add some photos while we're here. You can do this from the GitHub web inte
 This part would have been a live demo in the in-person workshop, so it's a little more informal, and there unfortunately are no template repos for you to copy. Now that we've got a wonderful portfolio site with all our projects and images, let's add a blog to it. This is a great way to show off your skills and share resources (like this workshop) with the world.
 
 Astro's content collections allow you to create a blog with Markdown files. You can write your posts in (effectively) plain text, and Astro will take care of the rest. We'll also be using something called "frontmatter" to add metadata to your posts, like the title, date, and image.
-
-> [!QUESTION]- What is Markdown?
-> Markdown is a lightweight markup language that allows you to write formatted text in plain text files. Markdown files are typically saved with a `.md` extension and can be easily converted to HTML. As a result, they're widely used for writing content on the web. Some places you might've seen Markdown are GitHub READMEs, Discord, Reddit, Notion, or Obsidian. It's a great way to write content without spending lots of time fussing with HTML tags.
->
-> Astro's markdown support uses specifically [GitHub-flavored Markdown](https://github.github.com/gfm/), which is a superset of the original Markdown spec.
->
-> This blog post is written in Markdown, and you can see how it looks in the [source code](https://github.com/the-snesler/samnesler.com/tree/main/posts/portfolio.mdx)! You'll notice the extension is `.mdx`, which is a special version of Markdown that allows you to use React components inside your Markdown files. This post doesn't use that feature, but Astro supports MDX too.
 
 ## 1. Open up GitHub Codespaces
 
