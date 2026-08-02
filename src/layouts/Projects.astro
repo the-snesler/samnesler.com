@@ -28,7 +28,7 @@ const projects = projectsCollection
 
 const byYearDesc = (a: (typeof projects)[number], b: (typeof projects)[number]) => Number(b.year) - Number(a.year);
 
-const featured = projects.filter(project => project.category === 'featured').sort(byYearDesc);
+const featured = projects.filter(project => project.featured);
 
 const groups = Object.entries(PROJECT_CATEGORIES)
   .filter(([key]) => key !== 'featured')
@@ -87,7 +87,6 @@ const groups = Object.entries(PROJECT_CATEGORIES)
                 description={project.description}
                 year={project.year}
                 shortType={project.shortType}
-                hideMobile={project.hideMobile}
                 containImage={project.containImage}
                 containBackgroundColor={project.containBackgroundColor}
               />

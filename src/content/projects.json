@@ -18,8 +18,8 @@
     "shortType": "selfhosted app",
     "description": "Aside is a local-first notetaking app for notes at the speed of thought (it looks a little like Discord). It works offline and syncs between your devices, and has thoughtful AI when you want it. I built the app with RxDB and Preact as a personal project to learn about databases.",
     "year": "2026",
-    "size": 2,
-    "category": "featured"
+    "featured": true,
+    "category": "tool"
   },
   {
     "id": "thedefense",
@@ -66,7 +66,8 @@
     "description": "An alternative frontend for multiple image generation models where you can bring your own API keys.",
     "year": "2026",
     "size": 2,
-    "category": "featured"
+    "featured": true,
+    "category": "tool"
   },
   {
     "id": "restaurant-receipt-splitter",
@@ -242,7 +243,8 @@
     "year": "2024",
     "size": 2,
     "containImage": false,
-    "category": "featured"
+    "featured": true,
+    "category": "tool"
   },
   {
     "id": "imagehound",
@@ -263,7 +265,6 @@
     "shortType": "Discord bot",
     "description": "A Discord bot that accesses the Splatoon 3 API to get information about the game, like current shop and map rotations. It also let discord members vote for their favorite Splatfest teams.",
     "year": "2024",
-    "hideMobile": true,
     "category": "personal"
   },
   {

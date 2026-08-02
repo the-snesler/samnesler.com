@@ -37,10 +37,9 @@ const projectsCollection = defineCollection({
     shortType: z.string(),
     description: z.string(),
     year: z.string(),
-    size: z.union([z.literal(1), z.literal(2), z.literal(3)]).optional(),
-    hideMobile: z.boolean().default(false),
     containImage: z.boolean().default(false),
     containBackgroundColor: z.string().optional(),
+    featured: z.boolean().default(false),
     category: z.enum(Object.keys(PROJECT_CATEGORIES) as [string, ...string[]])
   })
 });

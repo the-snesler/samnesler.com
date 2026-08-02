@@ -12,19 +12,18 @@ interface Props {
   description: string;
   year: string;
   shortType: string;
-  hideMobile?: boolean;
   containImage?: boolean;
   containBackgroundColor?: string;
 }
 
-const { id, name, href, source, src, description, year, shortType, hideMobile = false, containImage = false, containBackgroundColor } = Astro.props;
+const { id, name, href, source, src, description, year, shortType, containImage = false, containBackgroundColor } = Astro.props;
 
 const bgStyle = containBackgroundColor ? `background-color:${containBackgroundColor};` : undefined;
 const thumbStyle = `${bgStyle ?? ''}view-transition-name: project-photo-${id};`;
 const fitClass = containImage ? 'object-contain' : 'object-cover';
 ---
 
-<details class:list={['group/row', { 'hidden sm:block': hideMobile }]} data-project-row>
+<details class:list={['group/row']} name="projects" data-project-row>
   <summary class="hover:text-accent flex cursor-pointer list-none items-center gap-3 py-2 marker:content-none [&::-webkit-details-marker]:hidden">
     <span class="bg-bkg relative block h-10 w-10 shrink-0 overflow-hidden rounded-md group-open/row:hidden" style={thumbStyle} data-thumb-slot>
       {
@@ -35,7 +34,7 @@ const fitClass = containImage ? 'object-contain' : 'object-cover';
         )
       }
     </span>
-    <span class="w-10 h-10 group-open/row:inline-block hidden shrink-0"></span>
+    <span class="hidden h-10 w-10 shrink-0 group-open/row:inline-block"></span>
     <span class="min-w-0 flex-1 truncate font-mono font-bold">{name}</span>
     <span class="text-content/50 hidden shrink-0 font-mono text-sm sm:inline">{shortType}</span>
     <span class="text-content/40 shrink-0 font-mono text-sm">'{year.slice(-2)}</span>
