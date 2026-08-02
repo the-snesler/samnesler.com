@@ -41,11 +41,13 @@ const fitClass = containImage ? 'object-contain' : 'object-cover';
     <Icon name="lucide:chevron-down" size={16} class="text-content/40 shrink-0 transition-transform group-open/row:rotate-180" />
   </summary>
   <div class="flex flex-col gap-3 py-3 pl-13">
-    <span
-      class="bg-bkg relative block aspect-video w-full max-w-sm overflow-hidden rounded-lg"
+    <button
+      type="button"
+      class="group bg-bkg relative block aspect-video w-full max-w-sm cursor-zoom-in overflow-hidden rounded-lg"
       style={bgStyle}
       data-vt-name={`project-photo-${id}`}
       data-expanded-slot
+      aria-label={`View larger image of ${name}`}
     >
       {
         typeof src === 'string' ? (
@@ -61,7 +63,12 @@ const fitClass = containImage ? 'object-contain' : 'object-cover';
           />
         )
       }
-    </span>
+      <span
+        class="absolute inset-0 flex items-center justify-center bg-black/0 opacity-0 transition-[opacity,background-color] group-hover:bg-black/30 group-hover:opacity-100 group-focus-visible:bg-black/30 group-focus-visible:opacity-100"
+      >
+        <Icon name="lucide:maximize-2" size={22} class="text-white drop-shadow" />
+      </span>
+    </button>
     <p class="text-content/75 max-w-prose text-sm">{description}</p>
     {
       (href || source) && (
@@ -83,37 +90,105 @@ const fitClass = containImage ? 'object-contain' : 'object-cover';
   </div>
 </details>
 
+<dialog
+  class="m-auto overflow-visible border-0 bg-transparent p-0 backdrop:bg-black/80 backdrop:backdrop-blur-sm"
+  data-lightbox
+  aria-label={`${name} screenshot`}
+>
+  <div class="relative inline-block" style={bgStyle} data-vt-name={`project-photo-${id}`} data-lightbox-image>
+    <button
+      type="button"
+      class="bg-bkg text-content hover:text-accent absolute -top-3 -right-3 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full shadow-lg"
+      data-lightbox-close
+      aria-label="Close"
+    >
+      <Icon name="lucide:x" size={18} />
+    </button>
+    {
+      typeof src === 'string' ? (
+        <img src={src} alt={name} class="block max-h-[85vh] max-w-[90vw] rounded-lg object-contain" />
+      ) : (
+        <Image
+          src={src}
+          alt={name}
+          widths={[400, 800, 1400]}
+          sizes="90vw"
+          quality={80}
+          class="block max-h-[85vh] max-w-[90vw] rounded-lg object-contain"
+        />
+      )
+    }
+  </div>
+</dialog>
+
 <script>
   const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const withTransition = (mutate: () => void) => {
+    if (document.startViewTransition && !reduceMotion()) {
+      document.startViewTransition(mutate);
+    } else {
+      mutate();
+    }
+  };
 
   for (const row of document.querySelectorAll<HTMLDetailsElement>('[data-project-row]')) {
     const summary = row.querySelector('summary');
     const thumb = row.querySelector<HTMLElement>('[data-thumb-slot]');
     const expanded = row.querySelector<HTMLElement>('[data-expanded-slot]');
+    const dialog = row.nextElementSibling as HTMLDialogElement | null;
+    const lightboxImage = dialog?.querySelector<HTMLElement>('[data-lightbox-image]');
     const vtName = expanded?.dataset.vtName;
-    if (!summary || !thumb || !expanded || !vtName) continue;
 
-    summary.addEventListener('click', event => {
-      event.preventDefault();
-      const willOpen = !row.open;
+    if (summary && thumb && expanded && vtName) {
+      summary.addEventListener('click', event => {
+        event.preventDefault();
+        const willOpen = !row.open;
 
-      const mutate = () => {
-        row.open = willOpen;
-        if (willOpen) {
-          expanded.style.viewTransitionName = vtName;
-          thumb.style.viewTransitionName = '';
-        } else {
-          thumb.style.viewTransitionName = vtName;
+        withTransition(() => {
+          row.open = willOpen;
+          if (willOpen) {
+            expanded.style.viewTransitionName = vtName;
+            thumb.style.viewTransitionName = '';
+          } else {
+            thumb.style.viewTransitionName = vtName;
+            expanded.style.viewTransitionName = '';
+          }
+        });
+      });
+    }
+
+    if (expanded && dialog && lightboxImage && vtName) {
+      const openLightbox = () => {
+        withTransition(() => {
+          dialog.showModal();
+          lightboxImage.style.viewTransitionName = vtName;
           expanded.style.viewTransitionName = '';
-        }
+        });
       };
 
-      if (document.startViewTransition && !reduceMotion()) {
-        document.startViewTransition(mutate);
-      } else {
-        mutate();
-      }
-    });
+      const closeLightbox = () => {
+        withTransition(() => {
+          dialog.close();
+          expanded.style.viewTransitionName = vtName;
+          lightboxImage.style.viewTransitionName = '';
+        });
+      };
+
+      expanded.addEventListener('click', openLightbox);
+      dialog.querySelector('[data-lightbox-close]')?.addEventListener('click', closeLightbox);
+
+      dialog.addEventListener('click', event => {
+        const rect = dialog.getBoundingClientRect();
+        const inBounds = event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom;
+        if (!inBounds) closeLightbox();
+      });
+
+      dialog.addEventListener('cancel', event => {
+        event.preventDefault();
+        closeLightbox();
+      });
+    }
   }
 </script>
 

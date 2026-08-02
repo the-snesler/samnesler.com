@@ -28,7 +28,7 @@
     "source": "https://github.com/the-snesler/the-defense",
     "image": "thedefense.png",
     "shortType": "party game",
-    "description": "A game of absurd courtroom drama, once again heavily inspired by Jackbox party games. Built as a final project for a theatre improvisation class. The README.md has the rules.",
+    "description": "A game of absurd courtroom drama, once again heavily inspired by Jackbox party games. Players debate absurd claims in front of a jury of their peers, with one side arguing for and another side against. Built as a final project for a theatre improvisation class.",
     "year": "2026",
     "category": "interactive"
   },
@@ -41,7 +41,6 @@
     "shortType": "web app",
     "description": "A map of property tax data for the city of Madison, built with DSSD for Strong Towns' Madison chapter. I led the team of the maps and statistics pages, learning from my past work on DSSD's Red CORAL project.",
     "year": "2026",
-    "size": 2,
     "category": "client"
   },
   {
@@ -53,7 +52,6 @@
     "shortType": "toy",
     "description": "A zoomable experiment where Minecraft textures recursively replace pixels for an infinite fractal effect.",
     "year": "2026",
-    "size": 1,
     "category": "interactive"
   },
   {
@@ -65,7 +63,6 @@
     "shortType": "web app",
     "description": "An alternative frontend for multiple image generation models where you can bring your own API keys.",
     "year": "2026",
-    "size": 2,
     "featured": true,
     "category": "tool"
   },
@@ -89,7 +86,6 @@
     "image": "simplegif.png",
     "shortType": "web app",
     "description": "A streamlined tool for creating, converting, cropping, and compressing GIFs.",
-    "size": 2,
     "year": "2026",
     "category": "tool"
   },
@@ -124,7 +120,6 @@
     "shortType": "web site",
     "description": "A site for a local political campaign, built with Astro and Tailwind CSS. I built the site and continue to maintain it, making updates as needed and helping with hosting and email setup.",
     "year": "2026",
-    "size": 2,
     "category": "client"
   },
   {
@@ -136,7 +131,6 @@
     "shortType": "web site",
     "description": "A site for a local jazz band, built with Astro, Tailwind CSS, and Contentful.",
     "year": "2026",
-    "size": 1,
     "category": "client"
   },
   {
@@ -145,7 +139,7 @@
     "href": "https://bbb.samnesler.com",
     "source": "https://github.com/the-snesler/buckys-buzzer-beater",
     "image": "madhacks2025.png",
-    "shortType": "trivia game",
+    "shortType": "party game",
     "description": "Kahoot, but Jeopardy. A real-time trivia game built with websockets and Rust(!?) for MadHacks 2025.",
     "year": "2025",
     "category": "interactive"
@@ -159,7 +153,6 @@
     "shortType": "ARG site/workshop",
     "description": "The second workshop event site for WebLabs' WebFest series, teaching participants SQL, REST APIs, and LLM tool calls through hands-on challenges.",
     "year": "2025",
-    "size": 2,
     "category": "school"
   },
   {
@@ -216,7 +209,6 @@
     "shortType": "web app",
     "description": "An open-source club project that I led. A web app for a non-profit in South America that filters, sorts, and visualizes crime data on a map, table, and other charts.",
     "year": "2024",
-    "size": 1,
     "containImage": true,
     "containBackgroundColor": "#caffbd",
     "category": "client"
@@ -241,7 +233,6 @@
     "shortType": "web app/API",
     "description": "A project that embeds Discord statuses in SVGs that can be easily placed anywhere. Built with a vanilla HTML frontend and React backend(!?)",
     "year": "2024",
-    "size": 2,
     "containImage": false,
     "featured": true,
     "category": "tool"
@@ -330,7 +321,6 @@
     "shortType": "web site",
     "description": "A Wordpress site for a local political campaign",
     "year": "2022",
-    "size": 2,
     "category": "client"
   },
   {
@@ -341,7 +331,6 @@
     "shortType": "web site",
     "description": "The website you're currently on! Built with Astro, Tailwind CSS, and TypeScript.",
     "year": "2022",
-    "size": 1,
     "category": "personal"
   }
 ]
