@@ -119,7 +119,7 @@ export default function ComposeConverter() {
         return;
       }
       // Convert each command and combine
-      let composeYaml = composerize(commands.join('\n'), null, 'latest', 2);
+      let composeYaml = composerize(commands.join('\n'), null, 'latest', 2) as string;
       composeYaml = composeYaml.replace(/# named volume.*\n/g, '');
       // remove 'external: true' and 'name: volume_name' lines from volumes that were created via 'docker volume create'
       volumes.forEach(volumeName => {
