@@ -1,5 +1,6 @@
 ---
 import BackgroundWater from '@/components/water/BackgroundWater.astro';
+import BackgroundSeafloor from '@/components/seafloor/BackgroundSeafloor.astro';
 import Guestbook from '@/components/guestbook/Guestbook';
 import HomeHero from '@/components/HomeHero.astro';
 import Projects from '@/layouts/Projects.astro';
@@ -11,9 +12,10 @@ import RecentPosts from '@/components/posts/RecentPosts.astro';
 <Layout fancyBackground>
   <BackgroundWater />
   <main class="relative flex flex-col pt-16 pb-8">
+    <BackgroundSeafloor />
     <HomeHero />
     <div
-      class="bg-bkg/55 shadow-i-lg container mb-32 flex w-full max-w-7xl flex-col gap-24 self-center rounded-3xl px-1 pt-24 pb-8 backdrop-blur-sm transition-colors sm:mx-4 md:mx-8 md:px-6 lg:mx-16"
+      class="bg-bkg/55 shadow-i-lg container mb-56 flex w-full max-w-7xl flex-col gap-24 self-center rounded-3xl px-1 pt-24 pb-8 backdrop-blur-sm transition-colors sm:mx-4 md:mx-8 md:px-6 lg:mx-16"
     >
       <div class="grid gap-8 lg:grid-cols-2">
         <section id="about">

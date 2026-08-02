@@ -1,0 +1,103 @@
+---
+import type { SeafloorConfig } from './types.js';
+
+interface Props extends SeafloorConfig {
+  class?: string;
+}
+
+const { height = 500, subdivisions = 192, animationSpeed = 1.0, terrainAmplitude = 0.9, class: className = '', ...rest } = Astro.props;
+---
+
+{/* z-[-1] keeps the band behind the page's own (unpositioned) content but in front of Background.astro's -10 layer. */}
+<div class="pointer-events-none absolute right-0 bottom-0 left-0 z-[-1] overflow-hidden" style={{ height: `${height}px` }}>
+  <canvas
+    id="seafloor-canvas"
+    height={height / 4}
+    class:list={['pixelated pointer-events-none absolute bottom-0 w-full mask-t-to-95%', className]}
+    style={{ minHeight: `${height}px` }}
+    data-height={height}
+    data-subdivisions={subdivisions}
+    data-animation-speed={animationSpeed}
+    data-terrain-amplitude={terrainAmplitude}
+    {...rest}></canvas>
+</div>
+
+<script>
+  import { SeafloorEffect } from './SeafloorEffect.ts';
+
+  let seafloor: SeafloorEffect | null = null;
+  let observer: IntersectionObserver | null = null;
+
+  function sizeCanvas(canvas: HTMLCanvasElement) {
+    canvas.width = Math.max(1, Math.round(window.innerWidth / 4));
+    canvas.style.minWidth = `${window.innerWidth}px`;
+  }
+
+  function initSeafloor() {
+    const canvas = document.getElementById('seafloor-canvas') as HTMLCanvasElement | null;
+    if (!canvas) return;
+
+    sizeCanvas(canvas);
+
+    const config = {
+      height: parseInt(canvas.dataset.height || '500'),
+      subdivisions: parseInt(canvas.dataset.subdivisions || '192'),
+      animationSpeed: parseFloat(canvas.dataset.animationSpeed || '1.0'),
+      terrainAmplitude: parseFloat(canvas.dataset.terrainAmplitude || '0.9')
+    };
+
+    try {
+      seafloor = new SeafloorEffect(canvas, config);
+    } catch (error) {
+      // WebGL2 unavailable or context creation refused — the page background stands alone.
+      console.warn('WebGL seafloor effect failed to initialize:', error);
+      canvas.style.display = 'none';
+      return;
+    }
+
+    observer = new IntersectionObserver(
+      entries => {
+        for (const entry of entries) {
+          if (!seafloor) continue;
+          if (entry.isIntersecting && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            seafloor.resume();
+          } else {
+            seafloor.pause();
+          }
+        }
+      },
+      { threshold: 0 }
+    );
+    observer.observe(canvas);
+  }
+
+  function handleResize() {
+    const canvas = document.getElementById('seafloor-canvas') as HTMLCanvasElement | null;
+    if (!seafloor || !canvas) return;
+    sizeCanvas(canvas);
+    seafloor.resize(canvas.width, canvas.height);
+  }
+
+  function handleMotionPreference() {
+    if (!seafloor) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      seafloor.pause();
+    } else {
+      seafloor.resume();
+    }
+  }
+
+  function cleanup() {
+    seafloor?.destroy();
+    seafloor = null;
+    observer?.disconnect();
+    observer = null;
+  }
+
+  initSeafloor();
+
+  window.addEventListener('resize', handleResize);
+  window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', handleMotionPreference);
+  handleMotionPreference();
+  window.addEventListener('beforeunload', cleanup);
+</script>
