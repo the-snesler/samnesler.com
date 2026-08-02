@@ -116,3 +116,15 @@ const fitClass = containImage ? 'object-contain' : 'object-cover';
     });
   }
 </script>
+
+<style is:global>
+  ::view-transition-old(*) {
+    animation: none;
+    opacity: 0;
+  }
+
+  ::view-transition-new(*) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+</style>
