@@ -1,0 +1,119 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Icon } from 'astro-icon/components';
+import Image from '@/components/Image.astro';
+
+interface Props {
+  id: string;
+  name: string;
+  href?: string;
+  source?: string;
+  src: ImageMetadata | string;
+  description: string;
+  year: string;
+  shortType: string;
+  hideMobile?: boolean;
+  containImage?: boolean;
+  containBackgroundColor?: string;
+}
+
+const { id, name, href, source, src, description, year, shortType, hideMobile = false, containImage = false, containBackgroundColor } = Astro.props;
+
+const bgStyle = containBackgroundColor ? `background-color:${containBackgroundColor};` : undefined;
+const thumbStyle = `${bgStyle ?? ''}view-transition-name: project-photo-${id};`;
+const fitClass = containImage ? 'object-contain' : 'object-cover';
+---
+
+<details class:list={['group/row', { 'hidden sm:block': hideMobile }]} data-project-row>
+  <summary class="hover:text-accent flex cursor-pointer list-none items-center gap-3 py-2 marker:content-none [&::-webkit-details-marker]:hidden">
+    <span class="bg-bkg relative block h-10 w-10 shrink-0 overflow-hidden rounded-md group-open/row:hidden" style={thumbStyle} data-thumb-slot>
+      {
+        typeof src === 'string' ? (
+          <img src={src} alt="" class:list={['h-full w-full', fitClass]} />
+        ) : (
+          <Image src={src} alt="" widths={[60, 120]} sizes="40px" quality={60} class:list={['h-full w-full', fitClass]} />
+        )
+      }
+    </span>
+    <span class="w-10 h-10 group-open/row:inline-block hidden shrink-0"></span>
+    <span class="min-w-0 flex-1 truncate font-mono font-bold">{name}</span>
+    <span class="text-content/50 hidden shrink-0 font-mono text-sm sm:inline">{shortType}</span>
+    <span class="text-content/40 shrink-0 font-mono text-sm">'{year.slice(-2)}</span>
+    <Icon name="lucide:chevron-down" size={16} class="text-content/40 shrink-0 transition-transform group-open/row:rotate-180" />
+  </summary>
+  <div class="flex flex-col gap-3 py-3 pl-13">
+    <span
+      class="bg-bkg relative block aspect-video w-full max-w-sm overflow-hidden rounded-lg"
+      style={bgStyle}
+      data-vt-name={`project-photo-${id}`}
+      data-expanded-slot
+    >
+      {
+        typeof src === 'string' ? (
+          <img src={src} alt={name} class:list={['h-full w-full', fitClass]} />
+        ) : (
+          <Image
+            src={src}
+            alt={name}
+            widths={[300, 600]}
+            sizes="(max-width: 640px) 90vw, 400px"
+            quality={75}
+            class:list={['h-full w-full', fitClass]}
+          />
+        )
+      }
+    </span>
+    <p class="text-content/75 max-w-prose text-sm">{description}</p>
+    {
+      (href || source) && (
+        <p class="flex gap-2 text-sm">
+          {href && (
+            <a href={href} class="hover:text-accent underline" target="_blank" rel="noopener noreferrer">
+              Live
+            </a>
+          )}
+          {href && source && <span class="text-content/30">—</span>}
+          {source && (
+            <a href={source} class="hover:text-accent underline" target="_blank" rel="noopener noreferrer">
+              Source
+            </a>
+          )}
+        </p>
+      )
+    }
+  </div>
+</details>
+
+<script>
+  const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  for (const row of document.querySelectorAll<HTMLDetailsElement>('[data-project-row]')) {
+    const summary = row.querySelector('summary');
+    const thumb = row.querySelector<HTMLElement>('[data-thumb-slot]');
+    const expanded = row.querySelector<HTMLElement>('[data-expanded-slot]');
+    const vtName = expanded?.dataset.vtName;
+    if (!summary || !thumb || !expanded || !vtName) continue;
+
+    summary.addEventListener('click', event => {
+      event.preventDefault();
+      const willOpen = !row.open;
+
+      const mutate = () => {
+        row.open = willOpen;
+        if (willOpen) {
+          expanded.style.viewTransitionName = vtName;
+          thumb.style.viewTransitionName = '';
+        } else {
+          thumb.style.viewTransitionName = vtName;
+          expanded.style.viewTransitionName = '';
+        }
+      };
+
+      if (document.startViewTransition && !reduceMotion()) {
+        document.startViewTransition(mutate);
+      } else {
+        mutate();
+      }
+    });
+  }
+</script>

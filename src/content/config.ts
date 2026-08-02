@@ -1,4 +1,4 @@
-import { TAG_CONFIG } from '@/consts';
+import { PROJECT_CATEGORIES } from '@/consts';
 import { file, glob } from 'astro/loaders';
 import { defineCollection, z } from 'astro:content';
 
@@ -34,13 +34,14 @@ const projectsCollection = defineCollection({
     href: z.string().optional(),
     source: z.string().optional(),
     image: z.string(),
+    shortType: z.string(),
     description: z.string(),
     year: z.string(),
     size: z.union([z.literal(1), z.literal(2), z.literal(3)]).optional(),
     hideMobile: z.boolean().default(false),
     containImage: z.boolean().default(false),
     containBackgroundColor: z.string().optional(),
-    tags: z.array(z.enum(Object.keys(TAG_CONFIG) as [string, ...string[]])).default([])
+    category: z.enum(Object.keys(PROJECT_CATEGORIES) as [string, ...string[]])
   })
 });
 
