@@ -1,5 +1,6 @@
 ---
 import BackgroundWater from '@/components/water/BackgroundWater.astro';
+import Chat from '@/components/chat/Chat';
 import BackgroundSeafloor from '@/components/seafloor/BackgroundSeafloor.astro';
 import Guestbook from '@/components/guestbook/Guestbook';
 import HomeHero from '@/components/HomeHero.astro';
@@ -54,6 +55,11 @@ import RecentPosts from '@/components/posts/RecentPosts.astro';
           <RecentPosts />
         </section>
       </div>
+      <section id="ask">
+        <h2 class={`text-left text-3xl md:text-4xl font-semibold mb-4 font-mono ${textStyles.terminal}`}>ask ./sam</h2>
+        <p class="text-lg">Ask about my work and this agent will dig through my projects, posts, and notes to answer.</p>
+        <Chat client:visible />
+      </section>
       <section id="projects">
         <h2 class={`text-left text-3xl md:text-4xl font-semibold mb-4 font-mono ${textStyles.terminal}`}>cat ./projects</h2>
         <Projects />

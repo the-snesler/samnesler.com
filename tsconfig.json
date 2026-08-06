@@ -17,6 +17,6 @@
     "skipLibCheck": true,
     "types": ["vite-plugin-glsl/ext"]
   },
-  "include": [".astro/types.d.ts", "src/**/*"],
+  "include": [".astro/types.d.ts", "src/**/*", "worker-configuration.d.ts"],
   "exclude": ["node_modules", "dist", "public"]
 }

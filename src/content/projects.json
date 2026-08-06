@@ -6,6 +6,7 @@
     "image": "shelfie.png",
     "shortType": "selfhosted app",
     "description": "Shelfie is a self-hosted web app for managing your media watch history, a bit like Trakt but supporting movies, TV shows, books, and video games. It has a skeumorphic interface designed to feel slick and fast, while looking like a physical shelf of media.",
+    "longDescription": "Shelfie is a TypeScript self-hosted media library built around the feeling of a physical shelf. Its client and server can run locally or in Docker, and it pulls metadata for games from IGDB, movies and TV from TMDB, and books from Goodreads.\n\nIt is a useful counterpart to Aside: both are personal, self-hosted tools, but Shelfie organizes the media someone owns and experiences instead of quick notes and links. They both have the same architecture of a Docker container with a Hono backend serving a React frontend, using RxDB for syncing and local storage.",
     "year": "2026",
     "category": "tool"
   },
@@ -17,6 +18,7 @@
     "image": "aside.png",
     "shortType": "selfhosted app",
     "description": "Aside is a local-first notetaking app for notes at the speed of thought (it looks a little like Discord). It works offline and syncs between your devices, and has thoughtful AI when you want it. I built the app with RxDB and Preact as a personal project to learn about databases.",
+    "longDescription": "Aside is a local-first notes workspace for capturing an idea, link, or quote immediately and organizing it later. Notes can be saved offline and synchronized across devices, then placed into multiple channels alongside attachments, link previews, search, and feeds from X, RSS, or webhooks. Its optional ambient AI can suggest channels for new notes, and the app can export to Markdown, HTML, or PDF.\n\nThe app uses Preact and RxDB on the client and can be self-hosted in one Docker Compose service with SQLite and local blob/feed data. That makes it a close companion to Shelfie: both explore personal, self-hosted software, but they model different kinds of collections.",
     "year": "2026",
     "featured": true,
     "category": "tool"
@@ -29,17 +31,19 @@
     "image": "thedefense.png",
     "shortType": "party game",
     "description": "A game of absurd courtroom drama, once again heavily inspired by Jackbox party games. Players debate absurd claims in front of a jury of their peers, with one side arguing for and another side against. Built as a final project for a theatre improvisation class.",
+    "longDescription": "The Defense is a 4–10 player courtroom party game with a host screen and phones or browsers acting as player controllers. Players combine secretly submitted subjects and predicates into absurd claims, then debate FOR and AGAINST in timed rounds while the audience asks questions and votes on a verdict. A second round, point pot, leaderboard, and optional Best Claim superlative complete the game loop.\n\nIts monorepo separates a React web client, a small Bun WebSocket relay, and shared TypeScript/Zod message definitions. The host owns the game rules and state while the backend is a dumb message pipe, a pattern that contrasts with Bucky's Buzzer Beater's latency-sensitive quiz server and complements the deception format of N of Us Are Lying. The host's frontend has a XState state machine that handles everything, and the backend is just a dumb pipe.",
     "year": "2026",
     "category": "interactive"
   },
   {
     "id": "strong-towns-madison",
-    "name": "DSSD Madison - Strong Towns Tax Explorer",
+    "name": "Strong Towns Tax Explorer",
     "href": "https://st-madison.dssd-madison.workers.dev/map",
     "source": "https://github.com/DSSD-Madison/ST-Madison-Frontend",
     "image": "stmadison.png",
     "shortType": "web app",
     "description": "A map of property tax data for the city of Madison, built with DSSD for Strong Towns' Madison chapter. I led the team of the maps and statistics pages, learning from my past work on DSSD's Red CORAL project.",
+    "longDescription": "This SvelteKit/Vite frontend gives Strong Towns' Madison chapter a map and statistics-oriented way to explore property-tax data. The map side includes filtering, property lookup, and markers, while the statistics side includes reusable charts and a tax explorer with assessment, land-efficiency, breakdown, and trend views. It depends on a separate backend for the project data.\n\nSam led the maps and statistics pages with Data Science for Sustainable Development - Madison, carrying lessons from the earlier Red CORAL project into another civic-data mapping interface. The two projects share the challenge of making dense geographic and tabular information useful without reducing it to a single map. The Minecraft Fractal project is a more playful graphics experiment, but it also works a bit like a map.",
     "year": "2026",
     "category": "client"
   },
@@ -51,6 +55,7 @@
     "image": "minecraftfractal.png",
     "shortType": "toy",
     "description": "A zoomable experiment where Minecraft textures recursively replace pixels for an infinite fractal effect.",
+    "longDescription": "Minecraft Fractal is a browser proof of concept for recursively replacing the pixels of a Minecraft block grid with more Minecraft textures. Users provide a folder of 16×16 PNG block textures, and the build step generates the block data and atlases used by the zoomable experiment. In theory the recursion can keep going indefinitely, although the render becomes slower as the zoom deepens.\n\nIt is a compact graphics toy rather than a game or editor. The recursive texture idea is a different kind of experiment from Fishbowl's 3D WebGL scene, but both show Sam using a small visual system to explore how far a browser-rendered image can be pushed. In practice, it works a lot like a map with infinite zoom, which is a useful parallel to the map-heavy Strong Towns Madison and Red CORAL projects.",
     "year": "2026",
     "category": "interactive"
   },
@@ -62,6 +67,7 @@
     "image": "paintball.png",
     "shortType": "web app",
     "description": "An alternative frontend for multiple image generation models where you can bring your own API keys.",
+    "longDescription": "Paintball is a browser-heavy image-generation gallery that can send work to models from Replicate, OpenAI, and Google through a Cloudflare Worker proxy. Its React Router 7 and Zustand client supports concurrent generations, an editor with comparisons and history, reference images, custom aspect ratios, upscaling, and drag-and-drop gallery workflows. Embeddings are computed locally so old images can be searched semantically.\n\nThe project treats AI as part of an interactive creative tool rather than a single chat box. That makes an interesting contrast with LinkLooker, which uses AI to explain links, and with the receipt splitter, where AI is used for one narrow extraction step before deterministic calculations take over.",
     "year": "2026",
     "featured": true,
     "category": "tool"
@@ -74,6 +80,7 @@
     "image": "receipt.png",
     "shortType": "web app",
     "description": "Scans a restaurant receipt, lets you assign entrees to people, then calculates tip and tax for a clean split.",
+    "longDescription": "The receipt splitter is a focused React workflow for turning a photographed restaurant receipt into a fair split. The client preprocesses and optionally crops the image, sends it to the site's bill-splitter endpoint for parsing, then lets the user assign items to people before calculating tax and tip in a summary view. Its state tracks the receipt items, people, tax mode, tip mode, and values separately.\n\nThe AI portion is deliberately narrow: OpenAI-backed parsing extracts structured receipt data, while the rest of the interaction and final arithmetic are ordinary client-side logic. In that sense it is the opposite of Paintball's open-ended multi-model gallery, even though both projects put an AI service behind a hands-on interface.",
     "year": "2026",
     "containImage": true,
     "category": "tool"
@@ -86,6 +93,7 @@
     "image": "simplegif.png",
     "shortType": "web app",
     "description": "A streamlined tool for creating, converting, cropping, and compressing GIFs.",
+    "longDescription": "SimpleGIF is a local-first Svelte editor for common GIF operations: conversion, cropping, frame-rate changes, optimization, resizing, reversing, rotation, frame skipping, sequencing, and trimming. The repository keeps the processing pipeline in the browser-facing app, with decoder/encoder code, an ffmpeg bridge, and a bundled gifsicle path rather than a server-side media workflow.\n\nThe result is a deliberately narrow utility with a set of small, composable tools instead of a social media editor. Like Super Brothers Reader, it is designed to remove friction from one repetitive browser task, but SimpleGIF transforms a user's local file while the reader organizes an existing comic.",
     "year": "2026",
     "category": "tool"
   },
@@ -97,6 +105,7 @@
     "image": "sbreader.png",
     "shortType": "web app",
     "description": "A lightweight reader for the Super Brothers webcomic designed to avoid the friction of using DeviantArt.",
+    "longDescription": "Super Brothers Reader is a standalone HTML, CSS, and JavaScript comic reader for the Super Brothers webcomic. It loads the comic's chapters and pages into a responsive interface with a chapter selector, paged navigation, a continuous scroll mode, keyboard and click zones, a progress bar, and mobile-specific layout adjustments.\n\nThere is no framework-heavy application layer here: the project is intentionally a small reader that makes browsing less awkward than navigating the original source site. Its paged-versus-scroll choice is a reader-specific counterpart to SimpleGIF's collection of focused editing modes.",
     "year": "2026",
     "category": "tool"
   },
@@ -108,6 +117,7 @@
     "image": "traktical.png",
     "shortType": "web app/API",
     "description": "Generates an iCal feed from your Trakt calendar so you can track movie and show release dates.",
+    "longDescription": "Trakt iCal Generator connects a Trakt watchlist to the calendar apps people already use. After Trakt OAuth, a Cloudflare Worker stores the account/session state with D1 and KV, encrypts the saved OAuth token, and returns a standard iCal subscription containing upcoming show episodes and movie releases. Google Calendar, Apple Calendar, Outlook, and other URL-subscription clients can consume the same feed.\n\nThe project is a good example of a small edge service doing translation instead of building a new destination UI: it turns Trakt data into an interoperable calendar format. Like Vibe Check, it uses Cloudflare's storage primitives and a narrow API surface, but the data is entertainment scheduling rather than personal presence.",
     "year": "2026",
     "category": "tool"
   },
@@ -119,6 +129,7 @@
     "image": "liaforlax.png",
     "shortType": "web site",
     "description": "A site for a local political campaign, built with Astro and Tailwind CSS. I built the site and continue to maintain it, making updates as needed and helping with hosting and email setup.",
+    "longDescription": "Lia for La Crosse is a campaign site for Lia Manock's La Crosse County Board District 17 campaign. It is built with Astro and Tailwind CSS and organizes the campaign's message into responsive sections for priorities, endorsements, background, and volunteer signup; the signup form uses an Astro action. Sam built and continues to maintain the site, including hosting and email setup.\n\nThis is one of the client sites where the technical work has to stay subordinate to a real organization and its ongoing updates. It shares that practical, content-led shape with PJ and the Flamingos, though the visual language and campaign workflow are completely different.",
     "year": "2026",
     "category": "client"
   },
@@ -130,8 +141,21 @@
     "image": "pjflamingos.png",
     "shortType": "web site",
     "description": "A site for a local jazz band, built with Astro, Tailwind CSS, and Contentful.",
+    "longDescription": "PJ and the Flamingos is a website for a local jazz band, built with Astro, Tailwind CSS, and Contentful. The repository has dedicated event and photo components, a Contentful client, band imagery, and a custom Britannic font, so the site can present both the band's identity and changing performance information without hard-coding every page.\n\nLike Lia for La Crosse, it is a maintained client-facing site rather than a one-off demo. The interesting difference is the content model: the campaign site is organized around priorities and endorsements, while PJ and the Flamingos uses a CMS-backed presentation for events and photos.",
     "year": "2026",
     "category": "client"
+  },
+  {
+    "id": "n-of-us",
+    "name": "N of Us Are Lying",
+    "href": "https://nofus.samnesler.com",
+    "source": "https://github.com/the-snesler/n-of-us-are-lying",
+    "image": "nofus.png",
+    "shortType": "party game",
+    "description": "A game of deception and deduction. Players describe a random Wikipedia article, but only one of them has actually read it. Their goal is to convince the others that they know what they're talking about.",
+    "longDescription": "N of Us Are Lying is a multiplayer deception game inspired by Tom Scott's Two of These People Are Lying and Jackbox's Fibbage. Each player reads a couple of random Wikipedia articles and writes summaries; when an article appears, the person who actually read it has to sound convincing while everyone else invents a plausible explanation. Players present, answer questions, vote on fake summaries, and earn points for spotting the truth or fooling the room.\n\nThe design uses personal devices for writing and voting and a 16:9 host screen for the shared article and round state. It sits next to The Defense and Bucky's Buzzer Beater in Sam's collection of games that turn phones into controllers, but its central mechanic is social deduction rather than debate or speed. Of the three, N of Us was started first, and its bones were used to build Bucky's Buzzer Beater before eventually being completed. The host frontend has the XState state machine and the backend is just a dumb pipe between it and the players' frontends.",
+    "year": "2025",
+    "category": "interactive"
   },
   {
     "id": "buckys-buzzer-beater",
@@ -140,7 +164,8 @@
     "source": "https://github.com/the-snesler/buckys-buzzer-beater",
     "image": "madhacks2025.png",
     "shortType": "party game",
-    "description": "Kahoot, but Jeopardy. A real-time trivia game built with websockets and Rust(!?) for MadHacks 2025.",
+    "description": "Jeopardy, but your phone is the buzzer and your laptop is the game board. A real-time trivia game built with websockets and Rust(!?) for MadHacks 2025.",
+    "longDescription": "Bucky's Buzzer Beater is a real-time quiz game that combines a Jeopardy-style category grid with Kahoot-style phone buzzers. A host selects questions and verifies answers while players race to buzz in; the project includes latency-aware buzzing, custom question sets, support for an arbitrary number of players, and a separate projection window that can show the board without spoiling answers.\n\nThe repository is an apps monorepo with a Rust WebSocket server and a React/Vite web app covering the host, player, lobby, and display views. Like The Defense, it separates the shared screen from controller devices, but the technical focus here is ordering real-time buzzes instead of coordinating timed courtroom phases. The frontend was initially based off of N of Us Are Lying, but was modified. Unlike those other two games, where the host's frontend holds the game state machine, the Rust server is the source of truth for Bucky's Buzzer Beater. The previous MadHacks 2024 also involved a similar Rust/WebSocket project (suggested by the same friends, and Sam's team did not finish in time) so in order to have something to test the frontend against, Sam built an entirely separate Node reference backend server.",
     "year": "2025",
     "category": "interactive"
   },
@@ -152,6 +177,7 @@
     "image": "webfest2.png",
     "shortType": "ARG site/workshop",
     "description": "The second workshop event site for WebLabs' WebFest series, teaching participants SQL, REST APIs, and LLM tool calls through hands-on challenges.",
+    "longDescription": "WebLabs Operation Weave is the second workshop/event site in WebLabs' WebFest series, presented as an ARG-like sequence of hands-on challenges. Its SvelteKit app teaches SQL, REST APIs, and LLM tool calls through interactive documentation and runnable interfaces, including CodeMirror editors, a SQL.js-backed SQLite experience, REST clients, and AI API routes.\n\nThe project runs with the Cloudflare adapter and includes static/generated data for its exercises. It has a useful parallel with the chat agent on this site: both make tool calls part of the user-facing learning experience, but Operation Weave teaches the mechanics of those calls instead of answering questions about Sam.",
     "year": "2025",
     "category": "school"
   },
@@ -163,6 +189,7 @@
     "image": "bikebenefits.png",
     "shortType": "web app",
     "description": "A map of all businesses in the US that offer Bike Benefits discounts, optimized for mobile.",
+    "longDescription": "Bike Benefits Map is a mobile-first React 18/Vite/Tailwind PWA for finding US businesses that offer discounts to cyclists. A dark Mapbox map shows business markers, live location, distance sorting, category filters, bike routes, and estimated cycling times, while PWA support lets it behave more like an app when added to a home screen. A Cloudflare Worker provides the backend edge layer.\n\nThe project shares a map-first problem with Strong Towns Madison and Red CORAL, but its goal is much more immediate: help someone decide where they can bike and shop next. It was built quickly for a hackathon, which makes the focused mobile workflow part of its character. The Minecraft Fractal project is a more playful graphics experiment, but it also works a bit like a map.",
     "year": "2025",
     "containImage": true,
     "category": "tool"
@@ -175,6 +202,7 @@
     "image": "vibecheck.png",
     "shortType": "web app/API",
     "description": "Creates an API key that lets an LLM agent share your location and Discord status.",
+    "longDescription": "Vibe Check is a privacy-conscious status service for personal AI assistants. An Overland iOS client supplies background GPS data, Lanyard supplies Discord presence and Spotify/activity data, and a Hono application on Cloudflare Workers combines them behind a REST endpoint and an MCP server. Google OAuth, D1, and KV support authenticated sessions and storage.\n\nThe user controls location precision from exact coordinates down to city, region, or hidden, and can hide individual fields such as speed or battery. Vibe Check is a more sensitive, privacy-aware cousin of GitHub Discord README: both turn Discord presence into useful context, but Vibe Check also handles location and exposes an agent-facing protocol.",
     "year": "2025",
     "category": "tool"
   },
@@ -186,6 +214,7 @@
     "image": "featuredart.png",
     "shortType": "web site",
     "description": "The class project showcase site for CS559: Computer Graphics at UW-Madison.",
+    "longDescription": "CS559 Showcase is the class project gallery for UW–Madison's CS559 Computer Graphics course, focused on the Fall 2023 featured artists and homework submissions. The site uses an Astro/JavaScript shell and keeps a large collection of student-made HTML and JavaScript graphics exercises under its public assets, so each work can remain a small standalone experiment.\n\nRather than hiding the individual sketches behind one application framework, the showcase makes the submitted pages themselves the content. It is an earlier, more gallery-like companion to Fishbowl, Sam's later CS559 final project, and to the visual browser toys such as Minecraft Fractal.",
     "year": "2025",
     "category": "school"
   },
@@ -197,6 +226,7 @@
     "image": "fishbowl.png",
     "shortType": "WebGL app",
     "description": "A 3D fishbowl simulation built with pure WebGL. Loads in models and handwritten shaders! My final project for CS559: Computer Graphics at UW-Madison.",
+    "longDescription": "Fishbowl is Sam's final project for UW–Madison's CS559 Intro to Computer Graphics course in Fall 2024. It is a 3D fishbowl scene rendered with pure WebGL, including loaded models and handwritten shaders; the playful fish setting is a vehicle for practicing the graphics pipeline rather than a conventional game.\n\nThe project is more technically involved than Minecraft Fractal's recursive texture grid, but both are browser graphics experiments where the rendering system is the subject. Fishbowl also grows naturally out of the small standalone sketches collected in CS559 Showcase.",
     "year": "2025",
     "category": "school"
   },
@@ -208,6 +238,7 @@
     "image": "redcoral.jpg",
     "shortType": "web app",
     "description": "An open-source club project that I led. A web app for a non-profit in South America that filters, sorts, and visualizes crime data on a map, table, and other charts.",
+    "longDescription": "Red CORAL is an interactive map of organized crime in South America, built as an open-source DSSD Madison project for a nonprofit. Users can filter and sort crime data and inspect it through a map, table, and supporting charts; the production and QA deployments are separate so changes can be reviewed before release.\n\nThe frontend is a React/Vite application using Leaflet and react-leaflet for maps, D3 for data graphics, Firebase services, and React Router. Sam led the project and later carried its map-and-statistics lessons into Strong Towns Madison, which applies a similar interaction vocabulary to Madison property-tax data. The Minecraft Fractal project is a more playful graphics experiment, but it also works a bit like a map.",
     "year": "2024",
     "containImage": true,
     "containBackgroundColor": "#caffbd",
@@ -220,6 +251,7 @@
     "image": "linklooker.png",
     "shortType": "browser extension",
     "description": "My first browser extension. Previews links using ChatGPT when you hover over them in Chrome and Firefox.",
+    "longDescription": "LinkLooker is Sam's first browser extension, built with Plasmo and TypeScript for Chrome and Firefox. When the user hovers a link and presses Shift, it extracts metadata such as the title, publisher summary, and cover image, then can send a configurable amount of page content to OpenAI for a deeper summary. It has specialized handling for services including GitHub, GitLab, and Hacker News.\n\nThe extension keeps the interaction in the page instead of making the user open a new tab. That makes it a browser-side counterpart to Paintball's AI-assisted creative workflow, while its generated explanation is closer to the context-building role that Vibe Check plays for personal agents.",
     "year": "2024",
     "containImage": true,
     "category": "tool"
@@ -232,6 +264,7 @@
     "image": "gh_dsc_preview.png",
     "shortType": "web app/API",
     "description": "A project that embeds Discord statuses in SVGs that can be easily placed anywhere. Built with a vanilla HTML frontend and React backend(!?)",
+    "longDescription": "GitHub Discord README generates an embeddable SVG profile from a person's current Discord state. The preview can include online status, username, avatar decorations, banner, activities, Spotify, custom status, an About Me section, and selectable layouts and themes; lookup endpoints help turn a username into the ID needed by the image URL. The SVG can be placed in a GitHub README or almost anywhere external images are accepted.\n\nThe project pairs an Astro/Svelte frontend with a TypeScript/React rendering service and a Discord bot/API, making a live presence look like a static image URL. It overlaps with Vibe Check in its use of Discord presence, but its goal is presentation and embedding rather than private agent context.",
     "year": "2024",
     "containImage": false,
     "featured": true,
@@ -245,6 +278,7 @@
     "image": "imagehound.png",
     "shortType": "web app",
     "description": "My interview take-home for Fetch, where I interned during the summer of 2025. A web app that displays dog images from an API and lets you select and search for specfiic breeds, all coded in a handful of hours in Svelte.",
+    "longDescription": "ImageHound is a small Svelte frontend for the dog.ceo API, created as Sam's Fetch internship take-home exercise. It lets a visitor browse dog images, choose a breed, and search for more specific results through a deliberately compact interface; the whole app was built in a handful of hours for the interview exercise.\n\nIts value is in the clarity of the API-to-interface loop rather than in a large feature set. ImageHound is a much smaller data browser than Strong Towns Madison or Red CORAL, but it shares their basic rhythm of fetching external data, turning it into filters, and presenting useful results.",
     "year": "2024",
     "category": "tool"
   },
@@ -255,13 +289,14 @@
     "image": "staff.png",
     "shortType": "Discord bot",
     "description": "A Discord bot that accesses the Splatoon 3 API to get information about the game, like current shop and map rotations. It also let discord members vote for their favorite Splatfest teams.",
+    "longDescription": "Staff Discord Bot is a Discord bot built around the Splatoon 3 API. It reports changing game information such as the current shop and map rotations, and it lets members vote for their favorite Splatfest teams.\n\nThe project is an early example of connecting a community chat space to a live external service. Its Discord-focused idea foreshadows the presence and agent-context work in Vibe Check and GitHub Discord README, but it stays centered on a game community and scheduled Splatoon information.",
     "year": "2024",
     "category": "personal"
   },
   {
     "id": "fcc-back-end-development-and-apis",
     "name": "Back End Development and APIs",
-    "href": "https://www.freecodecamp.org/certification/Tsuni/back-end-development-and-apis",
+    "source": "https://www.freecodecamp.org/certification/Tsuni/back-end-development-and-apis",
     "image": "fcc_cert_backend.png",
     "shortType": "certificate",
     "description": "freeCodeCamp certification in backend development and APIs.",
@@ -272,7 +307,8 @@
   {
     "id": "fcc-front-end-web-development",
     "name": "Front End Web Development",
-    "href": "https://www.freecodecamp.org/certification/Tsuni/responsive-web-design",
+    "source": "https://www.freecodecamp.org/certification/tsuni/responsive-web-design",
+    "href": "https://codepen.io/collection/rxMyMz",
     "image": "fcc_cert_webdesign.png",
     "shortType": "certificate",
     "description": "freeCodeCamp responsive web design certification.",
@@ -283,7 +319,7 @@
   {
     "id": "fcc-js-algorithms-and-data-structures",
     "name": "JS Algorithms and Data Structures",
-    "href": "https://www.freecodecamp.org/certification/Tsuni/javascript-algorithms-and-data-structures",
+    "source": "https://www.freecodecamp.org/certification/tsuni/javascript-algorithms-and-data-structures",
     "image": "fcc_cert_js.png",
     "shortType": "certificate",
     "description": "freeCodeCamp JavaScript algorithms and data structures certification.",
@@ -294,7 +330,8 @@
   {
     "id": "fcc-front-end-development-libraries",
     "name": "Front End Development Libraries",
-    "href": "https://www.freecodecamp.org/certification/Tsuni/front-end-development-libraries",
+    "source": "https://www.freecodecamp.org/certification/tsuni/front-end-development-libraries",
+    "href": "https://codepen.io/collection/zxdedJ",
     "image": "fcc_cert_frontend.png",
     "shortType": "certificate",
     "description": "freeCodeCamp front end development libraries certification.",
@@ -305,7 +342,8 @@
   {
     "id": "fcc-data-visualization",
     "name": "Data Visualization",
-    "href": "https://www.freecodecamp.org/certification/Tsuni/data-visualization",
+    "source": "https://www.freecodecamp.org/certification/tsuni/data-visualization",
+    "href": "https://codepen.io/collection/GoOPLo",
     "image": "fcc_cert_datavis.png",
     "shortType": "certificate",
     "description": "freeCodeCamp data visualization certification.",
@@ -320,6 +358,7 @@
     "image": "mnfc2.jpg",
     "shortType": "web site",
     "description": "A Wordpress site for a local political campaign",
+    "longDescription": "Mark Neumann for Congress was a WordPress site for a local political campaign. The work was centered on presenting campaign information on the web and giving a local candidate a public online presence, rather than building a reusable product or data-heavy application.\n\nIt is an older, simpler predecessor to Lia for La Crosse: both are campaign sites for local politics, but Lia's site is an Astro/Tailwind project that Sam continues to maintain with its hosting and email setup.",
     "year": "2022",
     "category": "client"
   },
@@ -330,6 +369,7 @@
     "image": "port_website.png",
     "shortType": "web site",
     "description": "The website you're currently on! Built with Astro, Tailwind CSS, and TypeScript.",
+    "longDescription": "The portfolio is the evolving Astro and TypeScript site you are currently visiting. It uses Tailwind CSS, Preact islands, MDX posts, and Cloudflare Workers, with an OGL/WebGL water background, a canvas guestbook whose drawings live in R2, and a homepage chat agent that can search posts, read documents, and inspect project details.\n\nThe projects collection is part of the site's content system rather than a separate API, and the site is also where several ideas meet: the visual experimentation seen in Fishbowl and Minecraft Fractal, the edge services used by Trakt iCal Generator and Vibe Check, and the AI/tool interfaces explored in Paintball and WebLabs Operation Weave. This portfolio design can be traced all the way back to https://codepen.io/TetraTsunami/pen/QWQbmee, which was created in 2022 as Sam's final project for the FreeCodeCamp Responsive Web Design course. It was based on Next.js for a time after, too. Look how far we've come!",
     "year": "2022",
     "category": "personal"
   }

@@ -29,19 +29,30 @@ const projectsCollection = defineCollection({
       );
     }
   }),
-  schema: z.object({
-    name: z.string(),
-    href: z.string().optional(),
-    source: z.string().optional(),
-    image: z.string(),
-    shortType: z.string(),
-    description: z.string(),
-    year: z.string(),
-    containImage: z.boolean().default(false),
-    containBackgroundColor: z.string().optional(),
-    featured: z.boolean().default(false),
-    category: z.enum(Object.keys(PROJECT_CATEGORIES) as [string, ...string[]])
-  })
+  schema: z
+    .object({
+      name: z.string(),
+      href: z.string().optional(),
+      source: z.string().optional(),
+      image: z.string(),
+      shortType: z.string(),
+      description: z.string(),
+      longDescription: z.string().optional(),
+      year: z.string(),
+      containImage: z.boolean().default(false),
+      containBackgroundColor: z.string().optional(),
+      featured: z.boolean().default(false),
+      category: z.enum(Object.keys(PROJECT_CATEGORIES) as [string, ...string[]])
+    })
+    .superRefine((project, context) => {
+      if (project.category !== 'cert' && !project.longDescription) {
+        context.addIssue({
+          code: 'custom',
+          path: ['longDescription'],
+          message: 'Non-certificate projects must include a long description.'
+        });
+      }
+    })
 });
 
 export const collections = {
