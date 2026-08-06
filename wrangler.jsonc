@@ -16,6 +16,19 @@
       "binding": "DRAWINGS",
       "bucket_name": "guestbook-drawings",
       "preview_bucket_name": "guestbook-drawings-dev"
+    },
+    {
+      // "remote": true so getPlatformProxy reads the real bucket during `astro dev` — otherwise
+      // list_documents returns [] locally and looks like a broken tool loop.
+      "binding": "DOCS",
+      "bucket_name": "site-docs",
+      "remote": true
+    }
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "CHAT_LIMITS",
+      "id": "REPLACE_ME"
     }
   ],
   "routes": [

@@ -24,7 +24,8 @@ export default defineConfig({
       GISCUS_CATEGORY_ID: envField.string({ context: 'client', access: 'public' }),
       GUESTBOOK_SECRET_KEY: envField.string({ context: 'server', access: 'secret' }),
       GUESTBOOK_WEBHOOK: envField.string({ context: 'server', access: 'secret' }),
-      OPENAI_API_KEY: envField.string({ context: 'server', access: 'secret' })
+      OPENAI_API_KEY: envField.string({ context: 'server', access: 'secret' }),
+      GEMINI_API_KEY: envField.string({ context: 'server', access: 'secret' })
     }
   },
 

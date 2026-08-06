@@ -17,6 +17,7 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "@ai-sdk/google": "^4.0.34",
     "@astrojs/check": "^0.9.5",
     "@astrojs/cloudflare": "^12.6.10",
     "@astrojs/mdx": "^4.3.10",
@@ -38,6 +39,7 @@
     "@types/unist": "^3.0.3",
     "@uiw/codemirror-theme-vscode": "^4.25.3",
     "@uiw/react-codemirror": "^4.25.3",
+    "ai": "^7.0.52",
     "astro": "^5.14.8",
     "astro-icon": "^1.1.5",
     "composerize": "^1.7.5",
@@ -62,7 +64,9 @@
     "typescript": "^5.9.3",
     "unist-util-find-after": "^5.0.0",
     "unist-util-visit-parents": "^6.0.2",
-    "vite-plugin-glsl": "^1.5.4"
+    "vite-plugin-glsl": "^1.5.4",
+    "yaml": "^2.9.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20251113.0",

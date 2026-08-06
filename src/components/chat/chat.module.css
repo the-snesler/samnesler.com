@@ -1,0 +1,131 @@
+/* Terminal-transcript styling for the homepage agent. Semantic HTML throughout — no <pre> wrapper,
+   so text still wraps, selects, and reads correctly to a screen reader. */
+
+.shell {
+  --chat-prompt: var(--color-violet-400);
+}
+
+/* The prompt caret colour lives here rather than in a Tailwind arbitrary value: `text-[var(--x)]`
+   is ambiguous to Tailwind v4 (colour or length?) and silently compiles to font-size. */
+.caret {
+  color: var(--chat-prompt);
+}
+
+/* The block cursor trailing streamed text. Shares the blink-caret keyframe from text.module.css
+   conceptually, but that's a CSS module scope so the keyframe is redeclared here. */
+.cursor::after {
+  content: '▊';
+  margin-left: 0.15em;
+  color: var(--chat-prompt);
+  animation: chat-blink step-end 1.1s infinite;
+}
+
+@keyframes chat-blink {
+  from,
+  to {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion) {
+  .cursor::after {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* Assistant markdown. Compact, monospace-adjacent, tuned to sit in a transcript rather than an
+   article — hence the tight margins and the absence of .prose. */
+.answer > :first-child {
+  margin-top: 0;
+}
+
+.answer > :last-child {
+  margin-bottom: 0;
+}
+
+.answer p,
+.answer ul,
+.answer ol,
+.answer pre,
+.answer blockquote {
+  margin-block: 0.5rem;
+}
+
+.answer ul,
+.answer ol {
+  padding-inline-start: 1.25rem;
+}
+
+.answer ul {
+  list-style: disc;
+}
+
+.answer ol {
+  list-style: decimal;
+}
+
+.answer li {
+  margin-block: 0.15rem;
+}
+
+.answer h1,
+.answer h2,
+.answer h3,
+.answer h4 {
+  margin-block: 0.75rem 0.35rem;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.answer a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.answer a:hover {
+  opacity: 0.8;
+}
+
+.answer code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background-color: color-mix(in srgb, currentColor 8%, transparent);
+  border-radius: 0.25rem;
+  padding: 0.1em 0.3em;
+}
+
+.answer pre {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  overflow-x: auto;
+  padding: 0.6rem 0.75rem;
+  border-radius: 0.5rem;
+  background-color: color-mix(in srgb, currentColor 6%, transparent);
+}
+
+.answer pre code {
+  background: none;
+  padding: 0;
+}
+
+.answer blockquote {
+  border-inline-start: 2px solid color-mix(in srgb, currentColor 25%, transparent);
+  padding-inline-start: 0.75rem;
+  opacity: 0.85;
+}
+
+/* The textarea grows with its content; this keeps it from ever showing its own scrollbar
+   before the max-height clamp kicks in. */
+.input {
+  field-sizing: content;
+  resize: none;
+}
+
+.input::placeholder {
+  color: color-mix(in srgb, currentColor 45%, transparent);
+}

@@ -78,6 +78,47 @@ pnpm wrangler             # Direct Wrangler CLI access
 - Rehype callouts for enhanced markdown
 - GitHub Flavored Markdown support
 
+#### Homepage Chat Agent
+
+A CLI-styled agent on the homepage (`#ask`, above `#projects`) that answers questions about Sam.
+
+- **Model**: Google `gemini-3.5-flash-lite` via the Vercel AI SDK (`ai` + `@ai-sdk/google`).
+- **Route**: `src/pages/api/chat.ts` (SSR). Runs a multi-step tool loop and streams NDJSON.
+- **Island**: `src/components/chat/` — Preact, custom terminal transcript. Not shadcn: its
+  `message-scroller` primitive requires React >= 19 and this repo aliases react to preact/compat 18.
+- **Knowledge**: `projects.json` is inlined whole into the system prompt; blog posts and R2
+  documents are listed in the prompt and fetched on demand via `search_posts`, `read_post`, and
+  `read_document`.
+
+The system prompt is assembled server-side (`src/utils/chat/prompt.ts`) and never accepted from the
+client — the request schema's role enum excludes `system`.
+
+**Blog posts must not be loaded with `getCollection` here.** `src/utils/chat/posts.ts` uses
+`import.meta.glob('/posts/*.mdx', { query: '?raw' })` instead. Importing `astro:content` from a
+`prerender = false` route pulls in `astro:content-module-imports`, which dynamically imports every
+MDX file — dragging `docker.mdx`'s CodeMirror components into the Worker bundle. Posts marked
+`isVisible: false` are filtered out at module scope so the agent can neither list nor read them.
+
+**Uploading reference documents** to the `site-docs` R2 bucket:
+
+```bash
+wrangler r2 object put site-docs/docs/resume.md --file ./resume.md --remote
+wrangler r2 object put site-docs/index.json --file ./index.json --content-type application/json --remote
+```
+
+`index.json` is the hand-maintained catalog. Each entry needs `slug`, `title`, `summary`, and `key`:
+
+```json
+{
+  "version": 1,
+  "documents": [{ "slug": "resume", "title": "Résumé", "summary": "Work history and skills.", "key": "docs/resume.md" }]
+}
+```
+
+The `key` is deliberately separate from `slug`: the slug the model supplies is only ever a lookup
+into this allowlist, never a path component, so traversal is impossible by construction. The index
+is cached per Worker isolate for 5 minutes, so an upload takes up to that long to appear.
+
 ## Environment Variables
 
 Required for full functionality:
@@ -85,10 +126,26 @@ Required for full functionality:
 - `GISCUS_*`: Comment system configuration
 - `GUESTBOOK_SECRET_KEY`: API authentication
 - `GUESTBOOK_WEBHOOK`: Drawing notification endpoint
+- `OPENAI_API_KEY`: Bill splitter receipt parsing
+- `GEMINI_API_KEY`: Homepage chat agent
+
+Public `GISCUS_*` values are validated at build time, so `astro build` needs them present in `.env`
+(or the environment) even though production reads them from `wrangler.jsonc` vars.
+
+## Bindings
+
+Declared in `wrangler.jsonc`; run `pnpm wrangler types` after changing them.
+
+- `DRAWINGS` (R2) — guestbook drawings
+- `DOCS` (R2, `site-docs`) — chat agent reference documents. Marked `"remote": true` so
+  `astro dev` reads the real bucket rather than an empty local one.
+- `CHAT_LIMITS` (KV) — per-IP chat rate limiting (20 messages/hour, fixed window, hashed IP keys).
+  Create with `wrangler kv namespace create CHAT_LIMITS` and paste the id into `wrangler.jsonc`.
 
 ## Testing
 
 Uses Vitest with MSW for API mocking. Coverage reports available via `@vitest/coverage-v8`.
+Config lives in `vitest.config.ts`; tests are `src/**/*.test.ts`.
 
 ## Deployment
 
@@ -99,4 +156,4 @@ Deployment pipeline includes:
 3. Production build
 4. Cloudflare Workers deployment
 
-The site is configured for the custom domain `tsuni.dev` with R2 bucket integration for guestbook drawings.
+The site is configured for the custom domain `samnesler.com` with R2 bucket integration for guestbook drawings and chat agent documents.
