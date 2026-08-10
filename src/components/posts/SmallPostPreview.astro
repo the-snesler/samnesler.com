@@ -11,7 +11,7 @@ const { post } = Astro.props;
 <div
   class="border-bkg hover:outline-accent group relative block w-full overflow-hidden rounded-xl border-2 brightness-100 transition-[rotate,filter] duration-200 hover:-rotate-3 hover:outline-4 active:translate-y-0 active:brightness-95"
 >
-  <a href={`/posts/${post.id}`} class="group bg-bkg relative flex w-full items-center gap-4 p-2 lg:flex-col">
+  <a href={`/posts/${post.id}`} class="group bg-bkg relative flex h-full w-full items-center gap-4 p-2 lg:flex-col">
     {
       post.data.excerptImageUrl ? (
         <Image

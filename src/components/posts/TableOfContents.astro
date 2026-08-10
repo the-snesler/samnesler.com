@@ -32,11 +32,27 @@ const { class: className, headings, ...rest } = Astro.props;
 </nav>
 
 <script>
-  import scrollSpy from 'simple-scrollspy';
-  scrollSpy('.scrollspy', {
-    sectionClass: 'section[id]',
-    offset: 400
+  const nav = document.querySelector<HTMLElement>('.scrollspy');
+  const sections = document.querySelectorAll<HTMLElement>('section[id]');
+  const links = new Map<string, HTMLAnchorElement>();
+  nav?.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach(link => {
+    links.set(link.getAttribute('href')!.slice(1), link);
   });
+
+  const offset = 400;
+
+  const setActive = () => {
+    const scrollPosition = window.scrollY + offset;
+    let current: HTMLElement | undefined;
+    for (const section of sections) {
+      if (scrollPosition >= section.offsetTop) current = section;
+    }
+    links.forEach(link => link.classList.remove('active'));
+    if (current) links.get(current.id)?.classList.add('active');
+  };
+
+  setActive();
+  window.addEventListener('scroll', setActive, { passive: true });
 </script>
 
 <style is:global>
