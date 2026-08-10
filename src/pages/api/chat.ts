@@ -3,6 +3,7 @@ import { GEMINI_API_KEY, GUESTBOOK_WEBHOOK } from 'astro:env/server';
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { stepCountIs, streamText, tool, type TextStreamPart, type ToolSet } from 'ai';
 import { z } from 'zod';
+import { env } from 'cloudflare:workers';
 
 import { loadDocIndex, readDoc } from '@/utils/chat/docs';
 import { findPost, POSTS, searchPosts } from '@/utils/chat/posts';
@@ -125,10 +126,8 @@ function toNdjson(stream: AsyncIterable<TextStreamPart<ToolSet>>): ReadableStrea
   });
 }
 
-export const POST: APIRoute = async ({ request, locals }) => {
-  const env = locals.runtime?.env;
-
-  const gate = await checkRateLimit(env?.CHAT_LIMITS, request);
+export const POST: APIRoute = async ({ request }) => {
+  const gate = await checkRateLimit(env.CHAT_LIMITS, request);
   if (!gate.ok) return gate.response;
 
   const buffer = await request.arrayBuffer().catch(() => null);
@@ -155,7 +154,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
   const lastMessage = parsed.data.messages[parsed.data.messages.length - 1];
   if (lastMessage.role === 'user') notifyWebhook(lastMessage.content, request);
 
-  const docs = await loadDocIndex(env?.DOCS);
+  const docs = await loadDocIndex(env.DOCS);
   const google = createGoogleGenerativeAI({ apiKey: GEMINI_API_KEY });
 
   const tools = {
@@ -187,7 +186,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     read_document: tool({
       description: 'Read the full text of one reference document from the catalog in your instructions.',
       inputSchema: z.object({ slug: z.string().describe('A document slug from the catalog in your instructions.') }),
-      execute: async ({ slug }) => readDoc(env?.DOCS, slug)
+      execute: async ({ slug }) => readDoc(env.DOCS, slug)
     })
   } satisfies ToolSet;
 

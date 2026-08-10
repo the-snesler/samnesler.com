@@ -1,50 +1,48 @@
 {
-	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "portfolio-astro",
-	"main": "./dist/_worker.js/index.js",
-	"compatibility_date": "2025-05-24",
-	"compatibility_flags": [
-		"nodejs_compat"
-	],
-	"assets": {
-		"binding": "ASSETS",
-		"directory": "./dist"
-	},
-	"observability": {
-		"enabled": true
-	},
-	"r2_buckets": [
-		{
-			"binding": "DRAWINGS",
-			"bucket_name": "guestbook-drawings",
-			"preview_bucket_name": "guestbook-drawings-dev"
-		},
-		{
-			// "remote": true so getPlatformProxy reads the real bucket during `astro dev` — otherwise
-			// list_documents returns [] locally and looks like a broken tool loop.
-			"binding": "DOCS",
-			"bucket_name": "site-docs",
-			"remote": true
-		}
-	],
-	"kv_namespaces": [
-		{
-			"binding": "CHAT_LIMITS",
-			"id": "85b933451ced4dfea3b21746f640ed58",
-			"remote": true
-		}
-	],
-	"routes": [
-		{
-			"pattern": "samnesler.com",
-			"custom_domain": true
-		}
-	],
-	"vars": {
-		"GISCUS_REPO": "the-snesler/samnesler.com",
-		"GISCUS_REPO_ID": "R_kgDOH7I1vQ",
-		"GISCUS_CATEGORY": "Giscus",
-		"GISCUS_CATEGORY_ID": "DIC_kwDOH7I1vc4CkBK1"
-	},
-	"preview_urls": true
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "portfolio-astro",
+  "main": "@astrojs/cloudflare/entrypoints/server",
+  "compatibility_date": "2025-05-24",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "binding": "ASSETS",
+    "directory": "./dist"
+  },
+  "observability": {
+    "enabled": true
+  },
+  "r2_buckets": [
+    {
+      "binding": "DRAWINGS",
+      "bucket_name": "guestbook-drawings",
+      "preview_bucket_name": "guestbook-drawings-dev"
+    },
+    {
+      // "remote": true so getPlatformProxy reads the real bucket during `astro dev` — otherwise
+      // list_documents returns [] locally and looks like a broken tool loop.
+      "binding": "DOCS",
+      "bucket_name": "site-docs",
+      "remote": true
+    }
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "CHAT_LIMITS",
+      "id": "85b933451ced4dfea3b21746f640ed58",
+      "remote": true
+    }
+  ],
+  "routes": [
+    {
+      "pattern": "samnesler.com",
+      "custom_domain": true
+    }
+  ],
+  "vars": {
+    "GISCUS_REPO": "the-snesler/samnesler.com",
+    "GISCUS_REPO_ID": "R_kgDOH7I1vQ",
+    "GISCUS_CATEGORY": "Giscus",
+    "GISCUS_CATEGORY_ID": "DIC_kwDOH7I1vc4CkBK1"
+  },
+  "preview_urls": true
 }

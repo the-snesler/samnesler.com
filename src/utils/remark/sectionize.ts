@@ -1,7 +1,8 @@
 // Adapted from https://github.com/johnzanussi/johnzanussi.com/blob/main/src/utils/remark/sectionize.ts
 import Slugger from 'github-slugger';
-import type { Root } from 'mdast';
-import type { Heading } from 'mdast';
+import type { Heading, Root } from 'mdast';
+// Augments mdast's `Data` with `hName`/`hProperties`; not re-exported by `@types/mdast`.
+import type {} from 'mdast-util-to-hast';
 import { toString } from 'mdast-util-to-string';
 import type { Parent } from 'unist';
 import { findAfter } from 'unist-util-find-after';
@@ -39,7 +40,7 @@ export default function remarkSectionize() {
       }
 
       heading.data.hProperties = {
-        ...(heading.data.hProperties as object),
+        ...heading.data.hProperties,
         id: slug
       };
 
