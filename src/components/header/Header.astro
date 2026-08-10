@@ -2,11 +2,12 @@
 // import NowPlayingIcon from "../components/NowPlayingIcon";
 import DarkToggle from '@/components/header/DarkToggle.astro';
 import textStyles from '@/styles/text.module.css';
-import { Icon } from 'astro-icon/components';
+import Icon from '@/components/Icon.astro';
+import type { IconName } from '@/components/icons';
 
 const currentPath = Astro.url.pathname;
 
-const links = [
+const links: { name: string; href: string; icon: IconName }[] = [
   { name: 'Home', href: '/', icon: 'lucide:house' },
   { name: 'Guestbook', href: '/#guestbook', icon: 'lucide:book' },
   { name: 'Blog', href: '/posts/', icon: 'lucide:notebook-text' }

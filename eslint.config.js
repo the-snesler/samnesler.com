@@ -1,6 +1,7 @@
 // Modified from https://github.com/skeletonlabs/skeleton/blob/main/eslint.config.js
 import javascript from '@eslint/js';
 import astro from 'eslint-plugin-astro';
+import globals from 'globals';
 import react from 'eslint-plugin-react';
 import typescript from 'typescript-eslint';
 
@@ -34,8 +35,18 @@ export default typescript.config(
       '@typescript-eslint/no-explicit-any': 'off'
     }
   },
+  // Node scripts — run under `node`, not in the browser or the Worker.
+  {
+    files: ['scripts/**/*.mjs', '*.config.{js,mjs}'],
+    languageOptions: { globals: globals.nodeBuiltin }
+  },
   // Astro
   astro.configs.recommended,
+  {
+    // Ambient namespace declared by `astro/astro-jsx`; used for typing component props.
+    files: ['**/*.astro'],
+    languageOptions: { globals: { astroHTML: 'readonly' } }
+  },
   // React
   {
     files: ['**/*.tsx', '**/*.jsx'],

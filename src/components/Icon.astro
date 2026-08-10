@@ -1,0 +1,17 @@
+---
+// Drop-in replacement for `astro-icon`'s `<Icon name size />`, backed by `unplugin-icons`.
+// The generated SVGs are `1em` square (see `scale: 1` in astro.config.mjs), so `size` sets
+// `font-size` rather than width/height — the compiler cannot merge duplicate SVG attributes.
+// `style` is therefore not forwarded; size with `size`, everything else with `class`.
+import { ICONS, type IconName } from '@/components/icons';
+
+interface Props extends Omit<astroHTML.JSX.SVGAttributes, 'style'> {
+  name: IconName;
+  size?: number;
+}
+
+const { name, size, ...props } = Astro.props;
+const Svg = ICONS[name];
+---
+
+<Svg style={size ? `font-size:${size}px` : undefined} {...props} />

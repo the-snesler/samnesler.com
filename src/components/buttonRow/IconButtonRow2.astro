@@ -1,11 +1,12 @@
 ---
-import { Icon } from 'astro-icon/components';
+import Icon from '@/components/Icon.astro';
+import type { IconName } from '@/components/icons';
 
 import textStyles from '@/styles/text.module.css';
 
 // Define props interface for Astro
 interface ButtonProps {
-  iconName: string; // Changed from IconDefinition to string
+  iconName: IconName;
   href: string;
   title: string;
 }

@@ -1,3 +1,4 @@
+/// <reference types="unplugin-icons/types/astro" />
 import 'astro/astro-jsx';
 type Runtime = import('@astrojs/cloudflare').Runtime<Env>;
 

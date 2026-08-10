@@ -1,9 +1,10 @@
 ---
-import { Icon } from 'astro-icon/components';
+import Icon from '@/components/Icon.astro';
+import type { IconName } from '@/components/icons';
 
 import textStyles from '@/styles/text.module.css';
 interface IconButtonRowProps {
-  iconName: string;
+  iconName: IconName;
   rel?: string;
   href: string;
   title: string;

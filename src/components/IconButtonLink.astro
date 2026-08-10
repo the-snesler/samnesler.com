@@ -1,5 +1,13 @@
 ---
-import { Icon } from 'astro-icon/components';
+import Icon from '@/components/Icon.astro';
+import type { IconName } from '@/components/icons';
+
+interface Props extends astroHTML.JSX.AnchorHTMLAttributes {
+  title: string;
+  icon: IconName;
+  url: string;
+}
+
 const { title, icon, url, ...props } = Astro.props;
 ---
 

@@ -43,7 +43,6 @@
     "@uiw/react-codemirror": "^4.25.3",
     "ai": "^7.0.52",
     "astro": "^7.2.0",
-    "astro-icon": "^1.1.5",
     "composerize": "^1.7.5",
     "decomposerize": "^1.4.4",
     "giscus": "^1.6.0",
@@ -90,6 +89,8 @@
     "prettier-plugin-tailwindcss": "^0.6.14",
     "rehype": "^13.0.2",
     "typescript-eslint": "^8.46.4",
+    "unplugin-icons": "^23.0.1",
+    "vite": "8.2.1",
     "vitest": "^3.2.4",
     "wrangler": "^4.120.0"
   },

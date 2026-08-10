@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
 import preact from '@astrojs/preact';
 import tailwindcss from '@tailwindcss/vite';
-import icon from 'astro-icon';
+import Icons from 'unplugin-icons/vite';
 import { defineConfig, envField, fontProviders } from 'astro/config';
 import rehypeCallouts from 'rehype-callouts';
 import remarkBreaks from 'remark-breaks';
@@ -12,6 +12,7 @@ import remarkGFM from 'remark-gfm';
 import glsl from 'vite-plugin-glsl';
 import { unified } from '@astrojs/markdown-remark';
 
+import devImageEndpoint from './src/utils/vite/devImageEndpoint.js';
 import remarkSectionize from './src/utils/remark/sectionize.js';
 
 // https://astro.build/config
@@ -31,14 +32,13 @@ export default defineConfig({
   },
 
   vite: {
-    plugins: [tailwindcss(), glsl({ minify: true })],
-    // `astro-icon`'s `Icon.astro` imports `@iconify/utils`, which pulls in `debug` — a CJS module
-    // whose top-level `module.exports` throws in workerd, where on-demand routes now render.
-    // Prebundling `@iconify/utils` inlines `debug` as ESM. The `a > b` form is required so the
-    // specifier resolves from `astro-icon` rather than the (pnpm-isolated) project root.
-    optimizeDeps: {
-      include: ['astro-icon > @iconify/utils']
-    },
+    // `unplugin-icons` inlines each `~icons/*` import as a compile-time SVG component, so nothing
+    // from Iconify reaches the Worker bundle. See `src/components/icons.ts` for the registry.
+    //
+    // `scale: 1` emits `width="1em" height="1em"` so `Icon.astro` can size icons with `font-size`.
+    // Passing width/height as props instead would emit them twice: the astro compiler splices
+    // `{...props}` in front of the SVG's own attributes rather than merging with them.
+    plugins: [tailwindcss(), glsl({ minify: true }), Icons({ compiler: 'astro', scale: 1 }), devImageEndpoint()],
     build: {
       sourcemap: true
     }
@@ -90,6 +90,6 @@ export default defineConfig({
     }
   ],
 
-  integrations: [icon(), mdx(), preact({ compat: true }), sitemap()],
+  integrations: [mdx(), preact({ compat: true }), sitemap()],
   adapter: cloudflare({ imageService: 'custom', prerenderEnvironment: 'node' })
 });
