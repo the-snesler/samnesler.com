@@ -4,6 +4,7 @@ import Chat from '@/components/chat/Chat';
 import Guestbook from '@/components/guestbook/Guestbook';
 import HomeHero from '@/components/HomeHero.astro';
 import Projects from '@/layouts/Projects.astro';
+import Experience from '@/layouts/Experience.astro';
 import Layout from '@/layouts/Layout.astro';
 import textStyles from '@/styles/text.module.css';
 import RecentPosts from '@/components/posts/RecentPosts.astro';
@@ -14,9 +15,9 @@ import RecentPosts from '@/components/posts/RecentPosts.astro';
   <main class="relative flex flex-col pt-16">
     <HomeHero />
     <div
-      class="bg-bkg/55 shadow-i-lg container flex w-full max-w-7xl flex-col gap-24 self-center rounded-3xl px-1 pt-24 pb-8 backdrop-blur-sm transition-colors sm:mx-4 md:mx-8 md:px-6 lg:mx-16"
+      class="bg-bkg/55 shadow-i-lg container flex w-full max-w-7xl flex-col gap-24 self-center rounded-3xl px-1 pt-16 pb-8 backdrop-blur-sm transition-colors sm:mx-4 md:mx-8 md:px-6 lg:mx-16"
     >
-      <div class="grid gap-8 lg:grid-cols-2">
+      <div class="grid gap-x-8 gap-y-16 lg:grid-cols-2">
         <section id="about">
           <h2 class={`text-left text-3xl md:text-4xl font-semibold mb-4 font-mono ${textStyles.terminal}`}>whois Sam</h2>
           <p class="mb-4 max-w-prose text-left text-lg">
@@ -52,14 +53,17 @@ import RecentPosts from '@/components/posts/RecentPosts.astro';
           <h2 class={`text-left text-3xl md:text-4xl font-semibold mb-4 font-mono ${textStyles.terminal}`}>ls ./blog/recent-posts</h2>
           <RecentPosts />
         </section>
+        <section id="experience">
+          <h2 class={`text-left text-3xl md:text-4xl font-semibold mb-4 font-mono ${textStyles.terminal}`}>ls ./experiences</h2>
+          <Experience />
+        </section>
+        <section id="ask">
+          <h2 class={`text-left text-3xl md:text-4xl font-semibold mb-4 font-mono ${textStyles.terminal}`}>./chat.sh</h2>
+          <Chat client:visible />
+        </section>
       </div>
-      <section id="ask">
-        <h2 class={`text-left text-3xl md:text-4xl font-semibold mb-4 font-mono ${textStyles.terminal}`}>ask ./sam</h2>
-        <p class="text-lg">Ask about my work and this agent will dig through my projects, posts, and notes to answer.</p>
-        <Chat client:visible />
-      </section>
       <section id="projects">
-        <h2 class={`text-left text-3xl md:text-4xl font-semibold mb-4 font-mono ${textStyles.terminal}`}>cat ./projects</h2>
+        <h2 class={`text-left text-3xl md:text-4xl font-semibold mb-4 font-mono ${textStyles.terminal}`}>ls ./projects</h2>
         <Projects />
       </section>
       <section id="guestbook">

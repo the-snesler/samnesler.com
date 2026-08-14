@@ -1,0 +1,48 @@
+---
+import type { ImageMetadata } from 'astro';
+import Image from '@/components/Image.astro';
+import ExperienceDetails from './ExperienceDetails.astro';
+
+interface Props {
+  icon: ImageMetadata;
+  name: string;
+  title: string;
+  date: string;
+  location: string;
+  text: string[];
+}
+
+const { icon, name, title, date, location, text } = Astro.props;
+const tooltipId = `experience-${name.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}`;
+---
+
+<div class="group/sticker hover-none:w-full relative flex flex-col items-center">
+  <button
+    type="button"
+    aria-describedby={tooltipId}
+    aria-label={`${name} — ${title}`}
+    style={{ transform: `rotate(${Math.random() * 10 - 5}deg)` }}
+    class="focus-visible:ring-accent focus-visible:ring-offset-bkg relative block h-24 w-24 shrink-0 cursor-default outline-none focus-visible:rounded-lg focus-visible:ring-2 focus-visible:ring-offset-2 sm:h-36 sm:w-36"
+  >
+    <Image
+      src={icon}
+      alt=""
+      widths={[144, 288]}
+      sizes="144px"
+      class="h-full w-full object-contain drop-shadow-md transition-transform group-hover/sticker:scale-105"
+    />
+  </button>
+  <div
+    id={tooltipId}
+    role="tooltip"
+    class="can-hover:block pointer-events-none absolute top-full left-1/2 z-20 hidden w-80 -translate-x-1/2 origin-top scale-95 pt-4 opacity-0 transition-[opacity,transform] duration-150 group-hover/sticker:pointer-events-auto group-hover/sticker:scale-100 group-hover/sticker:opacity-100 group-focus-within/sticker:pointer-events-auto group-focus-within/sticker:scale-100 group-focus-within/sticker:opacity-100 sm:w-96"
+  >
+    <div class="border-content/10 bg-bkg relative rounded-xl border p-4 shadow-xl">
+      <span class="border-content/10 bg-bkg absolute -top-2 left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 border-t border-l"></span>
+      <ExperienceDetails name={name} date={date} title={title} location={location} text={text} />
+    </div>
+  </div>
+  <div class="hover-none:flex mt-4 hidden w-full max-w-sm flex-col gap-2">
+    <ExperienceDetails name={name} date={date} title={title} location={location} text={text} align="center" />
+  </div>
+</div>

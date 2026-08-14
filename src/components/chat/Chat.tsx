@@ -9,7 +9,12 @@ import type { ChatMessage } from '@/utils/chat/types';
 
 const MAX_MESSAGE_CHARS = 1500;
 
-const SUGGESTIONS = ['What can you do?', 'Does Sam have any advice?', 'Tell me about their most recent project.'];
+const SUGGESTIONS = [
+  'is sam really smart and cool??',
+  'tell me about their experiences',
+  'tell me about one of their projects',
+  'what shows/movies/books do they like?'
+];
 
 export default function Chat() {
   const { rows, streaming, send, cancel } = useChatStream();
@@ -61,13 +66,13 @@ export default function Chat() {
 
   return (
     <div class={`${styles.shell} border-content/15 bg-bkg/40 mt-4 flex flex-col overflow-hidden rounded-xl border backdrop-blur-sm`}>
-      <div class="border-content/10 text-content/40 flex items-center gap-2 border-b px-4 py-2 font-mono text-xs">
+      {/* <div class="border-content/10 text-content/40 flex items-center gap-2 border-b px-4 py-2 font-mono text-xs">
         <span aria-hidden="true" class={styles.caret}>
           ●
         </span>
         <span>tsunibot</span>
         <span class="ml-auto">gemini-3.5-flash-lite</span>
-      </div>
+      </div> */}
 
       <div class="relative">
         <div ref={scrollRef} onScroll={onScroll} class="max-h-104 min-h-48 overflow-y-auto px-4 py-4">
@@ -125,7 +130,7 @@ export default function Chat() {
           maxLength={MAX_MESSAGE_CHARS}
           readOnly={streaming}
           aria-readonly={streaming}
-          placeholder={streaming ? 'thinking…' : 'ask something'}
+          placeholder={streaming ? 'pondering...' : 'ask something'}
           onInput={event => setDraft((event.target as HTMLTextAreaElement).value)}
           onKeyDown={onKeyDown}
           class={`${styles.input} max-h-32 min-w-0 flex-1 bg-transparent font-mono text-sm outline-none sm:text-base ${streaming ? 'opacity-50' : ''}`}

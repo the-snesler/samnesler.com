@@ -1,0 +1,53 @@
+[
+  {
+    "id": "brilliant",
+    "order": 4,
+    "icon": "brilliant.png",
+    "date": "May 2026 – August 2026",
+    "name": "Brilliant.org",
+    "title": "Software Engineer Intern",
+    "location": "New York, NY",
+    "text": [
+      "Designed, built, and maintained interactive math lessons using a functional programming language."
+    ]
+  },
+  {
+    "id": "uw-madison-ta",
+    "order": 1,
+    "icon": "UW.png",
+    "date": "September 2025 – Present",
+    "name": "School of Computer, Data & Information Sciences \u2013 UW-Madison",
+    "title": "Undergraduate Teaching Assistant",
+    "location": "Madison, WI",
+    "text": [
+      "Supported a 500+ student introductory C course by providing one-on-one academic tutoring and support.",
+      "Developed LLM knowledge agent with LangChain, Pinecone, Express, and React with access to course content and questions from previous semesters to assist in answering student inquiries."
+    ]
+  },
+  {
+    "id": "fetch",
+    "order": 2,
+    "icon": "fetch.png",
+    "date": "May 2025 – August 2025",
+    "name": "Fetch",
+    "title": "Software Engineer Intern",
+    "location": "Madison, WI",
+    "text": [
+      "Collaborated with the engineering team to develop features in frontend tools using Svelte and Go.",
+      "Diagnosed and resolved a transitive dependency conflict that caused silent E2E test failures in CI/CD, immediately uncovering 17 critical bugs in production."
+    ]
+  },
+  {
+    "id": "dssd",
+    "order": 3,
+    "icon": "dssd.png",
+    "date": "August 2024 – Present",
+    "name": "Data Science for Sustainable Development",
+    "title": "Student Project Manager -> President",
+    "location": "Madison, WI",
+    "text": [
+      "Led 4 teams of student developers to plan, execute and deliver full-stack projects aligned with non-profit stakeholders.",
+      "Led development of a map of organized crime in South America using React and Firebase used by 10,000+ visitors."
+    ]
+  }
+]

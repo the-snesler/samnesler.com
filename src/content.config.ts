@@ -55,7 +55,31 @@ const projectsCollection = defineCollection({
     })
 });
 
+const experienceCollection = defineCollection({
+  loader: file('src/content/experience.json', {
+    parser: text => {
+      const experiences = JSON.parse(text) as Array<Record<string, unknown> & { id: string }>;
+      return Object.fromEntries(
+        experiences.map(experience => {
+          const { id, ...experienceData } = experience;
+          return [id, experienceData];
+        })
+      );
+    }
+  }),
+  schema: z.object({
+    order: z.number(),
+    icon: z.string(),
+    date: z.string(),
+    name: z.string(),
+    title: z.string(),
+    text: z.array(z.string()),
+    location: z.string()
+  })
+});
+
 export const collections = {
   blog: blogCollection,
-  projects: projectsCollection
+  projects: projectsCollection,
+  experience: experienceCollection
 };

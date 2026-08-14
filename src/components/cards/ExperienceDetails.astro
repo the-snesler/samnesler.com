@@ -1,0 +1,24 @@
+---
+interface Props {
+  name: string;
+  date: string;
+  title: string;
+  location: string;
+  text: string[];
+  align?: 'left' | 'center';
+}
+
+const { name, date, title, location, text, align = 'left' } = Astro.props;
+const centered = align === 'center';
+---
+
+<p class:list={['font-mono text-sm font-bold', { 'text-center': centered }]}>{name}</p>
+<p class:list={['text-content/50 font-mono text-xs', { 'text-center': centered }]}>{date}</p>
+<hr class="border-content/10 my-2" />
+<div class="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5">
+  <p class="text-content/80 text-sm italic">{title}</p>
+  <p class="text-content/50 shrink-0 font-mono text-xs">{location}</p>
+</div>
+<ul class="text-content/80 mt-2 list-disc space-y-1 pl-4 text-sm">
+  {text.map(line => <li>{line}</li>)}
+</ul>
