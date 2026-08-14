@@ -1,0 +1,47 @@
+---
+import IconButtonRow1 from '@/components/buttonRow/IconButtonRow1.astro';
+import BackgroundSeafloor from '@/components/seafloor/BackgroundSeafloor.astro';
+---
+
+<BackgroundSeafloor />
+  <footer class="dark:bg-bkg w-full bg-[#5c487b] py-4 text-white/70">
+    <div class="flex justify-center">
+      <IconButtonRow1
+        buttons={[
+          {
+            iconName: 'simple-icons:gmail',
+            href: 'mailto:me@[this domain]',
+            title: 'me@[this domain]'
+          },
+          {
+            iconName: 'simple-icons:github',
+            href: 'https://github.com/the-snesler',
+            title: 'the-snesler'
+          },
+          {
+            iconName: 'simple-icons:discord',
+            href: 'https://discord.gg/W59fcbydeG',
+            title: 'tsni'
+          },
+          {
+            iconName: 'simple-icons:twitter',
+            href: 'https://twitter.com/tsuniHD',
+            title: '@tsuniHD'
+          },
+          {
+            iconName: 'simple-icons:instagram',
+            href: 'https://www.instagram.com/tetratsunami',
+            title: '@tetratsunami'
+          },
+          {
+            iconName: 'simple-icons:linkedin',
+            href: 'https://www.linkedin.com/in/sam-nesler/',
+            title: 'LinkedIn'
+          }
+        ]}
+      />
+    </div>
+    <p class="text-center text-sm">
+      &copy; {new Date().getFullYear()} Sam Nesler. All rights reserved.
+    </p>
+  </footer>

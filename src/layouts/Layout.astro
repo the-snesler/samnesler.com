@@ -6,6 +6,7 @@ import Font from 'astro/components/Font.astro';
 import BaseHead from '@/components/BaseHead.astro';
 import Background from '@/components/Background.astro';
 import Header from '@/components/header/Header.astro';
+import Footer from '@/components/Footer.astro';
 
 interface Props {
   metadata?: {
@@ -42,5 +43,6 @@ const { metadata = {}, fancyBackground = false } = Astro.props;
     <Header />
     <Background {fancyBackground} />
     <slot />
+    <Footer />
   </body>
 </html>

@@ -19,7 +19,7 @@ const KELP = { url: '/textures/kelp.png', frameCount: 20, blocksPerFrame: 1 };
 const BLOCK_SIZE = 0.55;
 
 /** Camera sits just above the floor looking forward, mirroring WaterEffect's view from below. */
-const CAMERA_POSITION: [number, number, number] = [0, -10, 3.4];
+const CAMERA_POSITION: [number, number, number] = [0, -11.5, 3.4];
 const CAMERA_TARGET: [number, number, number] = [0, 5.2, 0.6];
 
 /** World Y where the haze starts and where it has fully swallowed the geometry. */
@@ -60,7 +60,7 @@ export class SeafloorEffect {
       rockCount: 240,
       grassCount: 700,
       kelpCount: 90,
-      seed: 1235,
+      seed: Math.round(Math.random() * 100000),
       ...config
     };
 

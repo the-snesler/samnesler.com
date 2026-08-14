@@ -20,8 +20,10 @@ import Github from '~icons/simple-icons/github';
 import Instagram from '~icons/simple-icons/instagram';
 import Linkedin from '~icons/simple-icons/linkedin';
 import SimpleTwitter from '~icons/simple-icons/twitter';
+import Gmail from '~icons/simple-icons/gmail';
 
 export const ICONS = {
+  'simple-icons:gmail': Gmail,
   'lucide:book': Book,
   'lucide:chevron-down': ChevronDown,
   'lucide:chevron-right': ChevronRight,

@@ -9,11 +9,11 @@ const { height = 500, subdivisions = 192, animationSpeed = 1.0, terrainAmplitude
 ---
 
 {/* z-[-1] keeps the band behind the page's own (unpositioned) content but in front of Background.astro's -10 layer. */}
-<div class="pointer-events-none absolute right-0 bottom-0 left-0 z-[-1] overflow-hidden" style={{ height: `${height}px` }}>
+<div id="seafloor-background" class="pointer-events-none relative z-[-1] w-full overflow-hidden" style={{ height: `${height}px` }}>
   <canvas
     id="seafloor-canvas"
     height={height / 4}
-    class:list={['pixelated pointer-events-none absolute bottom-0 w-full mask-t-to-95%', className]}
+    class:list={['pixelated pointer-events-none w-full mask-t-to-95%', className]}
     style={{ minHeight: `${height}px` }}
     data-height={height}
     data-subdivisions={subdivisions}
@@ -21,6 +21,16 @@ const { height = 500, subdivisions = 192, animationSpeed = 1.0, terrainAmplitude
     data-terrain-amplitude={terrainAmplitude}
     {...rest}></canvas>
 </div>
+
+<style>
+  #seafloor-background {
+    background: linear-gradient(180deg, transparent 60%, #5c487b 70%);
+  }
+
+  :global(.dark) #seafloor-background {
+    background: linear-gradient(180deg, transparent 60%, var(--theme-bkg) 70%);
+  }
+</style>
 
 <script>
   import { SeafloorEffect } from './SeafloorEffect.ts';
