@@ -421,7 +421,7 @@ export default function Guestbook() {
         </div>
         {drawingImages.map(({ id, image }, index) => (
           <div
-            className="bg-bkg animate-in fade-in animation-fill-backward relative aspect-square rounded-sm"
+            className="bg-bkg animate-in fade-in animation-fill-backward relative aspect-square w-full rounded-sm"
             style={{ animationDelay: `${index * 25}ms` }}
             key={id}
           >
