@@ -78,6 +78,28 @@ pnpm wrangler             # Direct Wrangler CLI access
 - Rehype callouts for enhanced markdown
 - GitHub Flavored Markdown support
 
+#### Hero Minigame
+
+An endless tunnel runner (Run 3 style) that takes over the homepage hero (`src/components/game/`).
+
+- **Launch**: the first entry in the hero's `IconButtonRow2` is a sprite of the character rather than
+  an icon. Entries without an `href` render a `<button>` that dispatches their `event` name on
+  `window`; this one fires `runner:open`, which `RunnerGame.astro` listens for.
+- **Loading**: the engine is a dynamic `import()` inside that listener, so a visitor who never plays
+  downloads none of it.
+- **Engine** (`src/components/game/engine/`): fixed 120 Hz simulation, canvas 2D software 3D. The
+  tunnel is a 9-sided prism; rendering rolls the world so the runner's lane is always straight down,
+  which is what makes strafing onto a wall rotate the tunnel.
+- **Generation** (`world.ts`): sections are chosen by weights that shift with distance. Fairness
+  rests on one invariant — the generator keeps a _band_ of lanes solid and obstacle-free in every
+  ring, and the band may only move one lane per `LANE_SHIFT_RINGS` rings, the distance a runner can
+  cover sideways in that time at any speed. Full-width gaps are capped at `maxJumpRings`.
+  `world.test.ts` re-walks generated runs under a pessimistic movement model to prove they are
+  survivable.
+- **Sprites**: placeholder PNG sheets in `public/game/` (see the README there). A sheet that fails to
+  load degrades to flat rectangles rather than breaking the hero.
+- **High score**: distance in metres, stored in `localStorage` under `samnesler:runner:best`.
+
 #### Homepage Chat Agent
 
 A CLI-styled agent on the homepage (`#ask`, above `#projects`) that answers questions about Sam.

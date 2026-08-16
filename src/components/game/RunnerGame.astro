@@ -1,0 +1,210 @@
+---
+// The hero minigame: an endless tunnel runner that takes over the hero when the character sprite
+// in the icon row is clicked (that button dispatches `runner:open` on `window`).
+//
+// Nothing here loads until the button is pressed — the engine is a dynamic import, so a visitor who
+// never plays pays for one small listener and no canvas work.
+import Icon from '@/components/Icon.astro';
+---
+
+<div
+  id="runner-root"
+  class="absolute inset-2 z-20 md:inset-4"
+  data-state="ready"
+  role="dialog"
+  aria-label="Tunnel runner minigame"
+  tabindex="-1"
+  hidden
+>
+  <div class="border-content/10 bg-bkg/60 relative h-full w-full overflow-hidden rounded-3xl border shadow-lg backdrop-blur-md">
+    <canvas id="runner-canvas" class="absolute inset-0 block h-full w-full"></canvas>
+
+    <div class="pointer-events-none absolute inset-x-3 top-3 flex items-start gap-2 pr-12 font-mono text-sm sm:inset-x-4 sm:top-4">
+      <p class="text-content/90 bg-bkg/50 rounded-lg px-2 py-1 tabular-nums" data-hud="distance">0 m</p>
+      <p class="text-content/70 bg-bkg/50 rounded-lg px-2 py-1 tabular-nums" data-hud="best">best 0 m</p>
+    </div>
+
+    <div class="pointer-events-none absolute inset-0 flex items-center justify-center p-4 pb-28 text-center">
+      <div class="bg-bkg/80 border-content/10 max-w-md rounded-2xl border px-5 py-4 font-mono shadow-lg" data-when="ready">
+        <h3 class="text-accent text-lg font-semibold">tunnel runner</h3>
+        <p class="text-content/80 mt-1 text-sm">Stay on the tiles. Fall off the tunnel and the run is over.</p>
+        <ul class="hint-keys text-content/70 mt-3 space-y-1 text-xs">
+          <li><kbd>&larr;</kbd> <kbd>&rarr;</kbd> / <kbd>A</kbd> <kbd>D</kbd> — run around the tunnel</li>
+          <li><kbd>space</kbd> / <kbd>W</kbd> — jump</li>
+          <li><kbd>esc</kbd> — back to the hero</li>
+        </ul>
+        <ul class="hint-touch text-content/70 mt-3 space-y-1 text-xs">
+          <li>hold <kbd>&#9664;</kbd> <kbd>&#9654;</kbd> — run around the tunnel</li>
+          <li><kbd>jump</kbd> — jump</li>
+        </ul>
+        <p class="text-accent mt-3 text-sm">
+          <span class="hint-keys">press space to start</span>
+          <span class="hint-touch">tap the tunnel to start</span>
+        </p>
+        <p class="text-content/60 mt-1 text-xs" data-hud="best-ready">best 0 m</p>
+      </div>
+
+      <div class="bg-bkg/80 border-content/10 max-w-md rounded-2xl border px-5 py-4 font-mono shadow-lg" data-when="dead">
+        <h3 class="text-lg font-semibold" data-hud="cause">you fell out of the tunnel</h3>
+        <p class="text-accent mt-2 text-3xl font-bold tabular-nums" data-hud="final">0 m</p>
+        <p class="text-content/70 mt-1 text-sm tabular-nums" data-hud="summary">best 0 m</p>
+        <p class="text-content/80 mt-3 text-sm">
+          <span class="hint-keys">press space to run again</span>
+          <span class="hint-touch">tap the tunnel to run again</span>
+        </p>
+      </div>
+    </div>
+
+    <div id="runner-touch" class="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-4">
+      <button type="button" data-control="left" aria-label="Move left">&#9664;</button>
+      <button type="button" data-control="jump" aria-label="Jump">jump</button>
+      <button type="button" data-control="right" aria-label="Move right">&#9654;</button>
+    </div>
+
+    <button
+      type="button"
+      id="runner-close"
+      class="bg-bkg/70 text-content/80 hover:text-content border-content/10 absolute top-3 right-3 rounded-full border p-2 transition-colors sm:top-4 sm:right-4"
+      aria-label="Close the minigame"
+    >
+      <Icon name="lucide:x" size={18} />
+    </button>
+  </div>
+</div>
+
+<style>
+  kbd {
+    border: 1px solid color-mix(in srgb, currentColor 25%, transparent);
+    border-radius: 0.25rem;
+    padding: 0 0.25rem;
+  }
+
+  [data-when] {
+    display: none;
+  }
+  #runner-root[data-state='ready'] [data-when='ready'],
+  #runner-root[data-state='dead'] [data-when='dead'] {
+    display: block;
+  }
+  /* The score readout is only interesting once a run is under way. */
+  #runner-root:not([data-state='playing']):not([data-state='dying']) [data-hud='distance'] {
+    visibility: hidden;
+  }
+
+  /* Control hints follow the same split as the pads below: keys for pointers, taps for touch. */
+  .hint-touch {
+    display: none;
+  }
+  @media (pointer: coarse) {
+    .hint-keys {
+      display: none;
+    }
+    .hint-touch {
+      display: revert;
+    }
+  }
+
+  #runner-touch button {
+    background: color-mix(in srgb, var(--theme-bkg) 70%, transparent);
+    border: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    min-width: 3.5rem;
+    padding: 0.75rem 1rem;
+    touch-action: none;
+    user-select: none;
+  }
+  #runner-touch button:active {
+    background: color-mix(in srgb, var(--theme-accent) 45%, transparent);
+  }
+  /* Pointer-driven devices get the keyboard; the pads would only cover the tunnel. */
+  @media (pointer: fine) {
+    #runner-touch {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  import type { RunnerGame } from './engine/game';
+  import type { HudSnapshot } from './engine/types';
+
+  const root = document.getElementById('runner-root');
+  const canvas = document.getElementById('runner-canvas') as HTMLCanvasElement | null;
+  const hero = document.getElementById('home');
+
+  if (root && canvas) {
+    const text = (selector: string, value: string) => {
+      const element = root.querySelector(selector);
+      if (element) element.textContent = value;
+    };
+
+    const renderHud = (hud: HudSnapshot) => {
+      text('[data-hud="distance"]', `${hud.distance} m`);
+      text('[data-hud="best"]', `best ${Math.max(hud.best, hud.distance)} m`);
+    };
+
+    const renderStatus = (hud: HudSnapshot) => {
+      root.dataset.state = hud.status;
+      renderHud(hud);
+      text('[data-hud="best-ready"]', `best ${hud.best} m`);
+      if (hud.status === 'dead') {
+        text('[data-hud="cause"]', hud.cause === 'crashed' ? 'you hit a block' : 'you fell out of the tunnel');
+        text('[data-hud="final"]', `${hud.distance} m`);
+        text('[data-hud="summary"]', hud.isNewBest ? 'new personal best!' : `best ${hud.best} m`);
+      }
+    };
+
+    let game: RunnerGame | null = null;
+    let booting = false;
+
+    const close = () => {
+      game?.close();
+      root.hidden = true;
+      hero?.removeAttribute('data-runner');
+      document.querySelector<HTMLElement>('[data-event="runner:open"]')?.focus();
+    };
+
+    const open = async () => {
+      if (booting) return;
+      booting = true;
+      root.hidden = false;
+      hero?.setAttribute('data-runner', 'open');
+      root.focus({ preventScroll: true });
+      try {
+        if (!game) {
+          const { createRunner } = await import('./engine/game');
+          game = await createRunner({
+            canvas,
+            onHud: renderHud,
+            onStatus: renderStatus,
+            onRequestClose: close
+          });
+        }
+        game.open();
+      } finally {
+        booting = false;
+      }
+    };
+
+    window.addEventListener('runner:open', open);
+    document.getElementById('runner-close')?.addEventListener('click', close);
+    // Tapping the tunnel starts a run (and retries after one), which is the whole control scheme on
+    // a phone besides the pads below.
+    canvas.addEventListener('pointerdown', () => game?.confirm());
+
+    for (const button of root.querySelectorAll<HTMLButtonElement>('[data-control]')) {
+      const control = button.dataset.control as 'left' | 'right' | 'jump';
+      const set = (pressed: boolean) => game?.press(control, pressed);
+      button.addEventListener('pointerdown', event => {
+        event.preventDefault();
+        button.setPointerCapture(event.pointerId);
+        set(true);
+      });
+      button.addEventListener('pointerup', () => set(false));
+      button.addEventListener('pointercancel', () => set(false));
+      button.addEventListener('contextmenu', event => event.preventDefault());
+    }
+  }
+</script>

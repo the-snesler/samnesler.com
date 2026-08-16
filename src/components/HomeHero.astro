@@ -1,5 +1,7 @@
 ---
 import IconButtonRow2 from '@/components/buttonRow/IconButtonRow2.astro';
+import RunnerGame from '@/components/game/RunnerGame.astro';
+import { SPRITES } from '@/components/game/engine/config';
 import textStyles from '@/styles/text.module.css';
 
 const fadeUpDelay = (i: number) => {
@@ -21,50 +23,71 @@ const fadeUpDelay = (i: number) => {
   class="relative container mx-auto flex h-[75vh] flex-col items-center justify-center p-8 text-center"
   data-textstyle={textStyles.animateFadeUp}
 >
-  <h2 class="text-4xl font-semibold">
+  <h2 class="hero-fade text-4xl font-semibold">
     <span class="header-word motion-safe:opacity-0" style={fadeUpDelay(0)}> Hello </span>
     {' '}
     <span class="header-word motion-safe:opacity-0" style={fadeUpDelay(1)}> world! </span>
   </h2>
-  <h1 class={`text-8xl font-extrabold text-transparent ${textStyles.gradientTitleText}`}>
+  <h1 class={`hero-fade text-8xl font-extrabold text-transparent ${textStyles.gradientTitleText}`}>
     <span class="header-word motion-safe:opacity-0" style={fadeUpDelay(5)}> I'm </span>
     {' '}
     <span class="header-word motion-safe:opacity-0" style={fadeUpDelay(6)}> Sam! </span>
   </h1>
 
-  <IconButtonRow2
-    buttons={[
-      // {
-      //   iconName: 'simple-icons:gmail',
-      //   href: 'mailto:me@[this domain]',
-      //   title: 'me@[this domain]'
-      // },
-      {
-        iconName: 'simple-icons:github',
-        href: 'https://github.com/the-snesler',
-        title: 'the-snesler'
-      },
-      {
-        iconName: 'simple-icons:discord',
-        href: 'https://discord.gg/W59fcbydeG',
-        title: 'tsni'
-      },
-      {
-        iconName: 'simple-icons:twitter',
-        href: 'https://twitter.com/tsuniHD',
-        title: '@tsuniHD'
-      },
-      {
-        iconName: 'simple-icons:instagram',
-        href: 'https://www.instagram.com/tetratsunami',
-        title: '@tetratsunami'
-      },
-      {
-        iconName: 'simple-icons:linkedin',
-        href: 'https://www.linkedin.com/in/sam-nesler/',
-        title: 'LinkedIn'
-      }
-    ]}
-    animateDelay={7}
-  />
+  <div class="hero-fade">
+    <IconButtonRow2
+      buttons={[
+        // {
+        //   iconName: 'simple-icons:gmail',
+        //   href: 'mailto:me@[this domain]',
+        //   title: 'me@[this domain]'
+        // },
+        {
+          sprite: { src: SPRITES.player.src, frames: SPRITES.player.frames, runFrames: 4 },
+          event: 'runner:open',
+          title: 'Play the tunnel runner'
+        },
+        {
+          iconName: 'simple-icons:github',
+          href: 'https://github.com/the-snesler',
+          title: 'the-snesler'
+        },
+        {
+          iconName: 'simple-icons:discord',
+          href: 'https://discord.gg/W59fcbydeG',
+          title: 'tsni'
+        },
+        {
+          iconName: 'simple-icons:twitter',
+          href: 'https://twitter.com/tsuniHD',
+          title: '@tsuniHD'
+        },
+        {
+          iconName: 'simple-icons:instagram',
+          href: 'https://www.instagram.com/tetratsunami',
+          title: '@tetratsunami'
+        },
+        {
+          iconName: 'simple-icons:linkedin',
+          href: 'https://www.linkedin.com/in/sam-nesler/',
+          title: 'LinkedIn'
+        }
+      ]}
+      animateDelay={7}
+    />
+  </div>
+
+  <RunnerGame />
 </section>
+
+<style>
+  /* While the runner is open it owns the hero; the greeting steps out of its way. */
+  #home[data-runner='open'] .hero-fade {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .hero-fade {
+    transition: opacity 0.25s ease-out;
+  }
+</style>

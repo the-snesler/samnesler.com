@@ -4,12 +4,20 @@ import type { IconName } from '@/components/icons';
 
 import textStyles from '@/styles/text.module.css';
 
-// Define props interface for Astro
-interface ButtonProps {
-  iconName: IconName;
-  href: string;
-  title: string;
+/** A sprite-sheet icon: a single row of equally sized frames that animates on hover. */
+interface SpriteIcon {
+  src: string;
+  /** Frames in the sheet. */
+  frames: number;
+  /** Leading frames that make up the hover animation. */
+  runFrames: number;
 }
+
+// Every entry is either an icon or a sprite, and either navigates (`href`) or fires a window event.
+type ButtonProps = { title: string; href?: string; event?: string } & (
+  | { iconName: IconName; sprite?: undefined }
+  | { sprite: SpriteIcon; iconName?: undefined }
+);
 
 export interface Props {
   buttons: ButtonProps[];
@@ -30,21 +38,78 @@ const getAnimationDelayStyle = (index: number, baseDelay: number) => {
   links.forEach(link => {
     link.classList.add(className || '');
   });
+
+  // Entries without an `href` announce themselves on `window` instead of navigating.
+  parent.querySelectorAll<HTMLElement>('[data-event]').forEach(button => {
+    button.addEventListener('click', () => {
+      window.dispatchEvent(new CustomEvent(button.dataset.event!));
+    });
+  });
 </script>
 
 <ul id="list" class="m-2 flex flex-row items-center justify-between" data-textstyle={textStyles.animateFadeUp}>
   {
-    buttons.map((button: ButtonProps, index: number) => (
-      <li class="relative text-center">
-        <a
-          href={button.href}
-          class:list={['icon-row-link fill-mode-forwards inline-block px-3 py-2 motion-safe:opacity-0', textStyles['pastelTextHover']]}
-          style={{ ...getAnimationDelayStyle(index, animateDelay), '--data-degree': `${(index * 180) / buttons.length + 180}deg` }}
-        >
-          <Icon name={button.iconName} size={24} />
-          <p class="visible-hidden">{button.title}</p>
-        </a>
-      </li>
-    ))
+    buttons.map((button: ButtonProps, index: number) => {
+      const Tag = button.href ? 'a' : 'button';
+      return (
+        <li class="relative text-center">
+          <Tag
+            href={button.href}
+            type={button.href ? undefined : 'button'}
+            data-event={button.event}
+            class:list={['icon-row-link fill-mode-forwards inline-block px-3 py-2 motion-safe:opacity-0', textStyles['pastelTextHover']]}
+            style={{ ...getAnimationDelayStyle(index, animateDelay), '--data-degree': `${(index * 180) / buttons.length + 180}deg` }}
+          >
+            {button.sprite ? (
+              <span
+                class="sprite-icon"
+                style={{
+                  '--sprite-src': `url(${button.sprite.src})`,
+                  '--sprite-frames': button.sprite.frames,
+                  '--sprite-run-frames': button.sprite.runFrames
+                }}
+              />
+            ) : (
+              <Icon name={button.iconName} size={24} />
+            )}
+            <p class="visible-hidden">{button.title}</p>
+          </Tag>
+        </li>
+      );
+    })
   }
 </ul>
+
+<style>
+  .sprite-icon {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background-image: var(--sprite-src);
+    /* One frame fills the box, so the sheet is as many boxes wide as it has frames. */
+    background-size: calc(var(--sprite-frames) * 100%) 100%;
+    background-position-x: 0%;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    vertical-align: middle;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    a:hover .sprite-icon,
+    a:focus-visible .sprite-icon,
+    button:hover .sprite-icon,
+    button:focus-visible .sprite-icon {
+      animation: sprite-run calc(var(--sprite-run-frames) / 12 * 1s) steps(var(--sprite-run-frames)) infinite;
+    }
+  }
+
+  @keyframes sprite-run {
+    from {
+      background-position-x: 0%;
+    }
+    to {
+      /* Frame n of a sheet sits at n / (frames - 1) of the background box. */
+      background-position-x: calc(var(--sprite-run-frames) * 100% / (var(--sprite-frames) - 1));
+    }
+  }
+</style>
