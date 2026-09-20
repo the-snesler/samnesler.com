@@ -11,6 +11,8 @@ import remarkBreaks from 'remark-breaks';
 import remarkGFM from 'remark-gfm';
 import glsl from 'vite-plugin-glsl';
 import { unified } from '@astrojs/markdown-remark';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 
 import devImageEndpoint from './src/utils/vite/devImageEndpoint.js';
 import remarkSectionize from './src/utils/remark/sectionize.js';
@@ -46,8 +48,8 @@ export default defineConfig({
 
   markdown: {
     processor: unified({
-      remarkPlugins: [remarkGFM, remarkSectionize, remarkBreaks],
-      rehypePlugins: [rehypeCallouts]
+      remarkPlugins: [remarkMath, remarkGFM, remarkSectionize, remarkBreaks],
+      rehypePlugins: [rehypeKatex, rehypeCallouts]
     }),
     shikiConfig: {
       themes: {

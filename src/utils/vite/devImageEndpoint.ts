@@ -21,7 +21,10 @@ const IMAGE_ROUTE = '/_image';
 const ENDPOINT = 'astro/assets/endpoint/generic';
 
 // `runner.import()` is an untyped module boundary; this is the shape Astro's endpoint exports.
-type ImageEndpointModule = { GET: (context: { request: Request }) => Promise<Response> };
+// Astro 7.3 added the logger to the endpoint context and forwards it to image services.
+type ImageEndpointModule = {
+  GET: (context: { request: Request; logger: Pick<import('vite').Logger, 'error' | 'warn'> }) => Promise<Response>;
+};
 
 export default function devImageEndpoint(): Plugin {
   return {
@@ -46,7 +49,8 @@ export default function devImageEndpoint(): Plugin {
             try {
               const { GET } = await environment.runner.import<ImageEndpointModule>(ENDPOINT);
               const response = await GET({
-                request: new Request(new URL(req.url, `http://${req.headers.host}`))
+                request: new Request(new URL(req.url, `http://${req.headers.host}`)),
+                logger: server.config.logger
               });
 
               res.statusCode = response.status;
