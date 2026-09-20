@@ -37,8 +37,8 @@ export interface LocalImageServiceWithPlaceholder extends LocalImageService {
 
 const service: LocalImageServiceWithPlaceholder = {
   ...sharpService,
-  async getHTMLAttributes(options, imageConfig) {
-    const attributes = await sharpService.getHTMLAttributes!(options, imageConfig);
+  async getHTMLAttributes(options, imageConfig, logger) {
+    const attributes = await sharpService.getHTMLAttributes!(options, imageConfig, logger);
 
     // Use the original dimensions of the image for the width and height attributes. Maybe that Astro should do this by default? Not sure, and I can only blame myself.
     if (options.densities && typeof options.src === 'object') {

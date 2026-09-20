@@ -1,5 +1,5 @@
 ---
-title: 'Sets, symbolic math, and animated graphs at Brilliant'
+title: 'Draft: Sets, symbolic math, and animated graphs at Brilliant'
 subtitle: 'I burned $400 of Fable credits on a refactor, and still spent three weeks fixing it.'
 isVisible: false
 date: 2026-09-20

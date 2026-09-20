@@ -10,21 +10,30 @@ const posts = await getCollection('blog');
 const pageList = Object.values(pages)
   .map((page: any) => {
     const url = page.url;
-    const title = url === '' ? 'Home' : url.replace(/\//g, '').replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase());
+    const title =
+      url === ''
+        ? 'Home'
+        : url
+            .replace(/\//g, '')
+            .replace(/-/g, ' ')
+            .replace(/\b\w/g, (c: string) => c.toUpperCase());
     return { url, title };
   })
   .filter(page => page.url && !page.url.match(/404|500|\[/g));
 
 const postList = sortPosts(posts).map(post => ({
   url: `/posts/${post.id}/`,
-  title: post.data.title,
+  title: post.data.title
 }));
 
 const combinedList = [...pageList, ...postList];
 ---
 
 <script>
-  import createFuzzySearch from '@nozbe/microfuzz';
+  import microfuzz from '@nozbe/microfuzz';
+
+  // Vite 8 exposes this CommonJS package's exports object as the default import.
+  const createFuzzySearch = typeof microfuzz === 'function' ? microfuzz : (microfuzz as unknown as { default: typeof microfuzz }).default;
 
   function dedupeArray<T, K extends keyof T>(arr: T[], key: K): T[K][] {
     return [...new Set(arr.map(item => JSON.stringify(item[key])))].map(str => JSON.parse(str));
@@ -34,21 +43,30 @@ const combinedList = [...pageList, ...postList];
     const searchElement = document.getElementById('page-search');
     if (!searchElement) return;
     const url = window.location.pathname;
-    const list: {url: string, title: string}[] = searchElement?.getAttribute('data-urls')
+    const list: { url: string; title: string }[] = searchElement?.getAttribute('data-urls')
       ? JSON.parse(searchElement.getAttribute('data-urls')!)
       : [];
-    const fuzzySearch = createFuzzySearch(list, { strategy: "aggressive", getText: (item) => [item.title, item.url] });
+    const fuzzySearch = createFuzzySearch(list, { strategy: 'aggressive', getText: item => [item.title, item.url] });
 
-    const results: {url: string, title: string}[] = dedupeArray([...fuzzySearch(url), ...url.split('/').reverse().flatMap(segment => fuzzySearch(segment))], 'item');
-    results.push({url: "/", title: "Home"});
+    const results: { url: string; title: string }[] = dedupeArray(
+      [
+        ...fuzzySearch(url),
+        ...url
+          .split('/')
+          .reverse()
+          .flatMap(segment => fuzzySearch(segment))
+      ],
+      'item'
+    );
+    results.push({ url: '/', title: 'Home' });
 
-    for (const {result, i} of results.slice(0, 5).map((result, i) => ({result, i}))) {
+    for (const { result, i } of results.slice(0, 5).map((result, i) => ({ result, i }))) {
       const li = document.createElement('li');
       const a = document.createElement('a');
       a.href = result.url;
       a.textContent = result.title;
       a.className = 'text-lg font-semibold hover:text-accent';
-      li.className = 'animate-in fade-in animation-fill-backwards duration-200'
+      li.className = 'animate-in fade-in animation-fill-backwards duration-200';
       li.style.animationDelay = `${i * 50}ms`;
       li.appendChild(a);
       searchElement.appendChild(li);
@@ -59,12 +77,11 @@ const combinedList = [...pageList, ...postList];
 </script>
 
 <Layout metadata={{ title: '404' }}>
-  <main class="prose dark:prose-invert flex min-w-full flex-col items-center justify-center h-screen">
+  <main class="prose dark:prose-invert flex h-screen min-w-full flex-col items-center justify-center">
     <div>
       <h1 class={`text-4xl font-bold ${textStyles.terminal}`}>./404</h1>
       <p>That page doesn't exist. Maybe you meant one of these?</p>
-      <ul id="page-search" class="min-h-48" data-urls={JSON.stringify(combinedList)}>
-      </ul>
+      <ul id="page-search" class="min-h-48" data-urls={JSON.stringify(combinedList)}></ul>
     </div>
   </main>
 </Layout>

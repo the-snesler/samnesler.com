@@ -20,8 +20,8 @@ const { ...props } = Astro.props as any;
 <AstroPicture
   {...props}
   width={Astro.props.width ?? Astro.props.src.width / 2}
-  densities={!Astro.props.widths ? (Astro.props.densities ?? [1.5, 2]) : undefined}
-  formats={Astro.props.formats ?? ['avif', 'webp']}
+  densities={!Astro.props.widths ? (Astro.props.densities ?? [2]) : undefined}
+  formats={Astro.props.formats ?? ['webp']}
   style={`background-size: cover;background-image: url(${placeholderURL});image-rendering:auto;filter:blur(5px);`}
   onload="this.style.backgroundSize = null; this.style.backgroundImage = null; this.style.imageRendering = null; this.style.filter = null; this.removeAttribute('onload');"
 />

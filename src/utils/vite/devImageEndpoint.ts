@@ -43,7 +43,11 @@ export default function devImageEndpoint(): Plugin {
       return () => {
         server.middlewares.stack.unshift({
           route: '',
-          handle: async (req: { url?: string; headers: NodeJS.Dict<string | string[]> }, res: import('node:http').ServerResponse, next: (err?: unknown) => void) => {
+          handle: async (
+            req: { url?: string; headers: NodeJS.Dict<string | string[]> },
+            res: import('node:http').ServerResponse,
+            next: (err?: unknown) => void
+          ) => {
             if (!req.url?.startsWith(`${IMAGE_ROUTE}?`)) return next();
 
             try {
