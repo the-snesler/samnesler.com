@@ -26,7 +26,7 @@
   {
     "id": "thedefense",
     "name": "The Defense",
-    "href": "https://defense.samnesler.com",
+    "href": "https://defense.tsuni.dev",
     "source": "https://github.com/the-snesler/the-defense",
     "image": "thedefense.png",
     "shortType": "party game",
@@ -62,7 +62,7 @@
   {
     "id": "paintball",
     "name": "Paintball",
-    "href": "https://paintball.samnesler.com",
+    "href": "https://pb.tsuni.dev",
     "source": "https://github.com/the-snesler/paintball-ai",
     "image": "paintball.png",
     "shortType": "web app",
@@ -88,7 +88,7 @@
   {
     "id": "simplegif",
     "name": "SimpleGIF",
-    "href": "https://simplegif.samnesler.com",
+    "href": "https://simplegif.tsuni.dev",
     "source": "https://github.com/the-snesler/simplegif",
     "image": "simplegif.png",
     "shortType": "web app",
@@ -112,7 +112,7 @@
   {
     "id": "trakt-ical-generator",
     "name": "Trakt iCal Generator",
-    "href": "https://trakt.samnesler.com",
+    "href": "https://trakt.tsuni.dev",
     "source": "https://github.com/the-snesler/trakt-ical-feed",
     "image": "traktical.png",
     "shortType": "web app/API",
@@ -148,7 +148,7 @@
   {
     "id": "n-of-us",
     "name": "N of Us Are Lying",
-    "href": "https://nofus.samnesler.com",
+    "href": "https://nofus.tsuni.dev",
     "source": "https://github.com/the-snesler/n-of-us-are-lying",
     "image": "nofus.png",
     "shortType": "party game",
@@ -160,7 +160,7 @@
   {
     "id": "buckys-buzzer-beater",
     "name": "Bucky's Buzzer Beater",
-    "href": "https://bbb.samnesler.com",
+    "href": "https://bbb.tsuni.dev",
     "source": "https://github.com/the-snesler/buckys-buzzer-beater",
     "image": "madhacks2025.png",
     "shortType": "party game",
@@ -184,7 +184,7 @@
   {
     "id": "bike-benefits-map",
     "name": "Bike Benefits Map",
-    "href": "https://bb.samnesler.com",
+    "href": "https://bb.tsuni.dev",
     "source": "https://github.com/the-snesler/bikebenefits-map",
     "image": "bikebenefits.png",
     "shortType": "web app",
