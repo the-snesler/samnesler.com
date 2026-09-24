@@ -3,21 +3,20 @@ import { getCollection } from 'astro:content';
 import { sortPosts } from '@/utils/utils';
 
 const posts = await getCollection('blog');
-const sortedPosts = sortPosts(posts);
+const sortedPosts = sortPosts(posts).slice(0, 5);
 ---
 
 <ul class="mt-2 w-full">
-  {sortedPosts.map(post => {
-    return (
-      <li class="mb-4">
-        <a href={`/posts/${post.id}`} class="text-lg font-semibold hover:text-accent">
-          {post.data.title}
-        </a>
-        <p class="text-sm text-content/75">{post.data.subtitle}</p>
-      </li>
-    )
-  })}
-  <li class="hover:text-accent">
-    <a href="/blog" class="text-lg"> See more posts on my blog :) </a>
-  </li>
+  {
+    sortedPosts.map(post => {
+      return (
+        <li class="mb-4">
+          <a href={`/posts/${post.id}`} class="hover:text-accent text-lg font-semibold">
+            {post.data.title}
+          </a>
+          <p class="text-content/75 text-sm">{post.data.subtitle}</p>
+        </li>
+      );
+    })
+  }
 </ul>

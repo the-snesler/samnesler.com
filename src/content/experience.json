@@ -1,7 +1,7 @@
 [
   {
     "id": "brilliant",
-    "order": 4,
+    "order": 1,
     "icon": "brilliant.png",
     "date": "May 2026 – August 2026",
     "name": "Brilliant.org",
@@ -13,9 +13,9 @@
   },
   {
     "id": "uw-madison-ta",
-    "order": 1,
+    "order": 2,
     "icon": "UW.png",
-    "date": "September 2025 – Present",
+    "date": "September 2025 – May 2026",
     "name": "School of Computer, Data & Information Sciences \u2013 UW-Madison",
     "title": "Undergraduate Teaching Assistant",
     "location": "Madison, WI",
@@ -26,7 +26,7 @@
   },
   {
     "id": "fetch",
-    "order": 2,
+    "order": 3,
     "icon": "fetch.png",
     "date": "May 2025 – August 2025",
     "name": "Fetch",
@@ -39,7 +39,7 @@
   },
   {
     "id": "dssd",
-    "order": 3,
+    "order": 4,
     "icon": "dssd.png",
     "date": "August 2024 – Present",
     "name": "Data Science for Sustainable Development",

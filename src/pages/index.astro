@@ -17,7 +17,7 @@ import RecentPosts from '@/components/posts/RecentPosts.astro';
     <div
       class="bg-bkg/55 shadow-i-lg container flex w-full max-w-7xl flex-col gap-24 self-center rounded-3xl px-1 pt-16 pb-8 backdrop-blur-sm transition-colors sm:mx-4 md:mx-8 md:px-6 lg:mx-16"
     >
-      <div class="grid gap-x-8 gap-y-16 lg:grid-cols-2">
+      <div class="grid gap-x-16 gap-y-16 lg:grid-cols-2">
         <section id="about">
           <h2 class={`text-left text-3xl md:text-4xl font-semibold mb-4 font-mono ${textStyles.terminal}`}>whois Sam</h2>
           <p class="mb-4 max-w-prose text-left text-lg">
@@ -49,19 +49,19 @@ import RecentPosts from '@/components/posts/RecentPosts.astro';
             </p>
           </div>
         </section>
-        <section id="recent-posts">
-          <h2 class={`text-left text-3xl md:text-4xl font-semibold mb-4 font-mono ${textStyles.terminal}`}>ls ./blog/recent-posts</h2>
-          <RecentPosts />
-        </section>
         <section id="experience">
           <h2 class={`text-left text-3xl md:text-4xl font-semibold mb-4 font-mono ${textStyles.terminal}`}>ls ./experiences</h2>
           <Experience />
         </section>
-        <section id="ask">
-          <h2 class={`text-left text-3xl md:text-4xl font-semibold mb-4 font-mono ${textStyles.terminal}`}>./chat.sh</h2>
-          <Chat client:visible />
-        </section>
       </div>
+      <section id="recent-posts">
+        <h2 class={`text-left text-3xl md:text-4xl font-semibold mb-4 font-mono ${textStyles.terminal}`}>ls ./posts -t</h2>
+        <RecentPosts />
+      </section>
+      <!-- <section id="ask">
+        <h2 class={`text-left text-3xl md:text-4xl font-semibold mb-4 font-mono ${textStyles.terminal}`}>./chat.sh</h2>
+        <Chat client:visible />
+      </section> -->
       <section id="projects">
         <h2 class={`text-left text-3xl md:text-4xl font-semibold mb-4 font-mono ${textStyles.terminal}`}>ls ./projects</h2>
         <Projects />
