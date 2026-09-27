@@ -9,6 +9,8 @@
 
 .articleContent {
   grid-column: content-start / content-end;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .articleDualAside {

@@ -17,7 +17,7 @@ const { title, subtitle, id } = Astro.props;
 ---
 
 <article class="relative flex min-h-screen flex-col items-center pt-36">
-  <div class="mb-8 px-8">
+  <div class="mb-8">
     <h1 class="pb-4 text-center text-6xl font-semibold" transition:name={id}>{title}</h1>
     {subtitle && <h2 class="text-center text-2xl font-light italic">{subtitle}</h2>}
   </div>

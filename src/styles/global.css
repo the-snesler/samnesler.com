@@ -152,6 +152,14 @@ body,
 }
 
 .prose {
+  table {
+    display: block;
+    width: max-content;
+    max-width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+  }
+
   p::selection {
     color: white;
     background-color: var(--color-accent);
