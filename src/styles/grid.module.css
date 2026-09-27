@@ -1,4 +1,5 @@
-.articleGrid, .articleGridNoToc {
+.articleGrid,
+.articleGridNoToc {
   display: block;
   position: relative;
 }
@@ -8,6 +9,12 @@
 }
 
 .articleContent {
+  grid-column: content-start / content-end;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.articleHeader {
   grid-column: content-start / content-end;
   min-width: 0;
   max-width: 100%;
@@ -23,7 +30,11 @@
 }
 
 .articleToc {
-  display: none;
+  display: block;
+}
+
+.articleWideToc {
+  display: block;
 }
 
 @media (min-width: 768px) {
@@ -42,5 +53,10 @@
   .articleToc {
     display: block;
     grid-column: toc-start / toc-end;
+    grid-row: 1 / span 2;
+  }
+
+  .articleWideToc {
+    display: none;
   }
 }

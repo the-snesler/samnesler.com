@@ -27,7 +27,7 @@ const { Content, headings } = await render(post);
   {
     post.data.postLayout === 'wide' && (
       <WidePostWrapper title={post.data.title} subtitle={post.data.subtitle} {headings} id={post.data.title} image={post.data.excerptImageUrl?.src}>
-        <TimeHeader {post} />
+        <TimeHeader slot="header" {post} />
         <Content />
       </WidePostWrapper>
     )
@@ -35,7 +35,7 @@ const { Content, headings } = await render(post);
   {
     post.data.postLayout === 'std' && (
       <PostWrapper title={post.data.title} subtitle={post.data.subtitle} {headings} id={post.data.title} image={post.data.excerptImageUrl?.src}>
-        <TimeHeader {post} />
+        <TimeHeader slot="header" {post} />
         <Content />
       </PostWrapper>
     )

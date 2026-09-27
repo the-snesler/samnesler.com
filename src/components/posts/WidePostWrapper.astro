@@ -4,6 +4,7 @@ import 'rehype-callouts/theme/obsidian';
 import type { MarkdownHeading } from 'astro';
 
 import Giscus from '@/components/posts/Giscus.astro';
+import TableOfContents from '@/components/posts/TableOfContents.astro';
 import gridStyles from '@/styles/grid.module.css';
 
 interface Props {
@@ -13,7 +14,8 @@ interface Props {
   image?: string;
   id: string;
 }
-const { title, subtitle, id } = Astro.props;
+const { title, subtitle, headings, id } = Astro.props;
+const hasHeader = Astro.slots.has('header');
 ---
 
 <article class="relative flex min-h-screen flex-col items-center pt-36">
@@ -22,8 +24,16 @@ const { title, subtitle, id } = Astro.props;
     {subtitle && <h2 class="text-center text-2xl font-light italic">{subtitle}</h2>}
   </div>
   <div class:list={[gridStyles.articleGrid, `articleGridDual bg-bkg/90 mt-28 w-full grow gap-2 rounded-t-2xl px-2 pb-16`]}>
+    {
+      hasHeader && (
+        <div class={`prose prose-slate ${gridStyles.articleHeader} dark:prose-invert p-4 pb-0 transition-colors md:px-12`}>
+          <slot name="header" />
+        </div>
+      )
+    }
+    {headings?.length ? <TableOfContents {headings} class={gridStyles.articleWideToc} /> : null}
     <div
-      class={`max-w-full prose prose-slate ${gridStyles.articleContent} p-4 transition-colors dark:prose-invert prose-h1:mb-4 prose-h1:mt-8 prose-p:mt-0 prose-code:font-[var(--font-neon)] md:px-12`}
+      class={`max-w-full prose prose-slate ${gridStyles.articleContent} p-4 pt-0 transition-colors dark:prose-invert prose-h1:mb-4 prose-h1:mt-8 prose-p:mt-0 prose-code:font-[var(--font-neon)] md:px-12`}
     >
       <slot />
     </div>

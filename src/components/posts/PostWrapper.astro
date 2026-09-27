@@ -16,6 +16,7 @@ interface Props {
   id: string;
 }
 const { title, subtitle, headings, id } = Astro.props;
+const hasHeader = Astro.slots.has('header');
 ---
 
 <article class="relative flex min-h-screen flex-col items-center pt-36">
@@ -27,12 +28,19 @@ const { title, subtitle, headings, id } = Astro.props;
     class:list={[`bg-bkg mt-28 mb-14 w-full grow gap-2 rounded-2xl px-2 pb-16 md:mx-auto md:w-[calc(100%-4rem)]`, { 'max-w-4xl': !headings?.length }]}
   >
     <div class={headings?.length ? gridStyles.articleGrid : gridStyles.articleGridNoToc}>
+      {
+        hasHeader && (
+          <div class={`prose prose-slate ${gridStyles.articleHeader} dark:prose-invert max-w-4xl p-4 pb-0 transition-colors md:px-12`}>
+            <slot name="header" />
+          </div>
+        )
+      }
+      {headings?.length ? <TableOfContents {headings} class={gridStyles.articleToc} /> : null}
       <div
-        class={`prose prose-slate ${gridStyles.articleContent} max-w-4xl p-4 transition-colors dark:prose-invert prose-h1:mb-4 prose-h1:mt-12 prose-p:mt-0 prose-code:font-(--font-neon) md:px-12`}
+        class={`prose prose-slate ${gridStyles.articleContent} max-w-4xl p-4 pt-0 transition-colors dark:prose-invert prose-h1:mb-4 prose-h1:mt-12 prose-p:mt-0 prose-code:font-(--font-neon) md:px-12`}
       >
         <slot />
       </div>
-      {headings?.length ? <TableOfContents {headings} class={gridStyles.articleToc} /> : null}
     </div>
     <div class:list={[`flex justify-center pt-16`, gridStyles.articleWide]}>
       <div class="w-4xl">
