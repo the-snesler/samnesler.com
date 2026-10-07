@@ -61,13 +61,13 @@
   },
   {
     "id": "paintball",
-    "name": "Paintball",
-    "href": "https://pb.tsuni.dev",
-    "source": "https://github.com/the-snesler/paintball-ai",
+    "name": "Prismix",
+    "href": "https://prismix.tsuni.dev",
+    "source": "https://github.com/the-snesler/prismix",
     "image": "paintball.png",
     "shortType": "web app",
     "description": "An alternative frontend for multiple image generation models where you can bring your own API keys.",
-    "longDescription": "Paintball is a browser-heavy image-generation gallery that can send work to models from Replicate, OpenAI, and Google through a Cloudflare Worker proxy. Its React Router 7 and Zustand client supports concurrent generations, an editor with comparisons and history, reference images, custom aspect ratios, upscaling, and drag-and-drop gallery workflows. Embeddings are computed locally so old images can be searched semantically.\n\nThe project treats AI as part of an interactive creative tool rather than a single chat box. That makes an interesting contrast with LinkLooker, which uses AI to explain links, and with the receipt splitter, where AI is used for one narrow extraction step before deterministic calculations take over.",
+    "longDescription": "Prismix is a browser-heavy image-generation gallery that can send work to models from Replicate, OpenAI, and Google through a Cloudflare Worker proxy. Its React Router 7 and Zustand client supports concurrent generations, an editor with comparisons and history, reference images, custom aspect ratios, upscaling, and drag-and-drop gallery workflows. Embeddings are computed locally so old images can be searched semantically.\n\nThe project treats AI as part of an interactive creative tool rather than a single chat box. That makes an interesting contrast with LinkLooker, which uses AI to explain links, and with the receipt splitter, where AI is used for one narrow extraction step before deterministic calculations take over.",
     "year": "2026",
     "featured": true,
     "category": "tool"
