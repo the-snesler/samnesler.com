@@ -31,8 +31,8 @@ const checkTheme = () => {
     uSandCol: { value: isDark ? [0.494, 0.396, 0.729] : [0.949, 0.882, 0.996] },
     uSandDeepCol: { value: isDark ? [0.078, 0.047, 0.184] : [0.463, 0.353, 0.667] },
     uRockCol: { value: isDark ? [0.18, 0.145, 0.318] : [0.573, 0.482, 0.741] },
-    uFloraCol: { value: isDark ? [0.098, 0.071, 0.227] : [0.263, 0.161, 0.51] },
-    uFloraTipCol: { value: isDark ? [0.42, 0.353, 0.749] : [0.494, 0.384, 0.788] },
+    uFloraCol: { value: isDark ? [0.035, 0.18, 0.09] : [0.09, 0.36, 0.16] },
+    uFloraTipCol: { value: isDark ? [0.16, 0.42, 0.22] : [0.25, 0.58, 0.3] },
     uCausticCol: { value: isDark ? [0.514, 0.435, 0.855] : [0.996, 0.949, 1.0] },
     uFogCol: { value: isDark ? [0.243, 0.129, 0.482] : [0.886, 0.757, 0.945] }
   };
