@@ -1,5 +1,39 @@
 [
   {
+    "id": "bside",
+    "name": "bside",
+    "href": "https://addons.mozilla.org/en-US/firefox/addon/bside/",
+    "source": "https://github.com/the-snesler/bside",
+    "image": "bside.png",
+    "shortType": "browser extension",
+    "description": "An AI agent that lives in Firefox's sidebar. It can read and act on your open pages, and opens its own tabs to browse and search alongside you, asking before it does anything consequential. Inspired by the Aside browser.",
+    "longDescription": "bside is a Firefox extension that puts an AI agent in the sidebar. It attaches the current tab as a text outline, lets you mention other tabs with @, reads PDFs, and searches through Firefox's own default search engine. To act on pages, the agent writes small browser programs that bside parses and interprets itself rather than running as JavaScript, so it can click, type, fill forms, and take screenshots, with every action checked against a fresh snapshot of the page. It does its own browsing in hidden agent tabs that you can watch or take over, and it stops to ask before submitting, buying, deleting, or sending anything.\n\nIt's built with WXT, Preact, and TypeScript, uses OpenAI models through either a ChatGPT sign-in or an API key, and can connect to Notion and Todoist over MCP. It has no backend: chats, memory, and settings stay in the Firefox profile. The name comes from the Aside browser that inspired it; it is unrelated to Sam's Aside notes app.",
+    "year": "2026",
+    "category": "tool"
+  },
+  {
+    "id": "understudy",
+    "name": "Understudy",
+    "source": "https://github.com/the-snesler/understudy",
+    "image": "understudy.png",
+    "shortType": "selfhosted app",
+    "description": "Puts what you're doing in your Discord status without a companion desktop app: Plex, Jellyfin, Trakt, Last.fm, Steam, and even Nintendo Switch games.",
+    "longDescription": "Understudy is a self-hosted service that connects activity sources to outputs. Sources include Plex (via Tautulli), Jellyfin, Emby, Trakt, Last.fm, ListenBrainz, Steam, and Nintendo Switch through nxapi. A central Hub picks one current activity using source priority, paused-media rules, and quiet hours, and the Discord output shows it as Watching, Listening, or Playing with artwork and a progress bar, without needing the Discord desktop app on the device doing the playing. It only publishes while you're actually online on Discord.\n\nEverything sources saw and outputs showed is recorded in SQLite and shown as a week calendar with daily totals, which can also be published as an iCal or JSON feed. Sources and outputs are plugins, and the whole thing runs as a single Docker container with a password-protected web UI. It pairs naturally with the Trakt iCal Generator and Shelfie, which also turn media history into something useful.",
+    "year": "2026",
+    "category": "tool"
+  },
+  {
+    "id": "kairo",
+    "name": "Kairo",
+    "source": "https://github.com/the-snesler/kairo",
+    "image": "kairo.png",
+    "shortType": "selfhosted app",
+    "description": "A self-hosted calendar that combines Google Calendar, Todoist tasks, and \"maybe\" event feeds: things you could go to if you want, like meeting invitations but for the farmer's market.",
+    "longDescription": "Kairo is a self-hosted calendar workspace that shows ordinary Google Calendar events alongside Todoist tasks and ICS feeds of optional events. Events from those feeds appear with a dashed outline until you decide on them: Yes or Maybe creates a copy on the chosen Google calendar, and No hides it. Tasks can be dragged onto the calendar to reserve Google-backed work blocks, and an optional Gemini integration estimates how long tasks will take when Todoist doesn't say.\n\nIt's built with TanStack Start, SQLite, and a background sync worker that polls Google, Todoist, and feeds every five minutes, storing OAuth tokens encrypted. Much of the work is in keeping things consistent: decisions and Google copies are tracked so retries never duplicate events, and direct edits in Google are surfaced for an explicit choice. Like Shelfie, Aside, and Understudy, it's a personal self-hosted tool deployed with Docker.",
+    "year": "2026",
+    "category": "tool"
+  },
+  {
     "id": "shelfie",
     "name": "Shelfie",
     "source": "https://github.com/the-snesler/shelfie",
